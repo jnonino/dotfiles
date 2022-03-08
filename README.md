@@ -1,2 +1,2 @@
-# dotfiles
-Julian's dotfiles
+# Julian's dotfiles
+
