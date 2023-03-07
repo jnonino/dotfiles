@@ -1,0 +1,6 @@
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/homebrew/opt/nvm/nvm.sh" ] && . "/usr/local/homebrew/opt/nvm/nvm.sh"
+[ -s "/usr/local/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+PATH="/opt/podman/bin:$PATH"
+export PATH="$HOME/.rbenv/bin:$PATH"
+export PATH="$HOME/.rbenv/bin:$PATH"
