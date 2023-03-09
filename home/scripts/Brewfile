@@ -1,0 +1,113 @@
+# Brews
+
+# Ant - https://ant.apache.org/
+brew "ant"
+# Amazon Web Services Cli - https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html
+brew "awscli"
+# AWS IAM credentials to authenticate to Kubernetes - https://github.com/kubernetes-sigs/aws-iam-authenticator
+brew "aws-iam-authenticator"
+# Azure Cli - https://learn.microsoft.com/en-gb/cli/azure/
+brew "azure-cli"
+# Coreutils - https://www.gnu.org/software/coreutils/
+brew "coreutils"
+# curl - https://curl.se/
+brew "curl"
+# Direnv - https://direnv.net/
+brew "direnv"
+# GitHub Cli - https://cli.github.com/
+brew "gh"
+# Git - https://git-scm.com/
+brew "git"
+# Git LFS - https://git-lfs.com/
+brew "git-lfs"
+# GitLab Cli - https://gitlab.com/gitlab-org/cli
+brew "glab"
+# Go Version Management (goenv) - https://github.com/syndbg/goenv
+brew "goenv"
+# Gradle - https://gradle.org/
+brew "gradle"
+# Helm - https://helm.sh/
+brew "helm"
+# k9s - https://k9scli.io/
+brew "k9s"
+# JQ - https://stedolan.github.io/jq/
+brew "jq"
+# kOps - https://kops.sigs.k8s.io/
+brew "kops"
+# Krew - https://krew.sigs.k8s.io/
+brew "krew"
+# kubectx + kubens - https://github.com/ahmetb/kubectx
+brew "kubectx"
+# Kubernetes Cli (kubectl) - https://kubernetes.io/docs/reference/kubectl/
+brew "kubernetes-cli"
+# Leapp - https://www.leapp.cloud/
+brew "leapp-cli"
+# Maven - https://maven.apache.org/
+brew "maven"
+# Minikube - https://minikube.sigs.k8s.io/docs/
+brew "minikube"
+# Node Version Manager - https://github.com/nvm-sh/nvm
+brew "nvm"
+# pre-commit - https://pre-commit.com/
+brew "pre-commit"
+# Simple Python Version Management (pyenv) - https://github.com/pyenv/pyenv
+brew "pyenv"
+# stern - https://github.com/stern/stern
+brew "stern"
+# Terraform Docs - https://terraform-docs.io/
+brew "terraform-docs"
+# TFSwitch - https://tfswitch.warrensbox.com/
+brew "warrensbox/tap/tfswitch"
+# TGSwitch - http://tgswitch.warrensbox.com/
+brew "warrensbox/tap/tgswitch"
+# Wget - https://www.gnu.org/software/wget/
+brew "wget"
+# YQ - https://github.com/mikefarah/yq
+brew "yq"
+# Zsh - https://www.zsh.org/
+brew "zsh"
+# zsh-autosuggestions - https://github.com/zsh-users/zsh-autosuggestions
+brew "zsh-autosuggestions"
+# zsh-completions - https://github.com/zsh-users/zsh-completions
+brew "zsh-completions"
+# zsh-history-substring-search - https://github.com/zsh-users/zsh-history-substring-search
+brew "zsh-history-substring-search"
+# zsh-syntax-highlighting - https://github.com/zsh-users/zsh-syntax-highlighting/
+brew "zsh-syntax-highlighting"
+
+# Casks
+
+# 1Password - https://1password.com/
+cask "1password"
+# Authy - https://authy.com/
+cask "authy"
+# Firefox - https://www.mozilla.org/en-GB/firefox/new/
+cask "firefox"
+# Google Chrome - https://www.google.com/intl/en_uk/chrome/
+cask "google-chrome"
+# Google Cloud Platform SDK - https://cloud.google.com/sdk
+cask "google-cloud-sdk"
+# iTerm2 - https://iterm2.com/
+cask "iterm2"
+# Leapp - https://www.leapp.cloud/
+cask "leapp"
+# MacTeX - https://www.tug.org/mactex/
+cask "mactex"
+# Mendeley Reference Manager - https://www.mendeley.com/reference-management/reference-manager
+cask "mendeley-reference-manager"
+# Microsoft Edge - https://www.microsoft.com/en-gb/edge
+cask "microsoft-edge"
+# Java - https://www.oracle.com/uk/java/
+cask "oracle-jdk"
+# Postman - https://www.postman.com/
+cask "postman"
+# Rancher Desktop - https://rancherdesktop.io/
+cask "rancher"
+# Slack: https://slack.com/
+cask "slack"
+# Spotify - https://www.spotify.com/
+cask "spotify"
+# Visual Studio Code - https://code.visualstudio.com/
+cask "visual-studio-code"
+# Zoom: https://zoom.us/
+cask "zoom"

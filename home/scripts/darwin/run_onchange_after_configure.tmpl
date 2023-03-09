@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+set -eEuo pipefail
+
+#####################
+# Functions for MacOS
+#####################
+{{ if eq .chezmoi.os "darwin" }}
+
+##########################
+# Use Zsh as default shell
+##########################
+ZSH_PATH=$(which zsh)
+if grep --fixed-strings --line-regexp --quiet $ZSH_PATH /etc/shells
+then
+    echo "No need to add $ZSH_PATH into /etc/shells"
+else
+    echo "Adding $ZSH_PATH into /etc/shells"
+    sudo sh -c "echo $(which zsh) >> /etc/shells"
+fi
+chsh -s $(which zsh)
+
+########################################
+# Configure GitHub Cli to clone with SSH
+########################################
+gh config set git_protocol ssh
+
+###############################
+# Install Python latest version
+###############################
+pyenv install --skip-existing 3
+pyenv global $(pyenv latest 3)
+pip install --upgrade pip
+
+##################################
+# Kubernetes related configuration
+##################################
+[[ {{ .chezmoi.homeDir }}/.rd/bin/kubectl ]] && source <(kubectl completion zsh)
+
+{{ end }}

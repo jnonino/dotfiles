@@ -1,14 +1,24 @@
+#
+# This file is managed by chezmoi. Always edit it with the command
+# chezmoi edit ~/.zshrc
+# chezmoi diff
+# chezmoi -v apply
+#
+# Executes commands at the start of an interactive session.
+# Author:
+#   Julian Nonino <noninojulian@gmail.com>
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/juliannonino/.oh-my-zsh"
+export ZSH="{{ .chezmoi.homeDir }}/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="geoffgarside"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -70,7 +80,15 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+# oh-my-zsh plugins
+#   https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/gh
+#   https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/direnv
+#   https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git
+#   https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectl
+#   https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectx
+#   https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/terraform
+#   https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/vscode
+plugins=(direnv gh git kubectl kubectx terraform vscode)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -99,19 +117,76 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-eval "$(/usr/local/homebrew/bin/brew shellenv)"
-#brew update --force --quiet
-chmod -R go-w "$(brew --prefix)/share/zsh"
 
-source /usr/local/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/local/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-if type brew &>/dev/null; then
-  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-  autoload -Uz compinit
-  compinit
-fi
-source /usr/local/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
-HISTFILE="$HOME/.zsh_history"
+########
+# Direnv
+########
+eval "$(direnv hook zsh)"
+
+###############################
+# Python related configurations
+###############################
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+##################################
+# Terraform related configurations
+##################################
+load-tfswitch() {
+  local tfswitchrc_path=".terraform-version"
+
+  if [ -f "$tfswitchrc_path" ]; then
+    tfswitch
+  fi
+}
+add-zsh-hook chpwd load-tfswitch
+load-tfswitch
+
+###################################
+# Terragrunt related configurations
+###################################
+load-tgswitch() {
+  local tgswitchrc_path=".terragrunt-version"
+
+  if [ -f "$tgswitchrc_path" ]; then
+    tgswitch
+  fi
+}
+add-zsh-hook chpwd load-tgswitch
+load-tgswitch
+
+#############################
+# Java related configurations
+#############################
+export JAVA_HOME=$(/usr/libexec/java_home)
+
+###############################
+# Node.js related configuration
+###############################
+export NVM_DIR="{{ .chezmoi.homeDir }}/.nvm"
+# This loads nvm
+[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+# This loads nvm bash_completion
+[ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
+
+
+
+
+
+
+
+
+##################################
+# Kubernetes related configuration
+##################################
+export PATH="${PATH}:{{ .chezmoi.homeDir }}/.krew/bin"
+
+###################
+# Zsh configuration
+###################
+
+HISTFILE="{{ .chezmoi.homeDir }}/.zsh_history"
 HISTSIZE=50000  # How many lines of history to keep in memory
 SAVEHIST=500000 # Number of history entries to save to disk
 HISTDUP=erase   # Erase duplicates in the history file
@@ -128,48 +203,15 @@ setopt share_history          # Share command history data
 export PATH="/usr/local/homebrew/opt/curl/bin:$PATH"
 export LDFLAGS="-L/usr/local/homebrew/opt/curl/lib"
 export CPPFLAGS="-I/usr/local/homebrew/opt/curl/include"
-export JAVA_HOME=$(/usr/libexec/java_home)
-autoload -U add-zsh-hook
 
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+chmod -R go-w '$HOMEBREW_PREFIX/share/zsh'
+rm -f ~/.zcompdump; compinit
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+  autoload -Uz compinit
+  compinit
+fi
 
-load-tfswitch() {
-  local tfswitchrc_path=".terraform-version"
-
-  if [ -f "$tfswitchrc_path" ]; then
-    tfswitch
-  fi
-}
-add-zsh-hook chpwd load-tfswitch
-load-tfswitch
-
-load-tgswitch() {
-  local tgswitchrc_path=".terragrunt-version"
-
-  if [ -f "$tgswitchrc_path" ]; then
-    tgswitch
-  fi
-}
-add-zsh-hook chpwd load-tgswitch
-load-tgswitch
-
-source ~/.zshrc_hb
-
-eval "$(starship init zsh)"
-source ~/.config/aliases
-
-eval "$(direnv hook zsh)"
-
-export PATH="${PATH}:${HOME}/.krew/bin"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/homebrew/opt/nvm/nvm.sh" ] && \. "/usr/local/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/juliannonino/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)PATH="/opt/podman/bin:$PATH"
-source $HOME/.zshenv
-eval "$(rbenv init - zsh)"
+source $HOMEBREW_PREFIX/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

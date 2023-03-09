@@ -1,0 +1,28 @@
+#
+# This file is managed by chezmoi. Always edit it with the command
+# chezmoi edit ~/.gitconfig
+# chezmoi diff
+# chezmoi -v apply
+#
+# Git global configuration
+# Author:
+#   Julian Nonino <noninojulian@gmail.com>
+
+[user]
+    name = {{ .name }}
+    email = {{ .email }}
+
+[init]
+    defaultBranch = main
+
+[pull]
+    rebase = false
+
+[color]
+	  ui = true
+
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true

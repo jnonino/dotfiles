@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+set -eEuo pipefail
+
+#####################
+# Functions for MacOS
+#####################
+{{ if eq .chezmoi.os "darwin" }}
+
+#####################################
+# Install brew if it is not installed
+#####################################
+if ! command -v brew &> /dev/null
+then
+    echo "brew is not installed"
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+###################
+# Brew dependencies
+#   Install packages
+#   Brewfile hash: {{ include "scripts/Brewfile" | sha256sum }}
+###################
+brew update
+brew upgrade
+brew bundle --debug --file {{ joinPath .chezmoi.sourceDir "scripts/Brewfile" | quote }}
+# brew autoremove
+brew cleanup
+
+#######################################
+# Install oh-my-zsh - https://ohmyz.sh/
+#######################################
+if [ -d {{ .chezmoi.homeDir }}/.oh-my-zsh ]; then
+	echo "oh-my-zsh is installed"
+ else
+ 	echo "oh-my-zsh is not installed"
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+
+#########################
+# Node Version Management
+#########################
+mkdir -p {{ .chezmoi.homeDir }}/.nvm
+
+{{ end }}
