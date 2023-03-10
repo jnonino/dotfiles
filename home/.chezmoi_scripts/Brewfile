@@ -79,6 +79,7 @@ brew "zsh-syntax-highlighting"
 
 # 1Password - https://1password.com/
 cask "1password"
+cask "1password-cli"
 # Authy - https://authy.com/
 cask "authy"
 # Firefox - https://www.mozilla.org/en-GB/firefox/new/

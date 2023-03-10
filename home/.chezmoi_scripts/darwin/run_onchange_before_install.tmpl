@@ -19,11 +19,11 @@ fi
 ###################
 # Brew dependencies
 #   Install packages
-#   Brewfile hash: {{ include "scripts/Brewfile" | sha256sum }}
+#   Brewfile hash: {{ include ".chezmoi_scripts/Brewfile" | sha256sum }}
 ###################
 brew update
 brew upgrade
-brew bundle --debug --file {{ joinPath .chezmoi.sourceDir "scripts/Brewfile" | quote }}
+brew bundle --debug --file {{ joinPath .chezmoi.sourceDir ".chezmoi_scripts/Brewfile" | quote }}
 # brew autoremove
 brew cleanup
 
