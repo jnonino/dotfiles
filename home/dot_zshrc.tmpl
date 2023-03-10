@@ -12,7 +12,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="{{ .chezmoi.homeDir }}/.oh-my-zsh"
+export ZSH="{{ joinPath .chezmoi.homeDir ".oh-my-zsh" }}"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -164,7 +164,7 @@ export JAVA_HOME=$(/usr/libexec/java_home)
 ###############################
 # Node.js related configuration
 ###############################
-export NVM_DIR="{{ .chezmoi.homeDir }}/.nvm"
+export NVM_DIR="{{ joinPath .chezmoi.homeDir ".nvm" }}"
 # This loads nvm
 [ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
 # This loads nvm bash_completion
@@ -180,13 +180,12 @@ export NVM_DIR="{{ .chezmoi.homeDir }}/.nvm"
 ##################################
 # Kubernetes related configuration
 ##################################
-export PATH="${PATH}:{{ .chezmoi.homeDir }}/.krew/bin"
+export PATH="${PATH}:{{ joinPath .chezmoi.homeDir ".krew/bin" }}"
 
 ###################
 # Zsh configuration
 ###################
-
-HISTFILE="{{ .chezmoi.homeDir }}/.zsh_history"
+HISTFILE="{{ joinPath .chezmoi.homeDir ".zsh_history" }}"
 HISTSIZE=50000  # How many lines of history to keep in memory
 SAVEHIST=500000 # Number of history entries to save to disk
 HISTDUP=erase   # Erase duplicates in the history file

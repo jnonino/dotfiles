@@ -30,7 +30,8 @@ brew cleanup
 #######################################
 # Install oh-my-zsh - https://ohmyz.sh/
 #######################################
-if [ -d {{ .chezmoi.homeDir }}/.oh-my-zsh ]; then
+
+if [ -d {{ joinPath .chezmoi.homeDir ".oh-my-zsh" }} ]; then
 	echo "oh-my-zsh is installed"
  else
  	echo "oh-my-zsh is not installed"
@@ -40,6 +41,6 @@ fi
 #########################
 # Node Version Management
 #########################
-mkdir -p {{ .chezmoi.homeDir }}/.nvm
+mkdir -p {{ joinPath .chezmoi.homeDir ".nvm" }}
 
 {{ end }}

@@ -35,6 +35,6 @@ pip install --upgrade pip
 ##################################
 # Kubernetes related configuration
 ##################################
-[[ {{ .chezmoi.homeDir }}/.rd/bin/kubectl ]] && source <(kubectl completion zsh)
+[[ {{ joinPath .chezmoi.homeDir ".rd/bin/kubectl" }} ]] && source <(kubectl completion zsh)
 
 {{ end }}

@@ -16,7 +16,7 @@
     defaultBranch = main
 
 [core]
-    excludesfile = {{ .chezmoi.homeDir }}/.gitignore_global
+    excludesfile = {{ joinPath .chezmoi.homeDir ".gitignore_global" }}
 
 [pull]
     rebase = false
