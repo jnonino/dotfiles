@@ -1,0 +1,16 @@
+name: Test Chezmoi repo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [macOS-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Install and setup
+        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply jnonino
