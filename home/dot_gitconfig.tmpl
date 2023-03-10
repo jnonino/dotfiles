@@ -15,6 +15,9 @@
 [init]
     defaultBranch = main
 
+[core]
+    excludesfile = {{ .chezmoi.homeDir }}/.gitignore_global
+
 [pull]
     rebase = false
 
