@@ -15,6 +15,7 @@ then
     echo "brew is not installed"
     bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
+export HOMEBREW_PREFIX=$(brew --prefix)
 eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
 
 ###################

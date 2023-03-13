@@ -22,7 +22,11 @@ then
     echo "brew is not installed"
     bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
+test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
+test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+export HOMEBREW_PREFIX=$(brew --prefix)
 eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
+brew install gcc
 
 ###################
 # Brew dependencies
