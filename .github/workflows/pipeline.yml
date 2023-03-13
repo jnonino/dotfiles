@@ -37,7 +37,9 @@ jobs:
   windows:
     runs-on: windows-latest
     steps:
-      - name: Install Chezmoi and configure dotfiles
-        run: (irm -useb https://get.chezmoi.io/ps1) | powershell -c -
-      - name: Configure dotfiles
+      - name: Install Chezmoi
+        run: winget install twpayne.chezmoi
+      - name: Chezmoi init
         run: chezmoi init https://github.com/$GH_USERNAME/dotfiles.git
+      - name: Chezmoi diff
+        run: chezmoi diff
