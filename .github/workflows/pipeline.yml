@@ -16,7 +16,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Install Chezmoi
-        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/bin
+        run: sudo sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/bin
       - name: Configure dotfiles
         run: chezmoi init https://github.com/$GH_USERNAME/dotfiles.git
 
