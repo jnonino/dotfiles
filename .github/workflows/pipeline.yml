@@ -9,11 +9,16 @@ env:
   GH_USERNAME: jnonino
 
 jobs:
+  macos:
+    runs-on: macOS-latest
+    steps:
+      - name: Install Chezmoi
+        run: sudo sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/bin
+      - name: Configure dotfiles
+        run: chezmoi init https://github.com/$GH_USERNAME/dotfiles.git
+
   unix-based:
-    strategy:
-      matrix:
-        os: [macOS-latest, ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - name: Install Chezmoi
         run: sudo sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/bin
