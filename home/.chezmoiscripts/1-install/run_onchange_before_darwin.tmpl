@@ -24,9 +24,9 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 #   Brewfile hash: {{ include ".files/Brewfile" | sha256sum }}
 ###################
 brew update
-brew upgrade
 brew bundle --verbose --debug --file {{ joinPath .chezmoi.sourceDir ".files/Brewfile" | quote }}
-# brew autoremove
+brew upgrade
+brew autoremove
 brew cleanup
 
 #######################################
