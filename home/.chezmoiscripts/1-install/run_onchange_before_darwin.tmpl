@@ -17,7 +17,6 @@ then
 fi
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
-#export HOMEBREW_PREFIX=/opt/homebrew
 
 ###################
 # Brew dependencies
@@ -45,5 +44,10 @@ fi
 # Node Version Management
 #########################
 mkdir -p {{ joinPath .chezmoi.homeDir ".nvm" }}
+
+#########################
+# Ruby Version Management
+#########################
+mkdir -p {{ joinPath .chezmoi.homeDir ".rbenv" }}
 
 {{ end }}

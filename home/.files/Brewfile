@@ -52,6 +52,10 @@ brew "nvm"
 brew "pre-commit"
 # Simple Python Version Management (pyenv) - https://github.com/pyenv/pyenv
 brew "pyenv"
+# Simple Ruby Version Manager - https://github.com/rbenv/rbenv
+brew "rbenv"
+# Ruby Build - https://github.com/rbenv/ruby-build
+brew "ruby-build"
 # stern - https://github.com/stern/stern
 brew "stern"
 # Terraform Docs - https://terraform-docs.io/

@@ -7,6 +7,11 @@ set -eEuo pipefail
 #####################
 {{ if eq .chezmoi.os "darwin" }}
 
+######
+# Brew
+######
+chmod g-w,o-w /opt/homebrew/share
+
 ##########################
 # Use Zsh as default shell
 ##########################
@@ -33,6 +38,13 @@ pyenv install --skip-existing 3
 pyenv global $(pyenv latest 3)
 pip install --upgrade pip
 pip install --requirement {{ joinPath .chezmoi.sourceDir ".files/requirements.txt" | quote }}
+
+#############################
+# Install Ruby latest version
+#############################
+LATEST_RUBY_VERSION=$(curl --silent https://api.github.com/repos/ruby/ruby/releases/latest | jq -r '.name')
+rbenv install --skip-existing $LATEST_RUBY_VERSION
+rbenv global $LATEST_RUBY_VERSION
 
 ##################################
 # Kubernetes related configuration
