@@ -15,19 +15,15 @@ jobs:
         os: [macOS-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Install Chezmoi and configure dotfiles
-        run: |
-          echo "### Path variable ###"
-          echo $PATH
-          echo "### Home variable ###"
-          echo $HOME
-          sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/.local/bin
-          chezmoi init https://github.com/$GH_USERNAME/dotfiles.git
+      - name: Install Chezmoi
+        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/bin
+      - name: Configure dotfiles
+        run: chezmoi init https://github.com/$GH_USERNAME/dotfiles.git
 
   windows-based:
     runs-on: windows-latest
     steps:
       - name: Install Chezmoi and configure dotfiles
-        run: |
-          (irm -useb https://get.chezmoi.io/ps1) | powershell -c -
-          chezmoi init https://github.com/$GH_USERNAME/dotfiles.git
+        run: (irm -useb https://get.chezmoi.io/ps1) | powershell -c -
+      - name: Configure dotfiles
+        run: chezmoi init https://github.com/$GH_USERNAME/dotfiles.git
