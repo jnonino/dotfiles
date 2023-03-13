@@ -5,12 +5,25 @@ on:
     branches:
       - main
 
+env:
+  GITHUB_USERNAME: jnonino
+
 jobs:
-  test:
+  unix-based:
     strategy:
       matrix:
         os: [macOS-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Install and setup
-        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply jnonino
+      - name: Install Chezmoi
+        run: sh -c "$(curl -fsLS get.chezmoi.io)"
+      - name: Configure dotfiles
+        run: chezmoi init https://github.com/$GITHUB_USERNAME/dotfiles.git
+
+  windows-based:
+    runs-on: windows-latest
+    steps:
+      - name: Install Chezmoi
+        run: (irm -useb https://get.chezmoi.io/ps1) | powershell -c -
+      - name: Configure dotfiles
+        run: chezmoi init https://github.com/$GITHUB_USERNAME/dotfiles.git
