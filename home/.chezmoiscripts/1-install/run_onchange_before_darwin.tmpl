@@ -16,6 +16,9 @@ then
     bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
+eval "$(/opt/homebrew/bin/brew shellenv)"
+#export HOMEBREW_PREFIX=/opt/homebrew
+
 ###################
 # Brew dependencies
 #   Install packages
@@ -23,7 +26,7 @@ fi
 ###################
 brew update
 brew upgrade
-brew bundle --debug --file {{ joinPath .chezmoi.sourceDir ".files/Brewfile" | quote }}
+brew bundle --verbose --debug --file {{ joinPath .chezmoi.sourceDir ".files/Brewfile" | quote }}
 # brew autoremove
 brew cleanup
 

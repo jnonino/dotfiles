@@ -18,7 +18,7 @@ else
     echo "Adding $ZSH_PATH into /etc/shells"
     sudo sh -c "echo $(which zsh) >> /etc/shells"
 fi
-chsh -s $(which zsh)
+# chsh -s $(which zsh)
 
 ########################################
 # Configure GitHub Cli to clone with SSH
@@ -27,10 +27,12 @@ gh config set git_protocol ssh
 
 ###############################
 # Install Python latest version
+#   Install Python global modules requirements hash: {{ include ".files/requirements.txt" | sha256sum }}
 ###############################
 pyenv install --skip-existing 3
 pyenv global $(pyenv latest 3)
 pip install --upgrade pip
+pip install --requirement {{ joinPath .chezmoi.sourceDir ".files/requirements.txt" | quote }}
 
 ##################################
 # Kubernetes related configuration

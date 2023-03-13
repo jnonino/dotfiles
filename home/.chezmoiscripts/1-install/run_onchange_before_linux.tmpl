@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+#####################
+# Functions for Linux
+#####################
+{{ if eq .chezmoi.os "linux" }}
+
+set -eEuo pipefail
+
+# Update and Upgrade
+sudo apt-get update
+sudo apt-get upgrade
+
+# Instal system deps
+# sudo apt install build-essential curl file -y
+
+###################
+# Specific commands
+###################
+{{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }} # WSL specific functions
+
+{{ else }} # Not WSL specific functions
+
+{{ end }}
+
+{{ end }}

@@ -104,11 +104,13 @@ cask "oracle-jdk"
 cask "postman"
 # Rancher Desktop - https://rancherdesktop.io/
 cask "rancher"
-# Slack: https://slack.com/
+# Slack - https://slack.com/
 cask "slack"
 # Spotify - https://www.spotify.com/
 cask "spotify"
 # Visual Studio Code - https://code.visualstudio.com/
 cask "visual-studio-code"
-# Zoom: https://zoom.us/
+# WhatsApp - https://www.whatsapp.com/
+cask "whatsapp"
+# Zoom - https://zoom.us/
 cask "zoom"
