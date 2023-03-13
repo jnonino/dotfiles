@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  GITHUB_USERNAME: jnonino
+  GH_USERNAME: jnonino
 
 jobs:
   unix-based:
@@ -18,7 +18,7 @@ jobs:
       - name: Install Chezmoi
         run: sh -c "$(curl -fsLS get.chezmoi.io)"
       - name: Configure dotfiles
-        run: chezmoi init https://github.com/$GITHUB_USERNAME/dotfiles.git
+        run: chezmoi init https://github.com/$GH_USERNAME/dotfiles.git
 
   windows-based:
     runs-on: windows-latest
@@ -26,4 +26,4 @@ jobs:
       - name: Install Chezmoi
         run: (irm -useb https://get.chezmoi.io/ps1) | powershell -c -
       - name: Configure dotfiles
-        run: chezmoi init https://github.com/$GITHUB_USERNAME/dotfiles.git
+        run: chezmoi init https://github.com/$GH_USERNAME/dotfiles.git
