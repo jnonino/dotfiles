@@ -12,14 +12,24 @@ jobs:
   macos:
     runs-on: macOS-latest
     steps:
-      - name: Install and Configure
-        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/bin init --apply $GH_USERNAME
+      - name: Install brew
+        run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      - name: Install Chezmoi
+        run: brew install chezmoi
+      - name: Configure dotfiles
+        run: chezmoi init --apply $GH_USERNAME
 
   linux:
     runs-on: ubuntu-latest
     steps:
-      - name: Install and Configure
-        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/.local/bin init --apply $GH_USERNAME
+      - name: Install brew dependencies
+        run: sudo apt-get install build-essential procps curl file git
+      - name: Install brew
+        run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      - name: Install Chezmoi
+        run: brew install chezmoi
+      - name: Configure dotfiles
+        run: chezmoi init --apply $GH_USERNAME
 
   windows:
     runs-on: windows-latest

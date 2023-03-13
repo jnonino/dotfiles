@@ -1,5 +1,26 @@
 # dotfiles
 
+## Prerequisites
+
+### Install Chezmoi
+
+#### MacOS
+
+Install [brew](https://brew.sh/)
+
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+eval "$(/opt/homebrew/bin/brew shellenv)"
+```
+
+Install [Chezmoi](https://www.chezmoi.io/install/)
+
+```
+brew install chezmoi
+```
+
+## Dotfiles setup
+
 Dotfiles manged with [chezmoi](https://www.chezmoi.io/).
 
 Install Chezmoi and these dotfiles in an empty machine
