@@ -12,30 +12,27 @@ jobs:
   macos:
     runs-on: macOS-latest
     steps:
-      - name: Install brew
-        run: |
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
       - name: Install Chezmoi
-        run: brew install chezmoi
+        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/bin
+      - name: Chezmoi init
+        run: chezmoi init https://github.com/$GH_USERNAME/dotfiles.git
+      - name: Chezmoi diff
+        run: chezmoi diff
       - name: Configure dotfiles
-        run: chezmoi init --apply $GH_USERNAME
+        run: chezmoi apply -v
 
 
   linux:
     runs-on: ubuntu-latest
     steps:
-      - name: Install brew dependencies
-        run: sudo apt-get install build-essential procps curl file git
-      - name: Install brew
-        run: |
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          brew install gcc
       - name: Install Chezmoi
-        run: brew install chezmoi
+        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/.local/bin
+      - name: Chezmoi init
+        run: chezmoi init https://github.com/$GH_USERNAME/dotfiles.git
+      - name: Chezmoi diff
+        run: chezmoi diff
       - name: Configure dotfiles
-        run: chezmoi init --apply $GH_USERNAME
+        run: chezmoi apply -v
 
   windows:
     runs-on: windows-latest

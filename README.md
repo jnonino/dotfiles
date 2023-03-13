@@ -2,33 +2,6 @@
 
 ## Prerequisites
 
-### Install Chezmoi
-
-#### MacOS and Linux
-
-Only for Linux, install these dependencies:
-```
-sudo apt-get install build-essential procps curl file git
-```
-
-Install [brew](https://brew.sh/)
-
-```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-eval "$(/opt/homebrew/bin/brew shellenv)"
-```
-
-Only for Linux, it is recommended to install GCC.
-```
-brew install gcc
-```
-
-Install [Chezmoi](https://www.chezmoi.io/install/)
-
-```
-brew install chezmoi
-```
-
 ## Dotfiles setup
 
 Dotfiles manged with [chezmoi](https://www.chezmoi.io/).
