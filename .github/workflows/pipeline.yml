@@ -17,6 +17,7 @@ jobs:
     steps:
       - name: Install Chezmoi and configure dotfiles
         run: |
+          echo $PATH
           sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/.local/bin
           chezmoi init https://github.com/$GH_USERNAME/dotfiles.git
 
