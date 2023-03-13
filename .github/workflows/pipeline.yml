@@ -12,20 +12,16 @@ jobs:
   macos:
     runs-on: macOS-latest
     steps:
-      - name: Install Chezmoi
-        run: sudo sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/bin
-      - name: Configure dotfiles
-        run: chezmoi init https://github.com/$GH_USERNAME/dotfiles.git
+      - name: Install and Configure
+        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/bin init --apply $GH_USERNAME
 
-  unix-based:
+  linux:
     runs-on: ubuntu-latest
     steps:
-      - name: Install Chezmoi
-        run: sudo sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/bin
-      - name: Configure dotfiles
-        run: chezmoi init https://github.com/$GH_USERNAME/dotfiles.git
+      - name: Install and Configure
+        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/.local/bin init --apply $GH_USERNAME
 
-  windows-based:
+  windows:
     runs-on: windows-latest
     steps:
       - name: Install Chezmoi and configure dotfiles
