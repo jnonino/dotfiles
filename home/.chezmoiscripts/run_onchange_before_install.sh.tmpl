@@ -5,6 +5,8 @@
 #############################
 {{ if (or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux")) }}
 
+  #!/usr/bin/env bash
+
   set -eEuo pipefail
 
   {{ if eq .chezmoi.os "linux" }}
