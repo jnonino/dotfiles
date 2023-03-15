@@ -29,6 +29,14 @@ chezmoi diff
 chezmoi apply -v
 ```
 
+On Windows Linux Subsystem (WSL):
+```
+sh -c "$(curl -fsLS get.chezmoi.io)"
+chezmoi init https://github.com/jnonino/dotfiles.git
+chezmoi diff
+chezmoi apply -v
+```
+
 ## Chezmoi tasks
 
 These are some common tasks to perform with Chezmoi.
