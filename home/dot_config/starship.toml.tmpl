@@ -1,0 +1,33 @@
+# Prompt
+scan_timeout = 30 # Timeout for starship to scan files (in milliseconds).
+command_timeout	= 500 # Timeout for commands executed by starship (in milliseconds).
+add_newline = true # Inserts blank line between shell prompts.
+
+[time]
+disabled = false
+format = '[$time]($style) '
+style	= 'blue'
+time_format = '%T'
+
+[username]
+disabled = false
+style_user = 'blue'
+style_root = 'red'
+format = '[$user]($style) '
+show_always = true
+
+[directory]
+disabled = false
+truncation_length = 3
+truncation_symbol = '.../'
+truncate_to_repo = true
+format = "[$path]($style)([$read_only]($read_only_style)) "
+read_only = "??"
+
+[kubernetes]
+disabled = false
+symbol = "??  "
+format = '[$symbol$context\($namespace\)]($style) '
+style = "#c5f542"
+[kubernetes.context_aliases]
+"arn:aws:eks:(?P<var_region>.*):(?P<var_account>.*):cluster/(?P<var_cluster>.*)"="[aws:$var_account]::eks::$var_cluster"

@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+
+#############################
+# Functions for Unix based OS
+#    MacOS
+#    Linux
+#############################
+{{ if (or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux")) }}
+
+  set -eEuo pipefail
+
+  ######
+  # Brew
+  ######
+  chmod g-w,o-w $HOMEBREW_PREFIX/share
+
+  ##########################
+  # Use Zsh as default shell
+  ##########################
+  {{ if eq .chezmoi.os "darwin" }}
+    ZSH_PATH=$(which zsh)
+    if grep --fixed-strings --line-regexp --quiet $ZSH_PATH /etc/shells
+    then
+        echo "No need to add $ZSH_PATH into /etc/shells"
+    else
+        echo "Adding $ZSH_PATH into /etc/shells"
+        sudo sh -c "echo $(which zsh) >> /etc/shells"
+    fi
+    # chsh -s $(which zsh)
+  {{ end }}
+
+  ########################################
+  # Configure GitHub Cli to clone with SSH
+  ########################################
+  gh config set git_protocol ssh
+
+  ###############################
+  # Install Python latest version
+  #   Install Python global modules requirements hash: {{ include ".files/requirements.txt" | sha256sum }}
+  ###############################
+  pyenv install --skip-existing 3
+  pyenv global $(pyenv latest 3)
+  pip install --upgrade pip
+  pip install --requirement {{ joinPath .chezmoi.sourceDir ".files/requirements.txt" | quote }}
+
+  #############################
+  # Install Ruby latest version
+  #############################
+  LATEST_RUBY_VERSION=$(curl --silent https://api.github.com/repos/ruby/ruby/releases/latest | jq -r '.name')
+  rbenv install --skip-existing $LATEST_RUBY_VERSION
+  rbenv global $LATEST_RUBY_VERSION
+
+  ##################################
+  # Kubernetes related configuration
+  ##################################
+  # [[ {{ joinPath .chezmoi.homeDir ".rd/bin/kubectl" }} ]] && source <(kubectl completion zsh)
+
+
+
+
+
+  ########################
+  # WSL Specific Functions
+  ########################
+  {{ if (and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
+
+  {{ end }}
+
+{{ end }}

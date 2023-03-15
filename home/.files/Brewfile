@@ -1,4 +1,11 @@
+######
+# Taps
+######
+tap "homebrew/cask-fonts"
+
+#######
 # Brews
+#######
 
 # Ant - https://ant.apache.org/
 brew "ant"
@@ -79,7 +86,9 @@ brew "zsh-history-substring-search"
 # zsh-syntax-highlighting - https://github.com/zsh-users/zsh-syntax-highlighting/
 brew "zsh-syntax-highlighting"
 
+#######
 # Casks
+#######
 
 # 1Password - https://1password.com/
 cask "1password"
@@ -88,6 +97,8 @@ cask "1password-cli"
 cask "authy"
 # Firefox - https://www.mozilla.org/en-GB/firefox/new/
 cask "firefox"
+# Fira Mono Nerd fond - https://www.nerdfonts.com/
+cask "font-fira-mono-nerd-font"
 # Google Chrome - https://www.google.com/intl/en_uk/chrome/
 cask "google-chrome"
 # Google Cloud Platform SDK - https://cloud.google.com/sdk
