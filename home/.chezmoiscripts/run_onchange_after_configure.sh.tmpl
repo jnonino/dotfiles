@@ -1,11 +1,11 @@
-#!/usr/bin/env bash
-
 #############################
 # Functions for Unix based OS
 #    MacOS
 #    Linux
 #############################
 {{ if (or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux")) }}
+
+  #!/usr/bin/env bash
 
   set -eEuo pipefail
 
