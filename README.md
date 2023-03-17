@@ -63,5 +63,4 @@ Internally it runs `chezmoi git pull -- --autostash --rebase` and `chezmoi apply
 
 ## TODO
 
-- [Populate `~/.ssh/authorized_keys` with your public SSH keys from GitHub](https://www.chezmoi.io/user-guide/manage-different-types-of-file/#populate-sshauthorized_keys-with-your-public-ssh-keys-from-github)
 - [Handle configuration files which are externally modified](https://www.chezmoi.io/user-guide/manage-different-types-of-file/#handle-configuration-files-which-are-externally-modified)
