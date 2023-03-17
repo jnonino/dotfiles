@@ -41,8 +41,8 @@
   ###############################
   pyenv install --skip-existing 3
   pyenv global $(pyenv latest 3)
-  pip install --upgrade pip
-  pip install --requirement {{ joinPath .chezmoi.sourceDir ".files/requirements.txt" | quote }}
+  pip install --no-input --upgrade pip
+  pip install --no-input --requirement {{ joinPath .chezmoi.sourceDir ".files/requirements.txt" | quote }}
 
   #############################
   # Install Ruby latest version

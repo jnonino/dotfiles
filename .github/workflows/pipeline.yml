@@ -19,7 +19,7 @@ jobs:
       - name: Chezmoi diff
         run: chezmoi diff
       - name: Configure dotfiles
-        run: chezmoi apply -v
+        run: chezmoi apply --verbose --force
 
 
   linux:
@@ -32,7 +32,7 @@ jobs:
       - name: Chezmoi diff
         run: chezmoi diff
       - name: Configure dotfiles
-        run: chezmoi apply -v
+        run: chezmoi apply --verbose --force
 
   windows:
     runs-on: windows-latest
@@ -44,4 +44,4 @@ jobs:
       - name: Chezmoi diff
         run: chezmoi diff
       - name: Configure dotfiles
-        run: chezmoi apply -v
+        run: chezmoi apply --verbose
