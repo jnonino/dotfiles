@@ -56,9 +56,14 @@
   ##################################
   # [[ {{ joinPath .chezmoi.homeDir ".rd/bin/kubectl" }} ]] && source <(kubectl completion zsh)
 
-
-
-
+  ##################
+  # Configure iTerm2
+  #   Main profile hash: {{ include ".files/iterm/Main.json" | sha256sum }}
+  ##################
+  {{ if eq .chezmoi.os "darwin" }}
+    cp {{ joinPath .chezmoi.sourceDir ".files/iterm/Main.json" | quote }} {{ joinPath .chezmoi.homeDir "Library/Application Support/iTerm2/DynamicProfiles" | quote }}
+    defaults write com.googlecode.iterm2 "Default Bookmark Guid" -string "F06B6A79-D0FA-4825-BF71-F2D3B153CCE3"
+  {{ end }}
 
   ########################
   # WSL Specific Functions
