@@ -34,6 +34,8 @@ brew "helm"
 brew "k9s"
 # JQ - https://stedolan.github.io/jq/
 brew "jq"
+# Jsonnet - https://jsonnet.org/
+brew "jsonnet"
 # kOps - https://kops.sigs.k8s.io/
 brew "kops"
 # Krew - https://krew.sigs.k8s.io/
