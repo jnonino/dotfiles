@@ -9,18 +9,18 @@ env:
   GH_USERNAME: jnonino
 
 jobs:
-  macos:
-    # Commented because they consume lots of credits
-    # runs-on: macOS-latest
-    # steps:
-    #   - name: Install Chezmoi
-    #     run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/bin
-    #   - name: Chezmoi init
-    #     run: chezmoi init https://github.com/$GH_USERNAME/dotfiles.git
-    #   - name: Chezmoi diff
-    #     run: chezmoi diff
-    #   - name: Configure dotfiles
-    #     run: chezmoi apply --force --verbose --debug
+  # Commented because they consume lots of credits
+  # macos:
+  #   runs-on: macOS-latest
+  #   steps:
+  #     - name: Install Chezmoi
+  #       run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/bin
+  #     - name: Chezmoi init
+  #       run: chezmoi init https://github.com/$GH_USERNAME/dotfiles.git
+  #     - name: Chezmoi diff
+  #       run: chezmoi diff
+  #     - name: Configure dotfiles
+  #       run: chezmoi apply --force --verbose --debug
 
   linux:
     runs-on: ubuntu-latest

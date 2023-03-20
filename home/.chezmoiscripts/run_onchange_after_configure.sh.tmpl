@@ -58,6 +58,11 @@ rbenv global $LATEST_RUBY_VERSION
   defaults write com.googlecode.iterm2 "Default Bookmark Guid" -string "F06B6A79-D0FA-4825-BF71-F2D3B153CCE3"
 {{ end }}
 
+######################
+# Add custom functions
+######################
+source {{ joinPath .chezmoi.homeDir ".config/functions.sh" }}
+
 ########################
 # WSL Specific Functions
 ########################
