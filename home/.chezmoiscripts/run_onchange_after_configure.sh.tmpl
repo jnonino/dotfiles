@@ -60,6 +60,7 @@ rbenv global $LATEST_RUBY_VERSION
 
 ######################
 # Add custom functions
+#   Custom functions hash: {{ include "dot_config/functions.sh.tmpl" | sha256sum }}
 ######################
 source {{ joinPath .chezmoi.homeDir ".config/functions.sh" }}
 

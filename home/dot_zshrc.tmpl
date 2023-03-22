@@ -165,6 +165,11 @@ setopt share_history          # Share command history data
 #   compinit
 # fi
 
+######################
+# Add custom functions
+######################
+source {{ joinPath .chezmoi.homeDir ".config/functions.sh" }}
+
 source $HOMEBREW_PREFIX/share/zsh-history-substring-search/zsh-history-substring-search.zsh
 source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

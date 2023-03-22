@@ -17,3 +17,8 @@ NVM_DIR="{{ joinPath .chezmoi.homeDir ".nvm" }}"
 # Kubernetes related variables
 ##############################
 PATH="${PATH}:{{ joinPath .chezmoi.homeDir ".krew/bin" }}"
+
+###############
+# Export editor
+###############
+EDITOR="code --wait"
