@@ -60,6 +60,8 @@ brew "pyenv"
 brew "rbenv"
 # Ruby Build - https://github.com/rbenv/ruby-build
 brew "ruby-build"
+# shellcheck - https://www.shellcheck.net/
+brew "shellcheck"
 # stern - https://github.com/stern/stern
 brew "stern"
 # Terraform Docs - https://terraform-docs.io/

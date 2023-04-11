@@ -36,6 +36,7 @@ pyenv install --skip-existing 3
 pyenv global $(pyenv latest 3)
 pip install --no-input --upgrade pip
 pip install --no-input --requirement {{ joinPath .chezmoi.sourceDir ".files/requirements.txt" | quote }}
+echo "Pyenv gobal version: $(pyenv global)"
 
 #############################
 # Install Ruby latest version
@@ -43,6 +44,15 @@ pip install --no-input --requirement {{ joinPath .chezmoi.sourceDir ".files/requ
 LATEST_RUBY_VERSION=$(curl --silent https://api.github.com/repos/ruby/ruby/releases/latest | jq -r '.name')
 rbenv install --skip-existing $LATEST_RUBY_VERSION
 rbenv global $LATEST_RUBY_VERSION
+echo "Rbenv gobal version: $(rbenv global)"
+
+#############################
+# Install Go latest version
+#############################
+GOLANG_LATEST=$(goenv install --list | sort --version-sort --reverse | head -1 | xargs)
+goenv install --skip-existing latest
+goenv global $GOLANG_LATEST
+echo "Goenv gobal version: $(goenv global)"
 
 ##################################
 # Kubernetes related configuration
