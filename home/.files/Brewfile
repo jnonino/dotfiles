@@ -56,6 +56,8 @@ brew "nvm"
 brew "pre-commit"
 # Simple Python Version Management (pyenv) - https://github.com/pyenv/pyenv
 brew "pyenv"
+# Open Policy Agent - https://www.openpolicyagent.org/
+brew "opa"
 # Simple Ruby Version Manager - https://github.com/rbenv/rbenv
 brew "rbenv"
 # Ruby Build - https://github.com/rbenv/ruby-build
