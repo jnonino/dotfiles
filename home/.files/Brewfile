@@ -1,3 +1,10 @@
+######
+# Taps
+######
+
+# https://golangci-lint.run/
+tap "golangci/tap"
+
 #######
 # Brews
 #######
@@ -28,6 +35,8 @@ brew "glab"
 brew "goenv"
 # Gradle - https://gradle.org/
 brew "gradle"
+# https://golangci-lint.run/
+brew "golangci/tap/golangci-lint"
 # Helm - https://helm.sh/
 brew "helm"
 # k9s - https://k9scli.io/
@@ -124,6 +133,8 @@ cask "oracle-jdk"
 cask "postman"
 # Rancher Desktop - https://rancherdesktop.io/
 cask "rancher"
+# AWS Session Manager Plugin - https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html
+cask "session-manager-plugin"
 # Slack - https://slack.com/
 cask "slack"
 # Spotify - https://www.spotify.com/

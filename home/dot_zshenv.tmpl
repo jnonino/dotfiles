@@ -1,8 +1,3 @@
-################
-# Brew variables
-################
-HOMEBREW_PREFIX=$(brew --prefix)
-
 ########################
 # Java related variables
 ########################
@@ -22,3 +17,9 @@ PATH="${PATH}:{{ joinPath .chezmoi.homeDir ".krew/bin" }}"
 # Export editor
 ###############
 EDITOR="code --wait"
+
+################
+# Brew variables
+################
+# /Users/juliannonino/.zshenv:24: command not found: brew
+# HOMEBREW_PREFIX=$(brew --prefix)
