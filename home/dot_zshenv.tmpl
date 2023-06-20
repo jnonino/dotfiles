@@ -8,6 +8,11 @@ JAVA_HOME=$(/usr/libexec/java_home)
 ###########################
 NVM_DIR="{{ joinPath .chezmoi.homeDir ".nvm" }}"
 
+##########################
+# Golang related variables
+##########################
+export PATH=$PATH:$(go env GOPATH)/bin
+
 ##############################
 # Kubernetes related variables
 ##############################
