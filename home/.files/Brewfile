@@ -39,6 +39,8 @@ brew "gradle"
 brew "golangci/tap/golangci-lint"
 # Helm - https://helm.sh/
 brew "helm"
+# https://gohugo.io/
+brew "hugo"
 # k9s - https://k9scli.io/
 brew "k9s"
 # JQ - https://stedolan.github.io/jq/
@@ -71,6 +73,8 @@ brew "opa"
 brew "rbenv"
 # Ruby Build - https://github.com/rbenv/ruby-build
 brew "ruby-build"
+# https://sass-lang.com/dart-sass/
+brew "sass/sass/sass"
 # shellcheck - https://www.shellcheck.net/
 brew "shellcheck"
 # stern - https://github.com/stern/stern
