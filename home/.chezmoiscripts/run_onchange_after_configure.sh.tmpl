@@ -54,6 +54,11 @@ goenv install --skip-existing latest
 goenv global $GOLANG_LATEST
 echo "Goenv gobal version: $(goenv global)"
 
+#############################
+# Install Node LTS version
+#############################
+nvm install --lts --default
+
 ##################################
 # Kubernetes related configuration
 ##################################

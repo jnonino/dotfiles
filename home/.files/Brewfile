@@ -129,6 +129,8 @@ cask "mactex"
 cask "mendeley-reference-manager"
 # Microsoft Edge - https://www.microsoft.com/en-gb/edge
 cask "microsoft-edge"
+# Microsoft Remote Desktop - https://apps.apple.com/us/app/microsoft-remote-desktop
+cask "microsoft-remote-desktop"
 # Open Broadcaster Software - https://obsproject.com/
 cask "obs"
 # Java - https://www.oracle.com/uk/java/
