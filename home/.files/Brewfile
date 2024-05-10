@@ -4,6 +4,7 @@
 
 # https://golangci-lint.run/
 tap "golangci/tap"
+tap "hashicorp/tap"
 
 #######
 # Brews
@@ -63,12 +64,14 @@ brew "maven"
 brew "minikube"
 # Node Version Manager - https://github.com/nvm-sh/nvm
 brew "nvm"
+# Open Policy Agent - https://www.openpolicyagent.org/
+brew "opa"
 # pre-commit - https://pre-commit.com/
 brew "pre-commit"
 # Simple Python Version Management (pyenv) - https://github.com/pyenv/pyenv
 brew "pyenv"
-# Open Policy Agent - https://www.openpolicyagent.org/
-brew "opa"
+# Packer - https://developer.hashicorp.com/packer
+brew "hashicorp/tap/packer"
 # Simple Ruby Version Manager - https://github.com/rbenv/rbenv
 brew "rbenv"
 # Ruby Build - https://github.com/rbenv/ruby-build
