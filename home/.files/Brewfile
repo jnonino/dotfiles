@@ -12,6 +12,8 @@ tap "hashicorp/tap"
 
 # Ant - https://ant.apache.org/
 brew "ant"
+# Ansible Lint - https://ansible.readthedocs.io/projects/lint/
+brew "ansible-lint"
 # Amazon Web Services Cli - https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html
 brew "awscli"
 # AWS IAM credentials to authenticate to Kubernetes - https://github.com/kubernetes-sigs/aws-iam-authenticator
@@ -112,10 +114,6 @@ brew "zsh-syntax-highlighting"
 # 1Password - https://1password.com/
 cask "1password"
 cask "1password-cli"
-# Authy - https://authy.com/
-cask "authy"
-# BlackHole, Route Audio Between Apps - https://existential.audio/blackhole/
-cask "blackhole-16ch"
 # Firefox - https://www.mozilla.org/en-GB/firefox/new/
 cask "firefox"
 # Google Chrome - https://www.google.com/intl/en_uk/chrome/
@@ -128,8 +126,6 @@ cask "iterm2"
 cask "leapp"
 # MacTeX - https://www.tug.org/mactex/
 cask "mactex"
-# Mendeley Reference Manager - https://www.mendeley.com/reference-management/reference-manager
-cask "mendeley-reference-manager"
 # Microsoft Edge - https://www.microsoft.com/en-gb/edge
 cask "microsoft-edge"
 # Microsoft Remote Desktop - https://apps.apple.com/us/app/microsoft-remote-desktop
