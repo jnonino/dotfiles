@@ -68,6 +68,8 @@ brew "minikube"
 brew "nvm"
 # Open Policy Agent - https://www.openpolicyagent.org/
 brew "opa"
+# OpenTofu - https://opentofu.org/
+brew "opentofu"
 # pre-commit - https://pre-commit.com/
 brew "pre-commit"
 # Simple Python Version Management (pyenv) - https://github.com/pyenv/pyenv
