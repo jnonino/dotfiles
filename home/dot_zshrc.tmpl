@@ -104,6 +104,19 @@ load-tfswitch() {
 add-zsh-hook chpwd load-tfswitch
 load-tfswitch
 
+#################################
+# OpenTofu related configurations
+#################################
+load-tofuswitch() {
+  local tfswitchrc_path=".opentofu-version"
+
+  if [ -f "$tfswitchrc_path" ]; then
+    TF_PRODUCT=opentofu tfswitch
+  fi
+}
+add-zsh-hook chpwd load-tofuswitch
+load-tofuswitch
+
 ###################################
 # Terragrunt related configurations
 ###################################
