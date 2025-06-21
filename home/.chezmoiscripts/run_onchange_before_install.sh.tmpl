@@ -68,9 +68,17 @@ eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
 # Brew dependencies
 #   Install packages
 #   Brewfile hash: {{ include ".files/Brewfile" | sha256sum }}
+#   Brewfile hash: {{ include ".files/Brewfile_wsl" | sha256sum }}
 ###################
 brew update
+
+{{ if (and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
+brew bundle --verbose --debug --file {{ joinPath .chezmoi.sourceDir ".files/Brewfile_wsl" | quote }}
+{{ else }}
 brew bundle --verbose --debug --file {{ joinPath .chezmoi.sourceDir ".files/Brewfile" | quote }}
+{{ end }}
+{{ end }}
+
 brew upgrade
 brew autoremove
 brew cleanup
