@@ -77,7 +77,6 @@ brew bundle --verbose --debug --file {{ joinPath .chezmoi.sourceDir ".files/Brew
 {{ else }}
 brew bundle --verbose --debug --file {{ joinPath .chezmoi.sourceDir ".files/Brewfile" | quote }}
 {{ end }}
-{{ end }}
 
 brew upgrade
 brew autoremove
