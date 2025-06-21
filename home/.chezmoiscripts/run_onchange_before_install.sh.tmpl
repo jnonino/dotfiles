@@ -107,5 +107,3 @@ mkdir -p {{ joinPath .chezmoi.homeDir ".rbenv" }}
 ########################
 {{ if (and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
 {{ end }}
-
-{{ end }}
