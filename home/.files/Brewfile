@@ -1,3 +1,17 @@
+# Copyright [2023] Julian Nonino
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 ######
 # Taps
 ######
@@ -10,8 +24,6 @@ tap "hashicorp/tap"
 # Brews
 #######
 
-# Ant - https://ant.apache.org/
-brew "ant"
 # Ansible Lint - https://ansible.readthedocs.io/projects/lint/
 brew "ansible-lint"
 # Amazon Web Services Cli - https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html
@@ -50,18 +62,12 @@ brew "k9s"
 brew "jq"
 # Jsonnet - https://jsonnet.org/
 brew "jsonnet"
-# kOps - https://kops.sigs.k8s.io/
-brew "kops"
-# Krew - https://krew.sigs.k8s.io/
-brew "krew"
 # kubectx + kubens - https://github.com/ahmetb/kubectx
 brew "kubectx"
 # Kubernetes Cli (kubectl) - https://kubernetes.io/docs/reference/kubectl/
 brew "kubernetes-cli"
 # Leapp - https://www.leapp.cloud/
 brew "leapp-cli"
-# Maven - https://maven.apache.org/
-brew "maven"
 # Minikube - https://minikube.sigs.k8s.io/docs/
 brew "minikube"
 # Node Version Manager - https://github.com/nvm-sh/nvm
@@ -134,8 +140,6 @@ cask "microsoft-remote-desktop"
 cask "obs"
 # Java - https://www.oracle.com/uk/java/
 cask "oracle-jdk"
-# Postman - https://www.postman.com/
-cask "postman"
 # Rancher Desktop - https://rancherdesktop.io/
 cask "rancher"
 # AWS Session Manager Plugin - https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html
