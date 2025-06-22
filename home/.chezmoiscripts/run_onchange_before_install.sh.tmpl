@@ -25,22 +25,18 @@ set -eEuo pipefail
 {{- $id := .chezmoi.osRelease.id | lower | default "" -}}
 {{- $like := .chezmoi.osRelease.idLike | lower | default "" -}}
 
+# Run system updates & install tools
 {{- if or (eq $id "debian") (contains $like "debian") -}}
-pkg_update="sudo apt-get update -y"
-pkg_upgrade="sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -yq"
-pkg_install="sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq build-essential procps curl file git"
+sudo apt-get update -y
+sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -yq
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq build-essential procps curl file git
 {{- else if or (eq $id "fedora") (contains $like "rhel") -}}
-pkg_update="sudo dnf -y update"
-pkg_upgrade="sudo dnf -y upgrade"
-pkg_install="sudo dnf -y install @development-tools procps-ng curl file git"
+sudo dnf -y update
+sudo dnf -y upgrade
+sudo dnf -y install @development-tools procps-ng curl file git
 {{- else -}}
 {{- fail (printf "Unsupported Linux distro: %q (idLike=%q)" $id $like) -}}
 {{- end }}
-
-# Run system updates & install tools
-eval "$pkg_update"
-eval "$pkg_upgrade"
-eval "$pkg_install"
 
 {{- end -}}
 
