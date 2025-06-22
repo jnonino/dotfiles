@@ -12,10 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{- if or (eq .chezmoi.os "darwin")
-         (eq .chezmoi.os "linux")
-         (and (eq .chezmoi.os "linux")
-              (lower .chezmoi.kernel.osrelease | contains "microsoft"))) -}}
+{{- if or
+      (eq .chezmoi.os "darwin")
+      (eq .chezmoi.os "linux")
+      (and (eq .chezmoi.os "linux") (contains (lower .chezmoi.kernel.osrelease) "microsoft"))
+    -}}
 #!/usr/bin/env bash
 set -eEuo pipefail
 
