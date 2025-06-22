@@ -26,19 +26,19 @@ set -eEuo pipefail
 {{- $like := .chezmoi.osRelease.idLike | lower | default "" -}}
 
 # Run system updates & install tools
-{{- if or (eq $id "debian") (contains $like "debian") -}}
+{{- if or (eq $id "debian") (contains $like "debian") }}
 sudo apt-get update -y
 sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -yq
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq build-essential procps curl file git
-{{- else if or (eq $id "fedora") (contains $like "rhel") -}}
+{{ else if or (eq $id "fedora") (contains $like "rhel") }}
 sudo dnf -y update
 sudo dnf -y upgrade
 sudo dnf -y install @development-tools procps-ng curl file git
-{{ else -}}
-{{ fail (printf "Unsupported Linux distro: %q (idLike=%q)" $id $like) -}}
+{{ else }}
+{{ fail (printf "Unsupported Linux distro: %q (idLike=%q)" $id $like) }}
 {{ end -}}
 
-{{ end -}}
+{{ end }}
 
 #####################################
 # Install Homebrew if missing
