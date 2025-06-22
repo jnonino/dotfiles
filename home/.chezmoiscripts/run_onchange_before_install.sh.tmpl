@@ -70,11 +70,11 @@ brew install gcc
 ###################
 brew update
 
-{{- if $wsl -}}
+{{ if $wsl }}
 brew bundle --verbose --debug --file {{ joinPath .chezmoi.sourceDir ".files/Brewfile_wsl" | quote }}
-{{- else -}}
+{{ else }}
 brew bundle --verbose --debug --file {{ joinPath .chezmoi.sourceDir ".files/Brewfile" | quote }}
-{{- end }}
+{{ end }}
 
 brew upgrade
 brew autoremove
