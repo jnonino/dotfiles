@@ -68,7 +68,7 @@ brew install gcc
 ###################
 brew update
 
-{{- if and (eq .chezmoi.os "linux") (lower .chezmoi.kernel.osrelease | contains "microsoft")) -}}
+{{- if and (eq .chezmoi.os "linux") (lower .chezmoi.kernel.osrelease | contains "microsoft") -}}
 brew bundle --verbose --debug --file {{ joinPath .chezmoi.sourceDir ".files/Brewfile_wsl" | quote }}
 {{- else -}}
 brew bundle --verbose --debug --file {{ joinPath .chezmoi.sourceDir ".files/Brewfile" | quote }}
