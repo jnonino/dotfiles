@@ -12,64 +12,72 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{- if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux") (and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) -}}
+{{- if or (eq .chezmoi.os "darwin")
+         (eq .chezmoi.os "linux")
+         (and (eq .chezmoi.os "linux") (lower .chezmoi.kernel.osrelease | contains "microsoft"))) -}}
 #!/usr/bin/env bash
-
 set -eEuo pipefail
 
-{{   if eq .chezmoi.osRelease.id "debian" }}
-sudo apt-get update -y
-sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -yq
-sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq build-essential procps curl file git
-{{   else if eq .chezmoi.osRelease.id "fedora" }}
-sudo dnf -y update
-sudo dnf -y upgrade
-sudo dnf -y install @development-tools procps-ng curl file git
-{{   end }}
+# Determine package manager based on distro (Debian vs Fedora/RHEL)
+{{- $id := .chezmoi.osRelease.id | lower | default "" -}}
+{{- $like := .chezmoi.osRelease.idLike | lower | default "" -}}
 
-{{ end }}
+{{- if or (eq $id "debian") (contains $like "debian") -}}
+pkg_update="sudo apt-get update -y"
+pkg_upgrade="sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -yq"
+pkg_install="sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq build-essential procps curl file git"
+{{- else if or (eq $id "fedora") (contains $like "rhel") -}}
+pkg_update="sudo dnf -y update"
+pkg_upgrade="sudo dnf -y upgrade"
+pkg_install="sudo dnf -y install @development-tools procps-ng curl file git"
+{{- else -}}
+{{- fail (printf "Unsupported Linux distro: %q (idLike=%q)" $id $like) -}}
+{{- end }}
+
+# Run system updates & install tools
+eval "$pkg_update"
+eval "$pkg_upgrade"
+eval "$pkg_install"
+
+{{- end -}}
 
 #####################################
-# Install brew if it is not installed
+# Install Homebrew if missing
 #####################################
-if ! command -v brew &> /dev/null
-then
+if ! command -v brew &> /dev/null; then
   echo "brew is not installed"
   bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-{{ if eq .chezmoi.os "linux" }}
-  test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
-  test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-{{ end }}
+{{- if eq .chezmoi.os "linux" -}}
+test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
+test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+{{- end }}
 
 export HOMEBREW_PREFIX=$(brew --prefix)
 eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
 
-{{ if eq .chezmoi.os "linux" }}
-  brew install gcc
-{{ end }}
+{{- if eq .chezmoi.os "linux" -}}
+brew install gcc
+{{- end }}
 
 ###################
 # Brew dependencies
-#   Install packages
-#   Brewfile hash: {{ include ".files/Brewfile" | sha256sum }}
-#   Brewfile hash: {{ include ".files/Brewfile_wsl" | sha256sum }}
 ###################
 brew update
 
-{{ if (and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
+{{- if and (eq .chezmoi.os "linux") (lower .chezmoi.kernel.osrelease | contains "microsoft")) -}}
 brew bundle --verbose --debug --file {{ joinPath .chezmoi.sourceDir ".files/Brewfile_wsl" | quote }}
-{{ else }}
+{{- else -}}
 brew bundle --verbose --debug --file {{ joinPath .chezmoi.sourceDir ".files/Brewfile" | quote }}
-{{ end }}
+{{- end }}
 
 brew upgrade
 brew autoremove
 brew cleanup
 
 #######################################
-# Install oh-my-zsh - https://ohmyz.sh/
+# Install oh-my-zsh
 #######################################
 if [ -d {{ joinPath .chezmoi.homeDir ".oh-my-zsh" }} ]; then
   echo "oh-my-zsh is installed"
@@ -79,17 +87,9 @@ else
 fi
 
 #########################
-# Node Version Management
+# Ensure version managers
 #########################
 mkdir -p {{ joinPath .chezmoi.homeDir ".nvm" }}
-
-#########################
-# Ruby Version Management
-#########################
 mkdir -p {{ joinPath .chezmoi.homeDir ".rbenv" }}
 
-########################
-# WSL Specific Functions
-########################
-{{ if (and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
-{{ end }}
+# You can add WSL-specific hooks here (inside same conditional)

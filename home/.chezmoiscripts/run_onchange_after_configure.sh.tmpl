@@ -1,88 +1,91 @@
-{{- if (or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux")) -}}
-#!/usr/bin/env bash
+# Copyright [2023] Julian Nonino
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
+{{- if or (eq .chezmoi.os "darwin")
+         (eq .chezmoi.os "linux")
+         (and (eq .chezmoi.os "linux")
+              (lower .chezmoi.kernel.osrelease | contains "microsoft"))) -}}
+#!/usr/bin/env bash
 set -eEuo pipefail
 
-######
-# Brew
-######
-chmod g-w,o-w $HOMEBREW_PREFIX/share
+###### Homebrew permissions ######
+chmod g-w,o-w "$HOMEBREW_PREFIX/share"
 
-##########################
-# Use Zsh as default shell
-##########################
-{{ if eq .chezmoi.os "darwin" }}
-  ZSH_PATH=$(which zsh)
-  if grep --fixed-strings --line-regexp --quiet $ZSH_PATH /etc/shells
-  then
-      echo "No need to add $ZSH_PATH into /etc/shells"
-  else
-      echo "Adding $ZSH_PATH into /etc/shells"
-      sudo sh -c "echo $(which zsh) >> /etc/shells"
-  fi
-  # chsh -s $(which zsh)
-{{ end }}
+##############################
+# Use Zsh as default shell on macOS
+##############################
+{{- if eq .chezmoi.os "darwin" -}}
+ZSH_PATH=$(which zsh)
+if ! grep -Fxq "$ZSH_PATH" /etc/shells; then
+  echo "Adding $ZSH_PATH to /etc/shells"
+  sudo sh -c "echo $ZSH_PATH >> /etc/shells"
+fi
+# Optionally: chsh -s "$ZSH_PATH"
+{{- end }}
 
 ########################################
-# Configure GitHub Cli to clone with SSH
+# GitHub CLI: prefer SSH cloning
 ########################################
-gh config set git_protocol ssh
+gh config set git_protocol ssh || true
 
-###############################
-# Install Python latest version
-#   Install Python global modules requirements hash: {{ include ".files/requirements.txt" | sha256sum }}
-###############################
-pyenv install --skip-existing 3
+########################################
+# Manage latest runtime versions
+########################################
+
+# Python via pyenv
+pyenv install --skip-existing 3 || true
 pyenv global $(pyenv latest 3)
-pip install --no-input --upgrade pip
+pip install --upgrade pip
 pip install --no-input --requirement {{ joinPath .chezmoi.sourceDir ".files/requirements.txt" | quote }}
-echo "Pyenv gobal version: $(pyenv global)"
 
-#############################
-# Install Ruby latest version
-#############################
-LATEST_RUBY_VERSION=$(curl --silent https://api.github.com/repos/ruby/ruby/releases/latest | jq -r '.name')
-rbenv install --skip-existing $LATEST_RUBY_VERSION
-rbenv global $LATEST_RUBY_VERSION
-echo "Rbenv gobal version: $(rbenv global)"
+# Ruby via rbenv
+LATEST_RUBY=$(curl --silent https://api.github.com/repos/ruby/ruby/releases/latest | jq -r '.tag_name')
+rbenv install --skip-existing "$LATEST_RUBY" || true
+rbenv global "$LATEST_RUBY"
 
-#############################
-# Install Go latest version
-#############################
-GOLANG_LATEST=$(goenv install --list | sort --version-sort --reverse | head -1 | xargs)
-goenv install --skip-existing latest
-goenv global $GOLANG_LATEST
-echo "Goenv gobal version: $(goenv global)"
+# Go via goenv
+GOLANG_LATEST=$(goenv install --list | sort --version-sort --reverse | head -n1 | xargs)
+goenv install --skip-existing "$GOLANG_LATEST" || true
+goenv global "$GOLANG_LATEST"
 
-#############################
-# Install Node LTS version
-#############################
+# Node LTS via nvm
 nvm install --lts --default
 
 ##################################
-# Kubernetes related configuration
+# iTerm2 profile on macOS
 ##################################
-# [[ {{ joinPath .chezmoi.homeDir ".rd/bin/kubectl" }} ]] && source <(kubectl completion zsh)
+{{- if eq .chezmoi.os "darwin" -}}
+mkdir -p "$HOME/Library/Application Support/iTerm2/DynamicProfiles"
+cp {{ joinPath .chezmoi.sourceDir ".files/iterm/Main.json" | quote }} \
+   "$HOME/Library/Application Support/iTerm2/DynamicProfiles/"
+defaults write com.googlecode.iterm2 "Default Bookmark Guid" \
+  -string "F06B6A79-D0FA-4825-BF71-F2D3B153CCE3"
+{{- end }}
 
-##################
-# Configure iTerm2
-#   Main profile hash: {{ include ".files/iterm/Main.json" | sha256sum }}
-##################
-{{ if eq .chezmoi.os "darwin" }}
-  cp {{ joinPath .chezmoi.sourceDir ".files/iterm/Main.json" | quote }} {{ joinPath .chezmoi.homeDir "Library/Application Support/iTerm2/DynamicProfiles" | quote }}
-  defaults write com.googlecode.iterm2 "Default Bookmark Guid" -string "F06B6A79-D0FA-4825-BF71-F2D3B153CCE3"
-{{ end }}
+##################################
+# Custom functions
+##################################
+if [ -f "{{ joinPath .chezmoi.homeDir ".config/functions.sh" }}" ]; then
+  source "{{ joinPath .chezmoi.homeDir ".config/functions.sh" }}"
+fi
 
-######################
-# Add custom functions
-#   Custom functions hash: {{ include "dot_config/functions.sh.tmpl" | sha256sum }}
-######################
-source {{ joinPath .chezmoi.homeDir ".config/functions.sh" }}
+##########################################
+# (Optional) WSL-specific tweaks
+##########################################
+{{- if and (eq .chezmoi.os "linux")
+           (lower .chezmoi.kernel.osrelease | contains "microsoft")) -}}
+# Add WSL-specific config here
+{{- end }}
 
-########################
-# WSL Specific Functions
-########################
-{{ if (and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft")) }}
-{{ end }}
-
-{{ end }}
+{{- end -}}
