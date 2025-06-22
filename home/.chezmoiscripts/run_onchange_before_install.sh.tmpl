@@ -15,10 +15,7 @@
 ############################
 # Script init and OS Upgrade
 ############################
-{{- if or (eq .chezmoi.os "darwin")
-           (eq .chezmoi.os "linux")
-           (and (eq .chezmoi.os "linux")
-                (.chezmoi.kernel.osrelease | lower | contains "microsoft"))) -}}
+{{ if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "linux") (and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft"))) }}
 #!/usr/bin/env bash
 
 set -eEuo pipefail
