@@ -14,11 +14,3 @@ git-clone-cd() {
   git clone "$URL"
   cd "$REPO_NAME"
 }
-
-# Git clone work repository and cd into it
-git-clone-work() {
-  URL=$1
-  git-clone-cd $URL
-  git config user.name {{ .name | quote }}
-  git config user.email {{ .email_work | quote }}
-}

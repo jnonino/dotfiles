@@ -12,30 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-################################
-# Detect the type of Unix system
-################################
-{{- $osid := .chezmoi.os -}}
-{{- if hasKey .chezmoi.osRelease "id" -}}
-{{-   $osid = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
-{{- end -}}
-
-[data]
-    osid = {{ $osid | quote }}
-
 ############################
 # Script init and OS Upgrade
 ############################
-{{ if (or (eq .osid "darwin") (.osid | lower | contains "linux")) }}
+{{ if (or (eq .detect.osid "darwin") (.detect.osid | lower | contains "linux")) }}
 #!/usr/bin/env bash
 
 set -eEuo pipefail
 
-{{   if eq .osid "linux-debian" }}
+{{   if eq .detect.osid "linux-debian" }}
         sudo apt-get update -y
         sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -yq
         sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq build-essential procps curl file git
-{{   else if eq .osid "linux-fedora" }}
+{{   else if eq .detect.osid "linux-fedora" }}
         sudo dnf -y update
         sudo dnf -y upgrade
         sudo dnf -y install @development-tools procps-ng curl file git

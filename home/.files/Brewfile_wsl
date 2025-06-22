@@ -88,6 +88,8 @@ brew "ruby-build"
 brew "sass/sass/sass"
 # shellcheck - https://www.shellcheck.net/
 brew "shellcheck"
+# stern - https://github.com/stern/stern
+brew "stern"
 # Terraform Docs - https://terraform-docs.io/
 brew "terraform-docs"
 # tflint - https://github.com/terraform-linters/tflint
