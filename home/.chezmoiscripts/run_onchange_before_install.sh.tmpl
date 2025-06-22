@@ -34,11 +34,11 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq build-essential procps c
 sudo dnf -y update
 sudo dnf -y upgrade
 sudo dnf -y install @development-tools procps-ng curl file git
-{{- else -}}
-{{- fail (printf "Unsupported Linux distro: %q (idLike=%q)" $id $like) -}}
-{{- end }}
+{{ else -}}
+{{ fail (printf "Unsupported Linux distro: %q (idLike=%q)" $id $like) -}}
+{{ end -}}
 
-{{- end -}}
+{{ end -}}
 
 #####################################
 # Install Homebrew if missing
