@@ -3,8 +3,7 @@ data:
   email: "noninojulian@gmail.com"
   editor: "code --wait"
   github: "jnonino"
-
-detect:
-  os: "{{ .chezmoi.os }}"
-  osReleaseId = "{{ .chezmoi.osRelease.id | default \"\" }}"
-  osid = "{{ if .chezmoi.osRelease.id }}{{ printf \"%s-%s\" .chezmoi.os .chezmoi.osRelease.id }}{{ else }}{{ .chezmoi.os }}{{ end }}"
+  detect:
+    os: "{{ .chezmoi.os }}"
+    osReleaseId = "{{ .chezmoi.osRelease.id | default \"\" }}"
+    osid = "{{ if .chezmoi.osRelease.id }}{{ printf \"%s-%s\" .chezmoi.os .chezmoi.osRelease.id }}{{ else }}{{ .chezmoi.os }}{{ end }}"

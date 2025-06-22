@@ -15,16 +15,16 @@
 ############################
 # Script init and OS Upgrade
 ############################
-{{ if (or (eq .detect.osid "darwin") (.detect.osid | lower | contains "linux")) }}
+{{ if (or (eq detect.osid "darwin") (detect.osid | lower | contains "linux")) }}
 #!/usr/bin/env bash
 
 set -eEuo pipefail
 
-{{   if eq .detect.osid "linux-debian" }}
+{{   if eq detect.osid "linux-debian" }}
         sudo apt-get update -y
         sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -yq
         sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq build-essential procps curl file git
-{{   else if eq .detect.osid "linux-fedora" }}
+{{   else if eq detect.osid "linux-fedora" }}
         sudo dnf -y update
         sudo dnf -y upgrade
         sudo dnf -y install @development-tools procps-ng curl file git
