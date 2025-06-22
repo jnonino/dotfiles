@@ -21,12 +21,14 @@
 
 set -eEuo pipefail
 
-###### Homebrew permissions ######
+######################
+# Homebrew permissions
+######################
 chmod g-w,o-w "$HOMEBREW_PREFIX/share"
 
-##############################
+###################################
 # Use Zsh as default shell on macOS
-##############################
+###################################
 {{- if eq .chezmoi.os "darwin" -}}
 ZSH_PATH=$(which zsh)
 if ! grep -Fxq "$ZSH_PATH" /etc/shells; then
@@ -36,16 +38,17 @@ fi
 # Optionally: chsh -s "$ZSH_PATH"
 {{- end }}
 
-########################################
+################################
 # GitHub CLI: prefer SSH cloning
-########################################
+################################
 gh config set git_protocol ssh || true
 
-########################################
+################################
 # Manage latest runtime versions
-########################################
+################################
 
 # Python via pyenv
+#   requirements.txt hash: {{ include ".files/requirements.txt" | sha256sum }}
 pyenv install --skip-existing 3 || true
 pyenv global $(pyenv latest 3)
 pip install --upgrade pip
@@ -81,13 +84,5 @@ defaults write com.googlecode.iterm2 "Default Bookmark Guid" \
 if [ -f "{{ joinPath .chezmoi.homeDir ".config/functions.sh" }}" ]; then
   source "{{ joinPath .chezmoi.homeDir ".config/functions.sh" }}"
 fi
-
-##########################################
-# (Optional) WSL-specific tweaks
-##########################################
-{{- if and (eq .chezmoi.os "linux")
-           (lower .chezmoi.kernel.osrelease | contains "microsoft")) -}}
-# Add WSL-specific config here
-{{- end }}
 
 {{- end -}}
