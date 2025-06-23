@@ -64,10 +64,13 @@ if command -v brew &>/dev/null; then
   add_and_source_shellenv() {
     local fpath="$1"
     if [ -w "$fpath" ] && ! grep -Fq 'brew shellenv' "$fpath"; then
+      echo "Updating path ${fpath}"
       echo "" >> "$fpath"
       echo '# Homebrew shellenv added by chezmoi' >> "$fpath"
       echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> "$fpath"
       echo "Updated path ${fpath}"
+    else
+      echo "Path ${fpath} already updated"
     fi
   }
 
