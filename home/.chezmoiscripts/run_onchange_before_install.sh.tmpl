@@ -48,23 +48,27 @@ sudo dnf -y install @development-tools procps-ng curl file git
 #############################
 if ! command -v brew &> /dev/null; then
   echo "Homebrew not found - Installing..."
-  export NONINTERACTIVE=1
   bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-  eval "$($(brew --prefix)/bin/brew shellenv)"
-
-  # Add shellenv to all users' system-wide rc files idempotently
-  for rc in /etc/profile /etc/bash.bashrc /etc/zsh/zshrc /etc/zsh/zprofile; do
-    if [ -w "$rc" ] && ! grep -Fq 'brew shellenv' "$rc"; then
-      echo "" >> "$rc"
-      echo '# Added by chezmoi: Homebrew PATH' >> "$rc"
-      echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> "$rc"
-      echo "Updated $rc"
-    fi
-  done
+  {{ if eq .chezmoi.os "linux" }}Add commentMore actions
+  test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
+  test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  {{ end }}
 fi
 
 {{ if eq .chezmoi.os "linux" }}
+# Add shellenv to all users' system-wide rc files idempotently
+for rc in /etc/profile /etc/bash.bashrc /etc/zsh/zshrc /etc/zsh/zprofile; do
+  if [ -w "$rc" ] && ! grep -Fq 'brew shellenv' "$rc"; then
+    echo "" >> "$rc"
+    echo '# Added by chezmoi: Homebrew PATH' >> "$rc"
+    echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> "$rc"
+    echo "Updated $rc"
+  fi
+done
+
+eval "$($(brew --prefix)/bin/brew shellenv)"
+
 brew install gcc
 {{ end }}
 
