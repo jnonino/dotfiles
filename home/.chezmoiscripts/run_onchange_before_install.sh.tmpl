@@ -59,15 +59,13 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 if command -v brew &>/dev/null; then
   echo "Homebrew already installed - ensuring shellenv is set"
 
-  {{- $shellenv := print "\"$(" (brew --prefix) "/bin/brew shellenv)\"" -}}
-
   # Function to append and source shellenv for a user's shell rc
   add_and_source_shellenv() {
     local fpath="$1"
     if [ -w "$fpath" ] && ! grep -Fq 'brew shellenv' "$fpath"; then
       echo "" >> "$fpath"
       echo '# Homebrew shellenv added by chezmoi' >> "$fpath"
-      echo "eval $shellenv" >> "$fpath"
+      echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> "$fpath"
       echo "Updated path ${fpath}"
     fi
   }
