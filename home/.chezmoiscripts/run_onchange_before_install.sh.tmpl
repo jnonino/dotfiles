@@ -49,11 +49,6 @@ sudo dnf -y install @development-tools procps-ng curl file git
 if ! command -v brew &> /dev/null; then
   echo "Homebrew not found - Installing..."
   bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-  {{ if eq .chezmoi.os "linux" }}Add commentMore actions
-  test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
-  test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-  {{ end }}
 fi
 
 {{ if eq .chezmoi.os "linux" }}
