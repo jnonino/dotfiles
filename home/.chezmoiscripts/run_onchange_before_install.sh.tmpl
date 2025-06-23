@@ -31,6 +31,7 @@ set -eEuo pipefail
 ####################################
 # Run system updates & install tools
 ####################################
+echo "Running system upgrade and installing tools"
 {{ if or (eq $id "debian") (contains $like "debian") }}
 sudo apt-get update -y
 sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -yq
@@ -86,16 +87,21 @@ fi
 #   Brewfile hash: {{ include ".files/Brewfile" | sha256sum }}
 #   Brewfile hash: {{ include ".files/Brewfile_wsl" | sha256sum }}
 ###################
+echo "Running brew upgrade"
 brew update
 
+echo "Installing tools from Brewfile"
 {{ if $wsl }}
 brew bundle --verbose --debug --file {{ joinPath .chezmoi.sourceDir ".files/Brewfile_wsl" | quote }}
 {{ else }}
 brew bundle --verbose --debug --file {{ joinPath .chezmoi.sourceDir ".files/Brewfile" | quote }}
 {{ end }}
 
+echo "Running brew upgrade"
 brew upgrade
+echo "Running brew autoremove"
 brew autoremove
+echo "Running brew cleanup"
 brew cleanup
 
 #######################################
@@ -108,9 +114,10 @@ else
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
 
-#########################
-# Ensure version managers
-#########################
+######################################################
+# Ensure directories for version managers are in place
+######################################################
+echo "Ensure directories for version managers are in place"
 mkdir -p {{ joinPath .chezmoi.homeDir ".nvm" }}
 mkdir -p {{ joinPath .chezmoi.homeDir ".rbenv" }}
 
