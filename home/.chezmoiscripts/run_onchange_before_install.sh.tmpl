@@ -98,7 +98,7 @@ brew autoremove
 brew cleanup
 
 #######################################
-# Install oh-my-zsh
+# Install oh-my-zsh - https://ohmyz.sh/
 #######################################
 if [ -d {{ joinPath .chezmoi.homeDir ".oh-my-zsh" }} ]; then
   echo "oh-my-zsh is installed"
@@ -113,4 +113,4 @@ fi
 mkdir -p {{ joinPath .chezmoi.homeDir ".nvm" }}
 mkdir -p {{ joinPath .chezmoi.homeDir ".rbenv" }}
 
-{{- end -}}
+{{ end }}
