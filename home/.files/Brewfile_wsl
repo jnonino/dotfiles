@@ -92,6 +92,8 @@ brew "shellcheck"
 brew "stern"
 # Terraform Docs - https://terraform-docs.io/
 brew "terraform-docs"
+# Texlive - https://www.tug.org/texlive/
+brew "texlive"
 # tflint - https://github.com/terraform-linters/tflint
 brew "tflint"
 # TFSwitch - https://tfswitch.warrensbox.com/
