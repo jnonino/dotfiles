@@ -51,20 +51,32 @@ if ! command -v brew &> /dev/null; then
   bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
+# Add brew command to PATH for current session
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+# Add brew to PATH permanently
 {{ if eq .chezmoi.os "linux" }}
-# Add shellenv to all users' system-wide rc files idempotently
-for rc in /etc/profile /etc/bash.bashrc /etc/zsh/zshrc /etc/zsh/zprofile; do
-  if [ -w "$rc" ] && ! grep -Fq 'brew shellenv' "$rc"; then
-    echo "" >> "$rc"
-    echo '# Added by chezmoi: Homebrew PATH' >> "$rc"
-    echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >> "$rc"
-    echo "Updated $rc"
-  fi
-done
+if command -v brew &>/dev/null; then
+  echo "Homebrew already installed - ensuring shellenv is set"
 
-eval "$($(brew --prefix)/bin/brew shellenv)"
+  {{- $shellenv := print "\"$(" (brew --prefix) "/bin/brew shellenv)\"" -}}
 
-brew install gcc
+  # Function to append and source shellenv for a user's shell rc
+  add_and_source_shellenv() {
+    local fpath="$1"
+    if [ -w "$fpath" ] && ! grep -Fq 'brew shellenv' "$fpath"; then
+      echo "" >> "$fpath"
+      echo '# Homebrew shellenv added by chezmoi' >> "$fpath"
+      echo "eval $shellenv" >> "$fpath"
+      echo "Updated path ${fpath}"
+    fi
+  }
+
+  for rc in /etc/profile /etc/bash.bashrc /etc/zsh/zshrc /etc/zsh/zprofile; do
+    add_and_source_shellenv "$rc"
+  done
+
+  brew install gcc
 {{ end }}
 
 ###################
