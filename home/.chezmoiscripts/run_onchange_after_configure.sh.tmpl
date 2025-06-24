@@ -29,6 +29,7 @@ chmod g-w,o-w "$HOMEBREW_PREFIX/share"
 ###################################
 # Use Zsh as default shell on macOS
 ###################################
+echo "Set Zsh as default"
 {{- if eq .chezmoi.os "darwin" -}}
 ZSH_PATH=$(which zsh)
 if ! grep -Fxq "$ZSH_PATH" /etc/shells; then
@@ -41,6 +42,7 @@ fi
 ################################
 # GitHub CLI: prefer SSH cloning
 ################################
+echo "Configure Github Cli to prefer SSH"
 gh config set git_protocol ssh || true
 
 ################################
@@ -48,28 +50,36 @@ gh config set git_protocol ssh || true
 ################################
 
 # Python via pyenv
-#   requirements.txt hash: {{ include ".files/requirements.txt" | sha256sum }}
+echo "Installing Python with Pyenv"
 pyenv install --skip-existing 3 || true
 pyenv global $(pyenv latest 3)
+
+# Python dependencies
+#   requirements.txt hash: {{ include ".files/requirements.txt" | sha256sum }}
+echo "Installing Python dependencies with pip"
 pip install --upgrade pip
 pip install --no-input --requirement {{ joinPath .chezmoi.sourceDir ".files/requirements.txt" | quote }}
 
 # Ruby via rbenv
+echo "Installing Ruby with rbenv"
 LATEST_RUBY=$(curl --silent https://api.github.com/repos/ruby/ruby/releases/latest | jq -r '.tag_name')
 rbenv install --skip-existing "$LATEST_RUBY" || true
 rbenv global "$LATEST_RUBY"
 
 # Go via goenv
+echo "Installing Go with goenv"
 GOLANG_LATEST=$(goenv install --list | sort --version-sort --reverse | head -n1 | xargs)
 goenv install --skip-existing "$GOLANG_LATEST" || true
 goenv global "$GOLANG_LATEST"
 
 # Node LTS via nvm
+echo "Installing Node with nvm"
 nvm install --lts --default
 
 ##################################
 # iTerm2 profile on macOS
 ##################################
+echo "Installing iTerm2 profile"
 {{- if eq .chezmoi.os "darwin" -}}
 mkdir -p "$HOME/Library/Application Support/iTerm2/DynamicProfiles"
 cp {{ joinPath .chezmoi.sourceDir ".files/iterm/Main.json" | quote }} \
@@ -81,6 +91,7 @@ defaults write com.googlecode.iterm2 "Default Bookmark Guid" \
 ##################################
 # Custom functions
 ##################################
+echo "Adding custom functions"
 if [ -f "{{ joinPath .chezmoi.homeDir ".config/functions.sh" }}" ]; then
   source "{{ joinPath .chezmoi.homeDir ".config/functions.sh" }}"
 fi
