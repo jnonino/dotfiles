@@ -30,14 +30,16 @@ chmod g-w,o-w "$HOMEBREW_PREFIX/share"
 # Use Zsh as default shell on macOS
 ###################################
 echo "Set Zsh as default"
-{{- if eq .chezmoi.os "darwin" -}}
 ZSH_PATH=$(which zsh)
 if ! grep -Fxq "$ZSH_PATH" /etc/shells; then
   echo "Adding $ZSH_PATH to /etc/shells"
   sudo sh -c "echo $ZSH_PATH >> /etc/shells"
 fi
-# Optionally: chsh -s "$ZSH_PATH"
-{{- end }}
+
+sudo chsh -s "$ZSH_PATH" $USER
+
+echo "Show the user's shell"
+echo $SHELL
 
 ################################
 # GitHub CLI: prefer SSH cloning
