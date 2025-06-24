@@ -35,12 +35,7 @@ if ! grep -Fxq "$ZSH_PATH" /etc/shells; then
   echo "Adding $ZSH_PATH to /etc/shells"
   sudo sh -c "echo $ZSH_PATH >> /etc/shells"
 fi
-
 sudo chsh -s "$ZSH_PATH" $USER
-exec "$ZSH_PATH"
-
-echo "Show the user's shell"
-echo $SHELL
 
 ################################
 # GitHub CLI: prefer SSH cloning
@@ -57,21 +52,6 @@ echo "Installing Python with Pyenv"
 pyenv install --skip-existing $(pyenv latest 3)
 pyenv global $(pyenv latest 3)
 
-# Pipenv added to .bashrc
-if ! grep -Fq 'export PYENV_ROOT=' "{{ joinPath .chezmoi.homeDir ".bashrc" }}"; then
-    echo "Adding Pyenv to PATH in .bashrc"
-    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> "{{ joinPath .chezmoi.homeDir ".bashrc" }}"
-    echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> "{{ joinPath .chezmoi.homeDir ".bashrc" }}"
-    echo 'eval "$(pyenv init - bash)"' >> "{{ joinPath .chezmoi.homeDir ".bashrc" }}"
-fi
-source "{{ joinPath .chezmoi.homeDir ".bashrc" }}"
-
-# Python dependencies
-#   requirements.txt hash: {{ include ".files/requirements.txt" | sha256sum }}
-echo "Installing Python dependencies with pip"
-pip install --upgrade pip
-pip install --no-input --requirement {{ joinPath .chezmoi.sourceDir ".files/requirements.txt" | quote }}
-
 # Ruby via rbenv
 echo "Installing Ruby with rbenv"
 LATEST_RUBY=$(curl --silent https://api.github.com/repos/ruby/ruby/releases/latest | jq -r '.tag_name')
@@ -87,6 +67,22 @@ goenv global "$GOLANG_LATEST"
 # Node LTS via nvm
 echo "Installing Node with nvm"
 nvm install --lts --default
+
+###############
+# Switch to Zsh
+###############
+if [ "$(ps -p $$ -o comm=)" != "$(basename "$ZSH_PATH")" ]; then
+  exec "$ZSH_PATH"
+fi
+
+######################
+# Install dependencies
+######################
+
+# requirements.txt hash: {{ include ".files/requirements.txt" | sha256sum }}
+echo "Installing Python dependencies with pip"
+pip install --upgrade pip
+pip install --no-input --requirement {{ joinPath .chezmoi.sourceDir ".files/requirements.txt" | quote }}
 
 ##################################
 # iTerm2 profile on macOS
