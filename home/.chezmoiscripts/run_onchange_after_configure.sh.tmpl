@@ -56,6 +56,15 @@ echo "Installing Python with Pyenv"
 pyenv install --skip-existing 3 || true
 pyenv global $(pyenv latest 3)
 
+# Pipenv added to .bashrc
+if ! grep -Fq 'export PYENV_ROOT=' "~/.bashrc"; then
+    echo "Adding Pyenv to PATH in ~/.bashrc"
+    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+    echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+    echo 'eval "$(pyenv init - bash)"' >> ~/.bashrc
+    source ~/.bashrc
+fi
+
 # Python dependencies
 #   requirements.txt hash: {{ include ".files/requirements.txt" | sha256sum }}
 echo "Installing Python dependencies with pip"
