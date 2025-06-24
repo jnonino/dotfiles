@@ -57,12 +57,12 @@ pyenv install --skip-existing 3 || true
 pyenv global $(pyenv latest 3)
 
 # Pipenv added to .bashrc
-if ! grep -Fq 'export PYENV_ROOT=' "~/.bashrc"; then
-    echo "Adding Pyenv to PATH in ~/.bashrc"
-    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
-    echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
-    echo 'eval "$(pyenv init - bash)"' >> ~/.bashrc
-    source ~/.bashrc
+if ! grep -Fq 'export PYENV_ROOT=' "{{ joinPath .chezmoi.homeDir ".bashrc" }}"; then
+    echo "Adding Pyenv to PATH in .bashrc"
+    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> "{{ joinPath .chezmoi.homeDir ".bashrc" }}"
+    echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> "{{ joinPath .chezmoi.homeDir ".bashrc" }}"
+    echo 'eval "$(pyenv init - bash)"' >> "{{ joinPath .chezmoi.homeDir ".bashrc" }}"
+    source "{{ joinPath .chezmoi.homeDir ".bashrc" }}"
 fi
 
 # Python dependencies
