@@ -53,7 +53,7 @@ gh config set git_protocol ssh || true
 
 # Python via pyenv
 echo "Installing Python with Pyenv"
-pyenv install --skip-existing 3 || true
+pyenv install $(pyenv latest 3)
 pyenv global $(pyenv latest 3)
 
 # Pipenv added to .bashrc
