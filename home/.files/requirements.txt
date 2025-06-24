@@ -1,8 +1,1 @@
 virtualenv
-
-
-
-Path /etc/profile already updated
-Path /etc/bash.bashrc already updated
-Path /etc/zsh/zshrc already updated
-Path /etc/zsh/zprofile already updated
