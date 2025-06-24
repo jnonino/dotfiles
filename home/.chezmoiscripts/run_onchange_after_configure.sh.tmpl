@@ -62,8 +62,8 @@ if ! grep -Fq 'export PYENV_ROOT=' "{{ joinPath .chezmoi.homeDir ".bashrc" }}"; 
     echo 'export PYENV_ROOT="$HOME/.pyenv"' >> "{{ joinPath .chezmoi.homeDir ".bashrc" }}"
     echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> "{{ joinPath .chezmoi.homeDir ".bashrc" }}"
     echo 'eval "$(pyenv init - bash)"' >> "{{ joinPath .chezmoi.homeDir ".bashrc" }}"
-    source "{{ joinPath .chezmoi.homeDir ".bashrc" }}"
 fi
+source "{{ joinPath .chezmoi.homeDir ".bashrc" }}"
 
 # Python dependencies
 #   requirements.txt hash: {{ include ".files/requirements.txt" | sha256sum }}
