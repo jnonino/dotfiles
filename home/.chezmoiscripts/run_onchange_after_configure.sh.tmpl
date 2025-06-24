@@ -37,6 +37,7 @@ if ! grep -Fxq "$ZSH_PATH" /etc/shells; then
 fi
 
 sudo chsh -s "$ZSH_PATH" $USER
+exec "$ZSH_PATH"
 
 echo "Show the user's shell"
 echo $SHELL
