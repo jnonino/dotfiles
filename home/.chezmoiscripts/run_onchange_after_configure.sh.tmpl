@@ -28,7 +28,7 @@ source {{ joinPath .chezmoi.homeDir ".zshrc" | quote }} || true
 ######################
 {{ if eq .chezmoi.os "darwin" }}
   {{ if eq .chezmoi.arch "arm64" }}
-    export HOMEBREW_PREFIX="/opt/homebrew
+    export HOMEBREW_PREFIX="/opt/homebrew"
   {{ else}}
     export HOMEBREW_PREFIX="/usr/local"
   {{ end }}
