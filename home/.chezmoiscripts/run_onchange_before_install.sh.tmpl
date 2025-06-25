@@ -21,7 +21,9 @@
 
 set -eEuo pipefail
 
+echo "Load the user's Zsh configuration"
 source {{ joinPath .chezmoi.homeDir ".zshrc" | quote }} || true
+echo "User's Zsh configuration loaded"
 
 ###################################################################
 # Determine package manager based on distro (Debian vs Fedora/RHEL)
