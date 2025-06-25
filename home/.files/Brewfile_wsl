@@ -20,6 +20,7 @@
 tap "golangci/tap"
 tap "hashicorp/tap"
 tap "sass/sass"
+tap "dart-lang/dart"
 
 #######
 # Brews
@@ -37,6 +38,8 @@ brew "azure-cli"
 brew "coreutils"
 # curl - https://curl.se/
 brew "curl"
+# Dart - https://dart.dev/
+brew "dart"
 # Direnv - https://direnv.net/
 brew "direnv"
 # GitHub Cli - https://cli.github.com/
