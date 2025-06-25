@@ -53,10 +53,6 @@ GOLANG_LATEST=$(goenv install --list | sort --version-sort --reverse | head -n1 
 goenv install --skip-existing "$GOLANG_LATEST" || true
 goenv global "$GOLANG_LATEST"
 
-# Node LTS via nvm
-echo "Installing Node with nvm"
-nvm install --lts --default
-
 ##########################
 # Use Zsh as default shell
 ##########################
@@ -93,6 +89,10 @@ fi
 echo "Installing Python dependencies with pip"
 pip install --upgrade pip
 pip install --no-input --requirement {{ joinPath .chezmoi.sourceDir ".files/requirements.txt" | quote }}
+
+# Node LTS via nvm
+echo "Installing Node with nvm"
+nvm install --lts --default
 
 ##################################
 # iTerm2 profile on macOS
