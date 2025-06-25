@@ -75,6 +75,16 @@ if [ "$(ps -p $$ -o comm=)" != "$(basename "$ZSH_PATH")" ]; then
   exec "$ZSH_PATH"
 fi
 
+#######################################
+# Install oh-my-zsh - https://ohmyz.sh/
+#######################################
+if [ -d {{ joinPath .chezmoi.homeDir ".oh-my-zsh" }} ]; then
+  echo "oh-my-zsh is installed"
+else
+  echo "oh-my-zsh is not installed"
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+
 ######################
 # Install dependencies
 ######################
