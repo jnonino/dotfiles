@@ -21,6 +21,8 @@
 
 set -eEuo pipefail
 
+source {{ joinPath .chezmoi.sourceDir ".zshrc" | quote }}
+
 ###################################################################
 # Determine package manager based on distro (Debian vs Fedora/RHEL)
 ###################################################################

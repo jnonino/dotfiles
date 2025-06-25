@@ -21,14 +21,11 @@
 
 set -eEuo pipefail
 
+source {{ joinPath .chezmoi.sourceDir ".zshrc" | quote }}
+
 ######################
 # Homebrew permissions
 ######################
-{{ if eq .chezmoi.os "darwin" }}
-
-{{- end }}
-
-
 {{ if eq .chezmoi.os "darwin" }}
   {{ if eq .chezmoi.arch "arm64" }}
     export HOMEBREW_PREFIX="/opt/homebrew
