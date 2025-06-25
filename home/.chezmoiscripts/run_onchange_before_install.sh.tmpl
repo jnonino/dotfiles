@@ -35,11 +35,11 @@ echo "Running system upgrade and installing tools"
 {{ if or (eq $id "debian") (contains $like "debian") }}
 sudo apt-get update -y
 sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -yq
-sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq build-essential procps curl file git
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq build-essential procps curl file git zsh
 {{ else if or (eq $id "fedora") (contains $like "rhel") }}
 sudo dnf -y update
 sudo dnf -y upgrade
-sudo dnf -y install @development-tools procps-ng curl file git
+sudo dnf -y install @development-tools procps-ng curl file git zsh
 {{ else }}
 {{ fail (printf "Unsupported Linux distro: %q (idLike=%q)" $id $like) }}
 {{ end }}

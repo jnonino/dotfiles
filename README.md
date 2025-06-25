@@ -23,6 +23,9 @@ chezmoi apply -v
 
 On Linux:
 ```
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install zsh
 sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/.local/bin
 chezmoi init https://github.com/jnonino/dotfiles.git
 chezmoi diff
@@ -31,7 +34,11 @@ chezmoi apply -v
 
 On Windows Linux Subsystem (WSL):
 ```
-sh -c "$(curl -fsLS get.chezmoi.io)"
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install zsh
+exec /usr/bin/zsh
+sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
 chezmoi init https://github.com/jnonino/dotfiles.git
 chezmoi diff
 chezmoi apply -v

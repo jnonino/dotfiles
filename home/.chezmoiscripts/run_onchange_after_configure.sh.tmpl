@@ -53,6 +53,10 @@ GOLANG_LATEST=$(goenv install --list | sort --version-sort --reverse | head -n1 
 goenv install --skip-existing "$GOLANG_LATEST" || true
 goenv global "$GOLANG_LATEST"
 
+# Node LTS via nvm
+echo "Installing Node with nvm"
+nvm install --lts --default
+
 ##########################
 # Use Zsh as default shell
 ##########################
@@ -63,13 +67,6 @@ if ! grep -Fxq "$ZSH_PATH" /etc/shells; then
   sudo sh -c "echo $ZSH_PATH >> /etc/shells"
 fi
 sudo chsh -s "$ZSH_PATH" $USER
-
-###############
-# Switch to Zsh
-###############
-if [ "$(ps -p $$ -o comm=)" != "$(basename "$ZSH_PATH")" ]; then
-  exec "$ZSH_PATH"
-fi
 
 #######################################
 # Install oh-my-zsh - https://ohmyz.sh/
@@ -89,10 +86,6 @@ fi
 echo "Installing Python dependencies with pip"
 pip install --upgrade pip
 pip install --no-input --requirement {{ joinPath .chezmoi.sourceDir ".files/requirements.txt" | quote }}
-
-# Node LTS via nvm
-echo "Installing Node with nvm"
-nvm install --lts --default
 
 ##################################
 # iTerm2 profile on macOS
