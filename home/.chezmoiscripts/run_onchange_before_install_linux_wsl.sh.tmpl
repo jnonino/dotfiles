@@ -1,8 +1,4 @@
-{{- if or
-      (eq .chezmoi.os "darwin")
-      (eq .chezmoi.os "linux")
-      (and (eq .chezmoi.os "linux") (contains (lower .chezmoi.kernel.osrelease) "microsoft"))
-    -}}
+{{- if and (eq .chezmoi.os "linux") (contains (lower .chezmoi.kernel.osrelease) "microsoft") -}}
 #!/usr/bin/env bash
 
 # Copyright [2023] Julian Nonino
@@ -131,4 +127,4 @@ echo "Ensure directories for version managers are in place"
 mkdir -p {{ joinPath .chezmoi.homeDir ".nvm" }}
 mkdir -p {{ joinPath .chezmoi.homeDir ".rbenv" }}
 
-{{ end }}
+{{- end -}}

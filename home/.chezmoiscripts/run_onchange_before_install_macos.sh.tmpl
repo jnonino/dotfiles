@@ -1,0 +1,130 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/usr/bin/env bash
+
+# Copyright [2023] Julian Nonino
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -eEuo pipefail
+
+###################################################################
+# Determine package manager based on distro (Debian vs Fedora/RHEL)
+###################################################################
+{{ $id := .chezmoi.osRelease.id | lower | default "" }}
+{{ $like := .chezmoi.osRelease.idLike | lower | default "" }}
+{{ $wsl := and (eq .chezmoi.os "linux") (lower .chezmoi.kernel.osrelease | contains "microsoft") }}
+
+####################################
+# Run system updates & install tools
+####################################
+echo "Running system upgrade and installing tools"
+{{ if or (eq $id "debian") (contains $like "debian") }}
+sudo apt-get update -y
+sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -yq
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq build-essential procps curl file git zsh
+{{ else if or (eq $id "fedora") (contains $like "rhel") }}
+sudo dnf -y update
+sudo dnf -y upgrade
+sudo dnf -y install @development-tools procps-ng curl file git zsh
+{{ else }}
+{{ fail (printf "Unsupported Linux distro: %q (idLike=%q)" $id $like) }}
+{{ end }}
+
+#############################
+# Install Homebrew if missing
+#############################
+if ! command -v brew &> /dev/null; then
+  echo "Homebrew not found - Installing..."
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+# Add brew command to PATH for current session
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+# Add brew to PATH permanently
+{{ if eq .chezmoi.os "linux" }}
+if command -v brew &>/dev/null; then
+  echo "Homebrew already installed - ensuring shellenv is set"
+
+  # Function to append and source shellenv for a user's shell rc
+  add_and_source_shellenv() {
+    local fpath="$1"
+
+    # Skip if the directory doesn't exist
+    if [ ! -d "$(dirname "$fpath")" ]; then
+      echo "Skipping ${fpath}: directory does not exist"
+      return
+    fi
+
+    if ! grep -Fq 'brew shellenv' "$fpath"; then
+      echo "Updating path ${fpath}"
+      if [ -w "$fpath" ]; then
+        {
+          echo ""
+          echo '# Homebrew shellenv added by chezmoi'
+          echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
+        } >> "$fpath"
+      else
+        sudo sh -c "{
+          echo '';
+          echo '# Homebrew shellenv added by chezmoi';
+          echo 'eval \"\$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)\"';
+        } >> '$fpath'"
+      fi
+      echo "Updated path ${fpath}"
+    else
+      echo "Path ${fpath} already updated"
+    fi
+  }
+
+  for rc in /etc/profile /etc/bash.bashrc /etc/zsh/zshrc /etc/zsh/zprofile; do
+    add_and_source_shellenv "$rc"
+  done
+
+  echo "Installing gcc"
+  brew install gcc
+else
+  echo "Homebrew not found - skipping shellenv setup"
+fi
+{{ end }}
+
+###################
+# Brew dependencies
+#   Brewfile hash: {{ include ".files/Brewfile" | sha256sum }}
+#   Brewfile hash: {{ include ".files/Brewfile_wsl" | sha256sum }}
+###################
+echo "Running brew upgrade"
+brew update
+
+echo "Installing tools from Brewfile"
+{{ if $wsl }}
+brew bundle --verbose --debug --file {{ joinPath .chezmoi.sourceDir ".files/Brewfile_wsl" | quote }}
+{{ else }}
+brew bundle --verbose --debug --file {{ joinPath .chezmoi.sourceDir ".files/Brewfile" | quote }}
+{{ end }}
+
+echo "Running brew upgrade"
+brew upgrade
+echo "Running brew autoremove"
+brew autoremove
+echo "Running brew cleanup"
+brew cleanup
+
+######################################################
+# Ensure directories for version managers are in place
+######################################################
+echo "Ensure directories for version managers are in place"
+mkdir -p {{ joinPath .chezmoi.homeDir ".nvm" }}
+mkdir -p {{ joinPath .chezmoi.homeDir ".rbenv" }}
+
+{{- end -}}
