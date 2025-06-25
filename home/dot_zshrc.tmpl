@@ -74,12 +74,12 @@ source $ZSH/oh-my-zsh.sh
 ######
 {{ if eq .chezmoi.os "darwin" }}
   {{ if eq .chezmoi.arch "arm64" }}
-    export HOMEBREW_PREFIX="/opt/homebrew"
+export HOMEBREW_PREFIX="/opt/homebrew"
   {{ else}}
-    export HOMEBREW_PREFIX="/usr/local"
+export HOMEBREW_PREFIX="/usr/local"
   {{ end }}
 {{ else if eq .chezmoi.os "linux" }}
-  export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
 {{ end }}
 
 eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
