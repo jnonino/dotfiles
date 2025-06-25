@@ -48,9 +48,9 @@ fi
 
 chmod g-w,o-w "$HOMEBREW_PREFIX/share"
 
-echo "Load the user's Zsh configuration"
-source {{ joinPath .chezmoi.homeDir ".zshrc" | quote }} || true
-echo "User's Zsh configuration loaded"
+#echo "Load the user's Zsh configuration"
+#source {{ joinPath .chezmoi.homeDir ".zshrc" | quote }} || true
+#echo "User's Zsh configuration loaded"
 
 ################################
 # GitHub CLI: prefer SSH cloning
