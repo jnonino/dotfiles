@@ -26,17 +26,6 @@ set -eEuo pipefail
 ######################
 chmod g-w,o-w "$HOMEBREW_PREFIX/share"
 
-###################################
-# Use Zsh as default shell on macOS
-###################################
-echo "Set Zsh as default"
-ZSH_PATH=$(which zsh)
-if ! grep -Fxq "$ZSH_PATH" /etc/shells; then
-  echo "Adding $ZSH_PATH to /etc/shells"
-  sudo sh -c "echo $ZSH_PATH >> /etc/shells"
-fi
-sudo chsh -s "$ZSH_PATH" $USER
-
 ################################
 # GitHub CLI: prefer SSH cloning
 ################################
@@ -67,6 +56,17 @@ goenv global "$GOLANG_LATEST"
 # Node LTS via nvm
 echo "Installing Node with nvm"
 nvm install --lts --default
+
+##########################
+# Use Zsh as default shell
+##########################
+echo "Set Zsh as default"
+ZSH_PATH=$(which zsh)
+if ! grep -Fxq "$ZSH_PATH" /etc/shells; then
+  echo "Adding $ZSH_PATH to /etc/shells"
+  sudo sh -c "echo $ZSH_PATH >> /etc/shells"
+fi
+sudo chsh -s "$ZSH_PATH" $USER
 
 ###############
 # Switch to Zsh
