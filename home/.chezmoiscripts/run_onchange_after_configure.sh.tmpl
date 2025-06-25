@@ -21,7 +21,7 @@
 
 set -eEuo pipefail
 
-source {{ joinPath .chezmoi.sourceDir ".zshrc" | quote }}
+source {{ joinPath .chezmoi.homeDir ".zshrc" | quote }}
 
 ######################
 # Homebrew permissions
