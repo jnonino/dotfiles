@@ -24,6 +24,33 @@ set -eEuo pipefail
 ######################
 # Homebrew permissions
 ######################
+{{ if eq .chezmoi.os "darwin" }}
+
+{{- end }}
+
+
+{{ if eq .chezmoi.os "darwin" }}
+  {{ if eq .chezmoi.arch "arm64" }}
+    export HOMEBREW_PREFIX="/opt/homebrew
+  {{ else}}
+    export HOMEBREW_PREFIX="/usr/local"
+  {{ end }}
+{{ else if eq .chezmoi.os "linux" }}
+  export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+{{ end }}
+
+if ! grep -q "$HOMEBREW_PREFIX/bin" <<< "$PATH"; then
+  echo "Adding Homebrew to PATH"
+  echo "export PATH=\"$HOMEBREW_PREFIX/bin:\$PATH\"" >> "$HOME/.profile"
+  export PATH="$HOMEBREW_PREFIX/bin:$PATH"
+fi
+
+if ! grep -q "$HOMEBREW_PREFIX/sbin" <<< "$PATH"; then
+  echo "Adding Homebrew sbin to PATH"
+  echo "export PATH=\"$HOMEBREW_PREFIX/sbin:\$PATH\"" >> "$HOME/.profile"
+  export PATH="$HOMEBREW_PREFIX/sbin:$PATH"
+fi
+
 chmod g-w,o-w "$HOMEBREW_PREFIX/share"
 
 ################################
@@ -91,7 +118,7 @@ pip install --no-input --requirement {{ joinPath .chezmoi.sourceDir ".files/requ
 # iTerm2 profile on macOS
 ##################################
 echo "Installing iTerm2 profile"
-{{- if eq .chezmoi.os "darwin" -}}
+{{ if eq .chezmoi.os "darwin" }}
 mkdir -p "$HOME/Library/Application Support/iTerm2/DynamicProfiles"
 cp {{ joinPath .chezmoi.sourceDir ".files/iterm/Main.json" | quote }} \
    "$HOME/Library/Application Support/iTerm2/DynamicProfiles/"
