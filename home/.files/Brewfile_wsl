@@ -39,7 +39,7 @@ brew "coreutils"
 # curl - https://curl.se/
 brew "curl"
 # Dart - https://dart.dev/
-brew "dart"
+# brew "dart"
 # Direnv - https://direnv.net/
 brew "direnv"
 # GitHub Cli - https://cli.github.com/
@@ -89,7 +89,7 @@ brew "rbenv"
 # Ruby Build - https://github.com/rbenv/ruby-build
 brew "ruby-build"
 # https://sass-lang.com/dart-sass/
-brew "sass/sass/sass"
+# brew "sass/sass/sass"
 # shellcheck - https://www.shellcheck.net/
 brew "shellcheck"
 # stern - https://github.com/stern/stern
