@@ -19,6 +19,7 @@
 # https://golangci-lint.run/
 tap "golangci/tap"
 tap "hashicorp/tap"
+tap "sass/sass"
 
 #######
 # Brews
