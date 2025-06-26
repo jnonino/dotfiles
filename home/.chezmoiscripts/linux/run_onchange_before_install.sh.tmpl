@@ -123,4 +123,20 @@ brew update
 echo "Installing tools from Brewfile"
 brew bundle --verbose --debug --file {{ joinPath .chezmoi.sourceDir ".files/BrewfileWSL" | quote }}
 
+echo "Running brew upgrade"
+brew upgrade
+
+echo "Running brew autoremove"
+brew autoremove
+
+echo "Running brew cleanup"
+brew cleanup
+
+######################################################
+# Ensure directories for version managers are in place
+######################################################
+echo "Ensure directories for version managers are in place"
+mkdir -p {{ joinPath .chezmoi.homeDir ".nvm" }}
+mkdir -p {{ joinPath .chezmoi.homeDir ".rbenv" }}
+
 {{ end -}}
