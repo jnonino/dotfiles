@@ -1,4 +1,4 @@
-{{- if and (eq .chezmoi.os "linux") (contains (lower .chezmoi.kernel.osrelease) "microsoft") -}}
+{{- if eq .chezmoi.os "darwin" -}}
 #!/usr/bin/env bash
 
 # Copyright [2023] Julian Nonino
@@ -16,6 +16,10 @@
 # limitations under the License.
 
 set -eEuo pipefail
+
+echo "########################"
+echo "### Running on MacOS ###"
+echo "########################"
 
 ###################################################################
 # Determine package manager based on distro (Debian vs Fedora/RHEL)

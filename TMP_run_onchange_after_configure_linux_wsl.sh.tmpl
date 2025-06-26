@@ -1,4 +1,4 @@
-{{- if and (eq .chezmoi.os "linux") (contains (lower .chezmoi.kernel.osrelease) "microsoft") -}}
+{{- if eq .chezmoi.os "linux" -}}
 #!/usr/bin/env bash
 
 # Copyright [2023] Julian Nonino
@@ -130,3 +130,75 @@ if [ -f "{{ joinPath .chezmoi.homeDir ".config/functions.sh" }}" ]; then
 fi
 
 {{- end -}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+To activate the autosuggestions, add the following at the end of your .zshrc:
+
+  source /home/linuxbrew/.linuxbrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+You will also need to restart your terminal for this change to take effect.
+
+
+To activate these completions, add the following to your .zshrc:
+
+  if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+    autoload -Uz compinit
+    compinit
+  fi
+
+You may also need to force rebuild `zcompdump`:
+
+  rm -f ~/.zcompdump; compinit
+
+Additionally, if you receive "zsh compinit: insecure directories" warnings when attempting
+to load these completions, you may need to run these commands:
+
+  chmod go-w '/home/linuxbrew/.linuxbrew/share'
+  chmod -R go-w '/home/linuxbrew/.linuxbrew/share/zsh'
+
+
+
+
+
+
+To activate the history search, add the following at the end of your .zshrc:
+
+  source /home/linuxbrew/.linuxbrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+
+You will also need to restart your terminal for this change to take effect.
+
+
+
+
+
+
+To activate the history search, add the following at the end of your .zshrc:
+
+  source /home/linuxbrew/.linuxbrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+
+You will also need to restart your terminal for this change to take effect.
+
+
+
+
+
+
+To activate the syntax highlighting, add the following at the end of your .zshrc:
+  source /home/linuxbrew/.linuxbrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+If you receive "highlighters directory not found" error message,
+you may need to add the following to your .zshenv:
+  export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/home/linuxbrew/.linuxbrew/share/zsh-syntax-highlighting/highlighters
