@@ -1,0 +1,206 @@
+{{- if eq .chezmoi.os "linux" -}}
+
+{{- $id := .chezmoi.osRelease.id | lower | default "" -}}
+{{- $like := .chezmoi.osRelease.idLike | lower | default "" -}}
+{{- $wsl := and (eq .chezmoi.os "linux") (lower .chezmoi.kernel.osrelease | contains "microsoft") -}}
+
+#!/usr/bin/env bash
+
+# Copyright [2023] Julian Nonino
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -eEuo pipefail
+
+echo "#############################################"
+echo "### Running configuration script on Linux ###"
+echo "#############################################"
+
+##################
+# Helper functions
+##################
+add_block_if_missing() {
+    target_file="$1"
+    block="$2"
+    marker="$3"
+
+    if ! grep -Fq "$marker" "$target_file"; then
+        printf "\n# Added by setup script\n%s\n" "$block" >> "$target_file"
+        echo "Added block to $target_file (marker: $marker)"
+        source $target_file
+    else
+        echo "Block already present in $target_file (marker: $marker)"
+    fi
+}
+
+################################
+# GitHub CLI: prefer SSH cloning
+################################
+echo "Configure Github Cli to prefer SSH"
+gh config set git_protocol ssh || true
+
+##################
+# Configure Direnv
+##################
+direnv_block_bash='
+eval "$(direnv hook bash)"
+'
+add_block_if_missing "$HOME/.bashrc" "$direnv_block_bash" 'eval "$(direnv hook'
+
+direnv_block_zsh='
+eval "$(direnv hook zsh)"
+'
+add_block_if_missing "$HOME/.zshrc" "$direnv_block_zsh" 'eval "$(direnv hook'
+
+##################################
+# Configure Python version manager
+##################################
+echo "Installing latest Python with Pyenv"
+pyenv install --skip-existing 3 || true
+pyenv global $(pyenv latest 3)
+
+pyenv_block='
+eval "$(pyenv init -)"
+'
+
+for file in "$HOME/.bashrc" "$HOME/.zshrc"; do
+    add_block_if_missing "$file" "$pyenv_block" 'eval "$(pyenv init -)"'
+done
+
+# requirements.txt hash: {{ include ".files/requirements.txt" | sha256sum }}
+echo "Installing Python dependencies with pip"
+pip install --upgrade pip
+pip install --no-input --requirement {{ joinPath .chezmoi.sourceDir ".files/requirements.txt" | quote }}
+
+##############################
+# Configure Go version manager
+##############################
+echo "Installing latest Go with goenv"
+GOLANG_LATEST=$(goenv install --list | sort --version-sort --reverse | head -n1 | xargs)
+goenv install --skip-existing "$GOLANG_LATEST" || true
+goenv global "$GOLANG_LATEST"
+
+goenv_block='
+eval "$(goenv init -)"
+PATH=$PATH:$(go env GOPATH)/bin
+PATH="$PATH:$(go env GOPATH)/bin:$(goenv prefix)/bin"
+'
+
+for file in "$HOME/.bashrc" "$HOME/.zshrc"; do
+    add_block_if_missing "$file" "$goenv_block" 'eval "$(goenv init -)"'
+done
+
+################################
+# Configure Node version manager
+################################
+echo "Ensure ~/.nvm directory is in place"
+mkdir -p {{ joinPath .chezmoi.homeDir ".nvm" }}
+
+nvm_block='
+# This loads nvm
+[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+# This loads nvm bash_completion
+[ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
+'
+
+for file in "$HOME/.bashrc" "$HOME/.zshrc"; do
+    add_block_if_missing "$file" "$nvm_block" '# This loads nvm'
+done
+
+echo "Installing latest Node with nvm"
+nvm install --lts --default
+
+################################
+# Configure Ruby version manager
+################################
+echo "Ensure ~/.rbenv directory is in place"
+mkdir -p {{ joinPath .chezmoi.homeDir ".rbenv" }}
+
+rbenv_block_bash='
+eval "$(rbenv init - bash)"
+'
+add_block_if_missing "$HOME/.bashrc" "$rbenv_block_bash" 'eval "$(direnv hook'
+
+rbenv_block_zsh='
+eval "$(rbenv init - zsh)"
+'
+add_block_if_missing "$HOME/.zshrc" "$rbenv_block_zsh" 'eval "$(rbenv init'
+
+echo "Installing latest Ruby with rbenv"
+LATEST_RUBY=$(rbenv install --list-all | grep -E '^[[:space:]]*[0-9]+\.[0-9]+\.[0-9]+$' | tr -d ' ' | sort -V | tail -1 | xargs)
+rbenv install --skip-existing "$LATEST_RUBY" || true
+rbenv global "$LATEST_RUBY"
+
+##########################################################
+# Configure Terraform/OpenTofu/Terragrunt version managers
+##########################################################
+
+tfswitch_block='
+load-tfswitch() {
+  local tfswitchrc_path=".terraform-version"
+
+  if [ -f "$tfswitchrc_path" ]; then
+    tfswitch
+  fi
+}
+add-zsh-hook chpwd load-tfswitch
+load-tfswitch
+'
+
+tgswitch_block='
+load-tgswitch() {
+  local tgswitchrc_path=".terragrunt-version"
+
+  if [ -f "$tgswitchrc_path" ]; then
+    tgswitch
+  fi
+}
+add-zsh-hook chpwd load-tgswitch
+load-tgswitch
+'
+
+tofuswitch_block='
+load-tofuswitch() {
+  local tfswitchrc_path=".opentofu-version"
+
+  if [ -f "$tfswitchrc_path" ]; then
+    TF_PRODUCT=opentofu tfswitch
+  fi
+}
+add-zsh-hook chpwd load-tofuswitch
+load-tofuswitch
+'
+
+for file in "$HOME/.bashrc" "$HOME/.zshrc"; do
+    add_block_if_missing "$file" "$tfswitch_block" 'load-tfswitch() {'
+    add_block_if_missing "$file" "$tgswitch_block" 'load-tgswitch() {'
+    add_block_if_missing "$file" "$tofuswitch_block" 'load-tofuswitch() {'
+done
+
+tfswitch --product=terraform --latest
+tfswitch --product=opentofu --latest
+
+##################################
+# Custom functions
+##################################
+echo "Adding custom functions"
+custom_functions_block='
+if [ -f "{{ joinPath .chezmoi.homeDir ".config/functions.sh" }}" ]; then
+  source "{{ joinPath .chezmoi.homeDir ".config/functions.sh" }}"
+fi
+'
+for file in "$HOME/.bashrc" "$HOME/.zshrc"; do
+    add_block_if_missing "$file" "$custom_functions_block" '.config/functions.sh'
+done
+
+{{ end -}}
