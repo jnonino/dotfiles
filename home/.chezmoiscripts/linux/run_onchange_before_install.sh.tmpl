@@ -22,9 +22,9 @@
 
 set -eEuo pipefail
 
-echo "########################"
-echo "### Running on Linux ###"
-echo "########################"
+echo "############################################"
+echo "### Running installation script on Linux ###"
+echo "############################################"
 
 ####################################
 # Run system updates & install tools
@@ -132,11 +132,14 @@ brew autoremove
 echo "Running brew cleanup"
 brew cleanup
 
-######################################################
-# Ensure directories for version managers are in place
-######################################################
-echo "Ensure directories for version managers are in place"
-mkdir -p {{ joinPath .chezmoi.homeDir ".nvm" }}
-mkdir -p {{ joinPath .chezmoi.homeDir ".rbenv" }}
+#######################################
+# Install oh-my-zsh - https://ohmyz.sh/
+#######################################
+if [ -d {{ joinPath .chezmoi.homeDir ".oh-my-zsh" }} ]; then
+  echo "oh-my-zsh is installed"
+else
+  echo "oh-my-zsh is not installed"
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
 
 {{ end -}}

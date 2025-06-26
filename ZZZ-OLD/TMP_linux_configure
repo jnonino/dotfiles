@@ -48,37 +48,6 @@ chmod g-w,o-w "$HOMEBREW_PREFIX/share"
 #source {{ joinPath .chezmoi.homeDir ".zshrc" | quote }} || true
 #echo "User's Zsh configuration loaded"
 
-################################
-# GitHub CLI: prefer SSH cloning
-################################
-echo "Configure Github Cli to prefer SSH"
-gh config set git_protocol ssh || true
-
-################################
-# Manage latest runtime versions
-################################
-
-# Python via pyenv
-echo "Installing Python with Pyenv"
-pyenv install --skip-existing 3 || true
-pyenv global $(pyenv latest 3)
-
-# Ruby via rbenv
-echo "Installing Ruby with rbenv"
-LATEST_RUBY=$(rbenv install --list-all | grep -E '^[[:space:]]*[0-9]+\.[0-9]+\.[0-9]+$' | tr -d ' ' | sort -V | tail -1 | xargs)
-rbenv install --skip-existing "$LATEST_RUBY" || true
-rbenv global "$LATEST_RUBY"
-
-# Go via goenv
-echo "Installing Go with goenv"
-GOLANG_LATEST=$(goenv install --list | sort --version-sort --reverse | head -n1 | xargs)
-goenv install --skip-existing "$GOLANG_LATEST" || true
-goenv global "$GOLANG_LATEST"
-
-# Node LTS via nvm
-echo "Installing Node with nvm"
-#nvm install --lts --default
-
 ##########################
 # Use Zsh as default shell
 ##########################
@@ -90,24 +59,16 @@ if ! grep -Fxq "$ZSH_PATH" /etc/shells; then
 fi
 sudo chsh -s "$ZSH_PATH" $USER
 
-#######################################
-# Install oh-my-zsh - https://ohmyz.sh/
-#######################################
-if [ -d {{ joinPath .chezmoi.homeDir ".oh-my-zsh" }} ]; then
-  echo "oh-my-zsh is installed"
-else
-  echo "oh-my-zsh is not installed"
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-fi
+#######################
+# Google Cloud Platform
+#######################
+source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
 
-######################
-# Install dependencies
-######################
-
-# requirements.txt hash: {{ include ".files/requirements.txt" | sha256sum }}
-echo "Installing Python dependencies with pip"
-pip install --upgrade pip
-pip install --no-input --requirement {{ joinPath .chezmoi.sourceDir ".files/requirements.txt" | quote }}
+########################
+# Starship configuration
+########################
+# eval "$(starship init zsh)"
 
 ##################################
 # iTerm2 profile on macOS
@@ -121,13 +82,7 @@ defaults write com.googlecode.iterm2 "Default Bookmark Guid" \
   -string "F06B6A79-D0FA-4825-BF71-F2D3B153CCE3"
 {{- end }}
 
-##################################
-# Custom functions
-##################################
-echo "Adding custom functions"
-if [ -f "{{ joinPath .chezmoi.homeDir ".config/functions.sh" }}" ]; then
-  source "{{ joinPath .chezmoi.homeDir ".config/functions.sh" }}"
-fi
+
 
 {{- end -}}
 
@@ -190,10 +145,6 @@ To activate the history search, add the following at the end of your .zshrc:
   source /home/linuxbrew/.linuxbrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
 
 You will also need to restart your terminal for this change to take effect.
-
-
-
-
 
 
 To activate the syntax highlighting, add the following at the end of your .zshrc:

@@ -68,92 +68,6 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-######
-# Brew
-######
-eval "$($(brew --prefix)/bin/brew shellenv)"
-
-########
-# Direnv
-########
-eval "$(direnv hook zsh)"
-
-###############################
-# Python related configurations
-###############################
-export PYENV_ROOT="{{ joinPath .chezmoi.homeDir ".pyenv" }}"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
-###########################
-# Go related configurations
-###########################
-eval "$(goenv init -)"
-
-##################################
-# Terraform related configurations
-##################################
-load-tfswitch() {
-  local tfswitchrc_path=".terraform-version"
-
-  if [ -f "$tfswitchrc_path" ]; then
-    tfswitch
-  fi
-}
-add-zsh-hook chpwd load-tfswitch
-load-tfswitch
-
-#################################
-# OpenTofu related configurations
-#################################
-load-tofuswitch() {
-  local tfswitchrc_path=".opentofu-version"
-
-  if [ -f "$tfswitchrc_path" ]; then
-    TF_PRODUCT=opentofu tfswitch
-  fi
-}
-add-zsh-hook chpwd load-tofuswitch
-load-tofuswitch
-
-###################################
-# Terragrunt related configurations
-###################################
-load-tgswitch() {
-  local tgswitchrc_path=".terragrunt-version"
-
-  if [ -f "$tgswitchrc_path" ]; then
-    tgswitch
-  fi
-}
-add-zsh-hook chpwd load-tgswitch
-load-tgswitch
-
-###############################
-# Node.js related configuration
-###############################
-# This loads nvm
-[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
-# This loads nvm bash_completion
-[ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
-
-############################
-# Ruby related configuration
-############################
-# export PATH="{{ joinPath .chezmoi.homeDir ".rbenv" }}:$PATH"
-eval "$(rbenv init - zsh)"
-
-#######################
-# Google Cloud Platform
-#######################
-source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
-source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
-
-########################
-# Starship configuration
-########################
-# eval "$(starship init zsh)"
-
 ###################
 # Zsh configuration
 ###################
@@ -173,25 +87,6 @@ setopt hist_ignore_space      # Ignore commands that start with space
 setopt hist_verify            # Show command with history expansion to user before running it
 setopt inc_append_history     # Add commands to HISTFILE in order of execution
 setopt share_history          # Share command history data
-
-# chmod -R go-w '$HOMEBREW_PREFIX/share/zsh'
-# rm -f ~/.zcompdump; compinit
-# if type brew &>/dev/null; then
-#   FPATH=$HOMEBREW_PREFIX/share/zsh-completions:$FPATH
-#   autoload -Uz compinit
-#   compinit
-# fi
-
-######################
-# Add custom functions
-######################
-source {{ joinPath .chezmoi.homeDir ".config/functions.sh" }}
-
-###########################
-# Set environment variables
-###########################
-PATH=$PATH:$(go env GOPATH)/bin
-PATH="$PATH:$(go env GOPATH)/bin:$(goenv prefix)/bin"
 
 HOMEBREW_PREFIX=$(brew --prefix)
 source $HOMEBREW_PREFIX/share/zsh-history-substring-search/zsh-history-substring-search.zsh
