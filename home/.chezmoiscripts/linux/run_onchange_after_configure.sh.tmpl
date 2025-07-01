@@ -37,6 +37,17 @@ contains() {
     esac
 }
 
+# Reload shell configuration file
+reload_shell() {
+    if contains "$SHELL" "/bash"; then
+        source "$HOME/.bashrc"
+    elif contains "$SHELL" "/zsh"; then
+        source "$HOME/.zshrc"
+    else
+        echo "$SHELL is not supported"
+    fi
+}
+
 # Function to add a text block to a file if a marker is missing in the file
 add_block_if_missing() {
     target_file="$1"
@@ -44,20 +55,9 @@ add_block_if_missing() {
     marker="$3"
 
     if ! grep -Fq "$marker" "$target_file"; then
-        printf "\n# Added by setup script\n%s\n" "$block" >> "$target_file"
+        printf "\n# Added by Chezmoi setup script\n%s\n" "$block" >> "$target_file"
         echo "Added block to $target_file (marker: $marker)"
-
-        if contains "$SHELL" "/bash" && contains "$target_file" "bashrc"; then
-            echo "Running on Bash"
-            source $target_file
-        fi
-
-        if contains "$SHELL" "/zsh" && contains "$target_file" "zshrc"; then
-            echo "Running on Zsh"
-            source $target_file
-        fi
-
-        source $target_file
+        reload_shell
     else
         echo "Block already present in $target_file (marker: $marker)"
     fi
@@ -128,16 +128,18 @@ mkdir -p {{ joinPath .chezmoi.homeDir ".nvm" }}
 
 nvm_block='
 # This loads nvm
-[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+[ -s "$(brew --prefix)/opt/nvm/nvm.sh" ] && \. "$(brew --prefix)/opt/nvm/nvm.sh"
 # This loads nvm bash_completion
-[ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
+[ -s "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm"
 '
 
 for file in "$HOME/.bashrc" "$HOME/.zshrc"; do
     add_block_if_missing "$file" "$nvm_block" '# This loads nvm'
 done
 
-echo "Installing latest Node with nvm"
+# Explicitly load nvm in current session
+[ -s "$(brew --prefix)/opt/nvm/nvm.sh" ] && \. "$(brew --prefix)/opt/nvm/nvm.sh"
+
 nvm install --lts --default
 
 ################################
