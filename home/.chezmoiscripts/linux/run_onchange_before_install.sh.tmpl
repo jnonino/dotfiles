@@ -34,6 +34,7 @@ echo "Running system upgrade and installing tools"
 {{ if or (eq $id "debian") (contains $like "debian") -}}
 
 {{- $packages := list
+    "bind9-dnsutils"
     "build-essential"
     "curl"
     "file"

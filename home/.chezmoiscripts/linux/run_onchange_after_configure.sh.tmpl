@@ -29,6 +29,15 @@ echo "#############################################"
 ##################
 # Helper functions
 ##################
+# Function to check if string contains substring
+contains() {
+    case "$1" in
+        *"$2"*) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+# Function to add a text block to a file if a marker is missing in the file
 add_block_if_missing() {
     target_file="$1"
     block="$2"
@@ -37,6 +46,17 @@ add_block_if_missing() {
     if ! grep -Fq "$marker" "$target_file"; then
         printf "\n# Added by setup script\n%s\n" "$block" >> "$target_file"
         echo "Added block to $target_file (marker: $marker)"
+
+        if contains "$SHELL" "/bash" && contains "$target_file" "bashrc"; then
+            echo "Running on Bash"
+            source $target_file
+        fi
+
+        if contains "$SHELL" "/zsh" && contains "$target_file" "zshrc"; then
+            echo "Running on Zsh"
+            source $target_file
+        fi
+
         source $target_file
     else
         echo "Block already present in $target_file (marker: $marker)"
