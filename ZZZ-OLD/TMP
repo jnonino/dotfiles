@@ -13,7 +13,7 @@ echo 'export CPPFLAGS="-I/usr/local/homebrew/opt/curl/include"' >> ~/.zshrc
 
 
 
-
+{{- if contains (lower .chezmoi.kernel.osrelease) "microsoft" -}}
 
 
 

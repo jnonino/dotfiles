@@ -15,12 +15,9 @@
 ######
 # Taps
 ######
-
-# https://golangci-lint.run/
 tap "golangci/tap"
 tap "hashicorp/tap"
-tap "sass/sass"
-tap "dart-lang/dart"
+tap "warrensbox/tap"
 
 #######
 # Brews
@@ -36,18 +33,10 @@ brew "aws-iam-authenticator"
 brew "azure-cli"
 # Coreutils - https://www.gnu.org/software/coreutils/
 brew "coreutils"
-# curl - https://curl.se/
-brew "curl"
-# Dart - https://dart.dev/
-# brew "dart"
 # Direnv - https://direnv.net/
 brew "direnv"
 # GitHub Cli - https://cli.github.com/
 brew "gh"
-# Git - https://git-scm.com/
-brew "git"
-# Git LFS - https://git-lfs.com/
-brew "git-lfs"
 # GitLab Cli - https://gitlab.com/gitlab-org/cli
 brew "glab"
 # Go Version Management (goenv) - https://github.com/syndbg/goenv
@@ -60,12 +49,6 @@ brew "golangci/tap/golangci-lint"
 brew "helm"
 # https://gohugo.io/
 brew "hugo"
-# k9s - https://k9scli.io/
-brew "k9s"
-# JQ - https://stedolan.github.io/jq/
-brew "jq"
-# Jsonnet - https://jsonnet.org/
-brew "jsonnet"
 # kubectx + kubens - https://github.com/ahmetb/kubectx
 brew "kubectx"
 # Kubernetes Cli (kubectl) - https://kubernetes.io/docs/reference/kubectl/
@@ -78,18 +61,16 @@ brew "minikube"
 brew "nvm"
 # Open Policy Agent - https://www.openpolicyagent.org/
 brew "opa"
+# OpenJDK - https://openjdk.org/
+brew "openjdk"
 # pre-commit - https://pre-commit.com/
 brew "pre-commit"
 # Simple Python Version Management (pyenv) - https://github.com/pyenv/pyenv
 brew "pyenv"
-# Packer - https://developer.hashicorp.com/packer
-brew "hashicorp/tap/packer"
 # Simple Ruby Version Manager - https://github.com/rbenv/rbenv
 brew "rbenv"
 # Ruby Build - https://github.com/rbenv/ruby-build
 brew "ruby-build"
-# https://sass-lang.com/dart-sass/
-# brew "sass/sass/sass"
 # shellcheck - https://www.shellcheck.net/
 brew "shellcheck"
 # stern - https://github.com/stern/stern
@@ -104,12 +85,6 @@ brew "tflint"
 brew "warrensbox/tap/tfswitch"
 # TGSwitch - http://tgswitch.warrensbox.com/
 brew "warrensbox/tap/tgswitch"
-# Wget - https://www.gnu.org/software/wget/
-brew "wget"
-# YQ - https://github.com/mikefarah/yq
-brew "yq"
-# Zsh - https://www.zsh.org/
-brew "zsh"
 # zsh-autosuggestions - https://github.com/zsh-users/zsh-autosuggestions
 brew "zsh-autosuggestions"
 # zsh-completions - https://github.com/zsh-users/zsh-completions
@@ -125,65 +100,5 @@ brew "zsh-syntax-highlighting"
 
 # Google Cloud Platform SDK - https://cloud.google.com/sdk
 cask "google-cloud-sdk"
-# iTerm2 - https://iterm2.com/
-cask "iterm2"
-# Java - https://www.oracle.com/uk/java/
-cask "oracle-jdk"
 # AWS Session Manager Plugin - https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html
 cask "session-manager-plugin"
-
-############################
-# Nerd Fonts
-# https://www.nerdfonts.com/
-############################
-# tap "homebrew/cask-fonts"
-# cask "font-3270-nerd-font"
-# cask "font-fira-mono-nerd-font"
-# cask "font-inconsolata-go-nerd-font"
-# cask "font-inconsolata-lgc-nerd-font"
-# cask "font-inconsolata-nerd-font"
-# cask "font-monofur-nerd-font"
-# cask "font-overpass-nerd-font"
-# cask "font-ubuntu-mono-nerd-font"
-# cask "font-agave-nerd-font"
-# cask "font-arimo-nerd-font"
-# cask "font-anonymice-nerd-font"
-# cask "font-aurulent-sans-mono-nerd-font"
-# cask "font-bigblue-terminal-nerd-font"
-# cask "font-bitstream-vera-sans-mono-nerd-font"
-# cask "font-blex-mono-nerd-font"
-# cask "font-caskaydia-cove-nerd-font"
-# cask "font-code-new-roman-nerd-font"
-# cask "font-cousine-nerd-font"
-# cask "font-daddy-time-mono-nerd-font"
-# cask "font-dejavu-sans-mono-nerd-font"
-# cask "font-droid-sans-mono-nerd-font"
-# cask "font-fantasque-sans-mono-nerd-font"
-# cask "font-fira-code-nerd-font"
-# cask "font-go-mono-nerd-font"
-# cask "font-gohufont-nerd-font"
-# cask "font-hack-nerd-font"
-# cask "font-hasklug-nerd-font"
-# cask "font-heavy-data-nerd-font"
-# cask "font-hurmit-nerd-font"
-# cask "font-im-writing-nerd-font"
-# cask "font-iosevka-nerd-font"
-# cask "font-jetbrains-mono-nerd-font"
-# cask "font-lekton-nerd-font"
-# cask "font-liberation-nerd-font"
-# cask "font-meslo-lg-nerd-font"
-# cask "font-monoid-nerd-font"
-# cask "font-mononoki-nerd-font"
-# cask "font-m+-nerd-font"
-# cask "font-noto-nerd-font"
-# cask "font-open-dyslexic-nerd-font"
-# cask "font-profont-nerd-font"
-# cask "font-proggy-clean-tt-nerd-font"
-# cask "font-roboto-mono-nerd-font"
-# cask "font-sauce-code-pro-nerd-font"
-# cask "font-shure-tech-mono-nerd-font"
-# cask "font-space-mono-nerd-font"
-# cask "font-terminess-ttf-nerd-font"
-# cask "font-tinos-nerd-font"
-# cask "font-ubuntu-nerd-font"
-# cask "font-victor-mono-nerd-font"

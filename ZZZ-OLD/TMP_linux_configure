@@ -1,0 +1,155 @@
+{{- if eq .chezmoi.os "linux" -}}
+#!/usr/bin/env bash
+
+# Copyright [2023] Julian Nonino
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -eEuo pipefail
+
+######################
+# Homebrew permissions
+######################
+{{ if eq .chezmoi.os "darwin" }}
+  {{ if eq .chezmoi.arch "arm64" }}
+    export HOMEBREW_PREFIX="/opt/homebrew"
+  {{ else}}
+    export HOMEBREW_PREFIX="/usr/local"
+  {{ end }}
+{{ else if eq .chezmoi.os "linux" }}
+  export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+{{ end }}
+
+if ! grep -q "$HOMEBREW_PREFIX/bin" <<< "$PATH"; then
+  echo "Adding Homebrew to PATH"
+  echo "export PATH=\"$HOMEBREW_PREFIX/bin:\$PATH\"" >> "$HOME/.profile"
+  export PATH="$HOMEBREW_PREFIX/bin:$PATH"
+fi
+
+if ! grep -q "$HOMEBREW_PREFIX/sbin" <<< "$PATH"; then
+  echo "Adding Homebrew sbin to PATH"
+  echo "export PATH=\"$HOMEBREW_PREFIX/sbin:\$PATH\"" >> "$HOME/.profile"
+  export PATH="$HOMEBREW_PREFIX/sbin:$PATH"
+fi
+
+chmod g-w,o-w "$HOMEBREW_PREFIX/share"
+
+#echo "Load the user's Zsh configuration"
+#source {{ joinPath .chezmoi.homeDir ".zshrc" | quote }} || true
+#echo "User's Zsh configuration loaded"
+
+##########################
+# Use Zsh as default shell
+##########################
+echo "Set Zsh as default"
+ZSH_PATH=$(which zsh)
+if ! grep -Fxq "$ZSH_PATH" /etc/shells; then
+  echo "Adding $ZSH_PATH to /etc/shells"
+  sudo sh -c "echo $ZSH_PATH >> /etc/shells"
+fi
+sudo chsh -s "$ZSH_PATH" $USER
+
+#######################
+# Google Cloud Platform
+#######################
+source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
+
+########################
+# Starship configuration
+########################
+# eval "$(starship init zsh)"
+
+##################################
+# iTerm2 profile on macOS
+##################################
+echo "Installing iTerm2 profile"
+{{ if eq .chezmoi.os "darwin" }}
+mkdir -p "$HOME/Library/Application Support/iTerm2/DynamicProfiles"
+cp {{ joinPath .chezmoi.sourceDir ".files/iterm/Main.json" | quote }} \
+   "$HOME/Library/Application Support/iTerm2/DynamicProfiles/"
+defaults write com.googlecode.iterm2 "Default Bookmark Guid" \
+  -string "F06B6A79-D0FA-4825-BF71-F2D3B153CCE3"
+{{- end }}
+
+
+
+{{- end -}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+To activate the autosuggestions, add the following at the end of your .zshrc:
+
+  source /home/linuxbrew/.linuxbrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+You will also need to restart your terminal for this change to take effect.
+
+
+To activate these completions, add the following to your .zshrc:
+
+  if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+    autoload -Uz compinit
+    compinit
+  fi
+
+You may also need to force rebuild `zcompdump`:
+
+  rm -f ~/.zcompdump; compinit
+
+Additionally, if you receive "zsh compinit: insecure directories" warnings when attempting
+to load these completions, you may need to run these commands:
+
+  chmod go-w '/home/linuxbrew/.linuxbrew/share'
+  chmod -R go-w '/home/linuxbrew/.linuxbrew/share/zsh'
+
+
+
+
+
+
+To activate the history search, add the following at the end of your .zshrc:
+
+  source /home/linuxbrew/.linuxbrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+
+You will also need to restart your terminal for this change to take effect.
+
+
+
+
+
+
+To activate the history search, add the following at the end of your .zshrc:
+
+  source /home/linuxbrew/.linuxbrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+
+You will also need to restart your terminal for this change to take effect.
+
+
+To activate the syntax highlighting, add the following at the end of your .zshrc:
+  source /home/linuxbrew/.linuxbrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+If you receive "highlighters directory not found" error message,
+you may need to add the following to your .zshenv:
+  export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/home/linuxbrew/.linuxbrew/share/zsh-syntax-highlighting/highlighters
