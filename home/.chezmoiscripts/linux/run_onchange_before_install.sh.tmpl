@@ -52,10 +52,9 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install -y {{ $packages | join " " }
 
 {{- else if or (eq $id "fedora") (contains $like "rhel") }}
 
-{{ fail (printf "Unsupported Linux distro: %q (idLike=%q)" $id $like) }}
-# sudo dnf -y update
-# sudo dnf -y upgrade
-# sudo dnf -y install @development-tools
+sudo dnf -y update
+sudo dnf -y upgrade
+sudo dnf -y install @development-tools
 
 {{- else }}
 
