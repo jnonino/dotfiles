@@ -1,0 +1,43 @@
+echo "Running brew upgrade"
+brew update
+
+echo "Installing tools from Brewfile"
+brew bundle --verbose --debug --file=/dev/stdin <<EOF
+{{- $osConfig := index .homebrew .chezmoi.os -}}
+
+{{- $allTaps := list -}}
+{{- $allTaps = concat $allTaps $osConfig.taps -}}
+{{- $allTaps = concat $allTaps .homebrew.shared.taps -}}
+{{- if $allTaps }}
+{{ range $allTaps -}}
+tap {{ . | quote }}
+{{ end -}}
+{{ end -}}
+
+{{- $allBrews := list -}}
+{{- $allBrews = concat $allBrews $osConfig.brews -}}
+{{- $allBrews = concat $allBrews .homebrew.shared.brews -}}
+{{- if $allBrews }}
+{{ range $allBrews -}}
+brew {{ . | quote }}
+{{ end -}}
+{{ end -}}
+
+{{- $allCasks := list -}}
+{{- $allCasks = concat $allCasks $osConfig.casks -}}
+{{- $allCasks = concat $allCasks .homebrew.shared.casks -}}
+{{- if $allCasks }}
+{{ range $allCasks -}}
+cask {{ . | quote }}
+{{ end -}}
+{{ end -}}
+EOF
+
+echo "Running brew upgrade"
+brew upgrade
+
+echo "Running brew autoremove"
+brew autoremove
+
+echo "Running brew cleanup"
+brew cleanup

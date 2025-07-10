@@ -1,6 +1,23 @@
+{{- $darwin := eq .chezmoi.os "darwin" -}}
+{{- $linux := eq .chezmoi.os "linux" -}}
+{{- $wsl := and $linux (lower .chezmoi.kernel.osrelease | contains "microsoft") -}}
+{{- $unix_based := or $darwin $linux -}}
+{{- $os_release_id := .chezmoi.osRelease.id | lower | default "" -}}
+{{- $like := .chezmoi.osRelease.idLike | lower | default "" -}}
+{{- $debian_based := and $linux (or (eq $os_release_id "debian") (contains $like "debian")) -}}
+{{- $fedora_based := and $linux (or (eq $os_release_id "fedora") (contains $like "rhel")) -}}
 
 data:
   name: "Julian Nonino"
   email: "noninojulian@gmail.com"
   editor: "code --wait"
   github: "jnonino"
+  os:
+    release_id: {{ $os_release_id | quote }}
+    release_id_like: {{ $like | quote }}
+    darwin: {{ $darwin }}
+    linux: {{ $linux }}
+    wsl: {{ $wsl }}
+    unix_based: {{ $unix_based }}
+    debian_based: {{ $debian_based }}
+    fedora_based: {{ $fedora_based }}
