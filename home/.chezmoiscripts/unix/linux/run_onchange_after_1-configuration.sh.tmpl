@@ -22,4 +22,48 @@ echo "#############################################"
 echo "### Running configuration script on Linux ###"
 echo "#############################################"
 
+# GitHub CLI: prefer SSH cloning
+echo "Configure Github Cli to prefer SSH"
+gh config set git_protocol ssh || true
+
+# Configure Python version manager
+echo "Installing latest Python with Pyenv"
+pyenv install --skip-existing 3 || true
+pyenv global $(pyenv latest 3)
+
+# requirements.txt hash: {{ include ".files/requirements.txt" | sha256sum }}
+echo "Installing Python dependencies with pip"
+pip install --upgrade pip
+pip install --no-input --requirement {{ joinPath .chezmoi.sourceDir ".files/requirements.txt" | quote }}
+
+# Configure Go version manager
+echo "Installing latest Go with goenv"
+GOLANG_LATEST=$(goenv install --list | sort --version-sort --reverse | head -n1 | xargs)
+goenv install --skip-existing "$GOLANG_LATEST" || true
+goenv global "$GOLANG_LATEST"
+
+# Configure Node version manager
+echo "Ensure ~/.nvm directory is in place"
+mkdir -p {{ joinPath .chezmoi.homeDir ".nvm" }}
+[ -s "$(brew --prefix)/opt/nvm/nvm.sh" ] && \. "$(brew --prefix)/opt/nvm/nvm.sh" # Explicitly load nvm in current session
+nvm install --lts --default
+
+# Configure Ruby version manager
+echo "Ensure ~/.rbenv directory is in place"
+mkdir -p {{ joinPath .chezmoi.homeDir ".rbenv" }}
+echo "Installing latest Ruby with rbenv"
+LATEST_RUBY=$(rbenv install --list-all | grep -E '^[[:space:]]*[0-9]+\.[0-9]+\.[0-9]+$' | tr -d ' ' | sort -V | tail -1 | xargs)
+rbenv install --skip-existing "$LATEST_RUBY" || true
+rbenv global "$LATEST_RUBY"
+
+# Configure Terraform
+echo "Installing latest Terraform with tfswitch"
+tfswitch --product=terraform --latest
+
+# Configure OpenTofu
+echo "Installing latest OpenTofu with tfswitch"
+tfswitch --product=opentofu --latest
+
+# Configure Terragrunt
+
 {{ end -}}
