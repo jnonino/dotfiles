@@ -1,0 +1,49 @@
+#
+# This file is managed by chezmoi. Always edit it with the command
+# chezmoi edit ~/.zshrc
+# chezmoi diff
+# chezmoi -v apply
+#
+# Executes commands at the start of an interactive session.
+
+
+# If you come from bash you might have to change your $PATH.
+# export PATH={{ joinPath .chezmoi.homeDir "bin" }}:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH="{{ joinPath .chezmoi.homeDir ".oh-my-zsh" }}"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="geoffgarside"
+
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+
+# Uncomment the following line to change how often to auto-update (in days).
+zstyle ':omz:update' frequency 1
+
+
+
+
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+# oh-my-zsh plugins
+#   https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/gh
+#   https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/direnv
+#   https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git
+#   https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectl
+#   https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/kubectx
+#   https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/terraform
+#   https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/vscode
+plugins=(direnv gh git kubectl kubectx terraform vscode)
+
+source $ZSH/oh-my-zsh.sh

@@ -1,0 +1,12 @@
+linux_packages:
+  debian:
+    - "apt-transport-https"
+    - "bind9-dnsutils"
+    - "build-essential"
+    - "ca-certificates"
+    - "file"
+    - "gnupg2"
+    - "procps"
+  fedora:
+    - "@development-tools"
+    - "dnf-plugins-core"

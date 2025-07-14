@@ -1,8 +1,4 @@
-{{- if or
-      (eq .chezmoi.os "darwin")
-      (eq .chezmoi.os "linux")
-      (and (eq .chezmoi.os "linux") (contains (lower .chezmoi.kernel.osrelease) "microsoft"))
-    -}}
+{{- if eq .chezmoi.os "darwin" -}}
 #!/usr/bin/env bash
 
 # Copyright [2023] Julian Nonino
@@ -20,6 +16,10 @@
 # limitations under the License.
 
 set -eEuo pipefail
+
+echo "########################"
+echo "### Running on MacOS ###"
+echo "########################"
 
 ###################################################################
 # Determine package manager based on distro (Debian vs Fedora/RHEL)
@@ -131,4 +131,4 @@ echo "Ensure directories for version managers are in place"
 mkdir -p {{ joinPath .chezmoi.homeDir ".nvm" }}
 mkdir -p {{ joinPath .chezmoi.homeDir ".rbenv" }}
 
-{{ end }}
+{{- end -}}

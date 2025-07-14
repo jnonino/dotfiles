@@ -1,0 +1,54 @@
+# Post-installation steps
+
+# Check if docker group exists, create if not
+if ! getent group docker > /dev/null 2>&1; then
+    echo "Creating docker group..."
+    sudo groupadd docker
+else
+    echo "Docker group already exists"
+fi
+
+# Check if user is already in docker group
+if ! groups "$USER" | grep -q "\bdocker\b"; then
+    echo "Adding $USER to docker group..."
+    sudo usermod -aG docker "$USER"
+    echo "User added to docker group. You may need to log out and back in for changes to take effect."
+else
+    echo "User $USER is already in docker group"
+fi
+
+# Only run newgrp if user was just added to group
+if ! id -nG | grep -q "\bdocker\b"; then
+    echo "Switching to docker group..."
+    newgrp docker
+else
+    echo "Already in docker group context"
+fi
+
+# Check if .docker directory exists and has correct ownership
+if [ -d "$HOME/.docker" ]; then
+    current_owner=$(stat -c "%U" "$HOME/.docker")
+    if [ "$current_owner" != "$USER" ]; then
+        echo "Fixing ownership of .docker directory..."
+        sudo chown "$USER":"$USER" "$HOME/.docker" -R
+    else
+        echo ".docker directory already has correct ownership"
+    fi
+
+    # Check if group has rwx permissions
+    current_perms=$(stat -c "%a" "$HOME/.docker")
+    if [[ ! "$current_perms" =~ [0-9][7][0-9] ]]; then
+        echo "Setting group permissions on .docker directory..."
+        sudo chmod g+rwx "$HOME/.docker" -R
+    else
+        echo ".docker directory already has correct group permissions"
+    fi
+else
+    echo ".docker directory does not exist - will be created when Docker is first used"
+fi
+
+echo "Enabling Docker and Containerd services"
+sudo systemctl enable docker.service
+sudo systemctl enable containerd.service
+
+{{ end -}}
