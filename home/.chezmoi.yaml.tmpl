@@ -2,8 +2,15 @@
 {{- $linux := eq .chezmoi.os "linux" -}}
 {{- $wsl := and $linux (lower .chezmoi.kernel.osrelease | contains "microsoft") -}}
 {{- $unix_based := or $darwin $linux -}}
+
+{{- $os_release_id := "" -}}
+{{- $like := "" -}}
+
+{{- if $linux -}}
 {{- $os_release_id := .chezmoi.osRelease.id | lower | default "" -}}
 {{- $like := .chezmoi.osRelease.idLike | lower | default "" -}}
+{{- end -}}
+
 {{- $debian_based := and $linux (or (eq $os_release_id "debian") (contains $like "debian")) -}}
 {{- $fedora_based := and $linux (or (eq $os_release_id "fedora") (contains $like "rhel")) -}}
 
@@ -22,3 +29,4 @@ data:
     unix_based: {{ $unix_based }}
     debian_based: {{ $debian_based }}
     fedora_based: {{ $fedora_based }}
+

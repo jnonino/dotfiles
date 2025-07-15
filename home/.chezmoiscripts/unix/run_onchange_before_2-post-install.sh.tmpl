@@ -1,4 +1,4 @@
-{{- if .os.darwin -}}
+{{- if .os.unix_based -}}
 
 #!/usr/bin/env bash
 
@@ -18,8 +18,20 @@
 
 set -eEuo pipefail
 
-echo "#################################################"
-echo "### Running post installation script on MacOS ###"
-echo "#################################################"
+echo "###############################################################"
+echo "### Running post installation script on a Unix-based system ###"
+echo "###############################################################"
+
+###########################################
+# Linux specific post-installation commands
+{{ if .os.linux }}
+echo "Running Linux specific post-installation commands"
+{{ end }}
+
+###########################################
+# Macos specific post-installation commands
+{{ if .os.darwin }}
+echo "Running Macos specific post-installation commands"
+{{ end }}
 
 {{ end -}}

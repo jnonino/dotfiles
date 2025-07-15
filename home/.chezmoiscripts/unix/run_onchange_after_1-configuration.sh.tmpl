@@ -2,7 +2,7 @@
 
 #!/usr/bin/env bash
 
-# Copyright [2025] Julian Nonino
+# Copyright [2023] Julian Nonino
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,5 +21,21 @@ set -eEuo pipefail
 echo "###########################################################"
 echo "### Running configuration script on a Unix-based system ###"
 echo "###########################################################"
+
+############################
+# Shared configuration steps
+{{ includeTemplate "unix_configuration" . }}
+
+####################################
+# Linux specific configuration steps
+{{ if .os.linux }}
+echo "Running Linux specific configuration steps"
+{{ end }}
+
+####################################
+# Macos specific configuration steps
+{{ if .os.darwin }}
+echo "Running Macos specific configuration steps"
+{{ end }}
 
 {{ end -}}
