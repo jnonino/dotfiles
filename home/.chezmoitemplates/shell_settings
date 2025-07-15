@@ -39,6 +39,11 @@ upsert_block() {
     fi
 }
 
+######################
+# Variable definitions
+######################
+{{- $targetFile := .chezmoi.targetFile | base }}
+
 #########################################################
 # Preserve original content if the file was already there
 # Might be empty if file is being created
@@ -49,37 +54,43 @@ original_content=$(cat)
 # Add settings blocks
 #####################
 
-# Start with the original content
-current_content="$original_content"
+# User's bin path
+users_bin_path_block='PATH="$PATH:$HOME/bin"'
 
 ###
 # Homebrew
 homebrew_block='eval "$($(brew --prefix)/bin/brew shellenv)"'
-current_content=$(upsert_block "$current_content" "$homebrew_block" "Homebrew")
+
+###
+# Direnv
+direnv_block_bash='eval "$(direnv hook bash)"'
+direnv_block_zsh='eval "$(direnv hook zsh)"'
 
 ###
 # Pyenv
 pyenv_block='eval "$(pyenv init -)"'
-current_content=$(upsert_block "$current_content" "$pyenv_block" "Pyenv")
 
 ###
 # Goenv
-goenv_block='eval "$(goenv init -)"
-PATH=$PATH:$(go env GOPATH)/bin
-PATH="$PATH:$(go env GOPATH)/bin:$(goenv prefix)/bin"'
-current_content=$(upsert_block "$current_content" "$goenv_block" "Goenv")
+# goenv_block='eval "$(goenv init -)"
+# PATH=$PATH:$(go env GOPATH)/bin
+# PATH="$PATH:$(go env GOPATH)/bin:$(goenv prefix)/bin"'
+goenv_block='eval "$(goenv init -)"'
 
 ###
 # Nvm
-nvm_block='# This loads nvm
-[ -s "$(brew --prefix)/opt/nvm/nvm.sh" ] && \\. "$(brew --prefix)/opt/nvm/nvm.sh"
-# This loads nvm bash_completion
-[ -s "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" ] && \\. "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm"'
-current_content=$(upsert_block "$current_content" "$nvm_block" "Nvm")
+nvm_block='export NVM_DIR="$HOME/.nvm"
+[ -s "$(brew --prefix)/opt/nvm/nvm.sh" ] && \. "$(brew --prefix)/opt/nvm/nvm.sh"
+[ -s "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm"'
+
+###
+# Rbenv
+rbenv_block_bash='eval "$(rbenv init - bash)"'
+rbenv_block_zsh='eval "$(rbenv init - zsh)"'
 
 ###
 # Tfswitch
-tfswitch_block='load-tfswitch() {
+tfswitch_block_zsh='load-tfswitch() {
   local tfswitchrc_path=".terraform-version"
 
   if [ -f "$tfswitchrc_path" ]; then
@@ -88,11 +99,10 @@ tfswitch_block='load-tfswitch() {
 }
 add-zsh-hook chpwd load-tfswitch
 load-tfswitch'
-current_content=$(upsert_block "$current_content" "$tfswitch_block" "TerraformSwitch")
 
 ###
 # Tgswitch
-tgswitch_block='load-tgswitch() {
+tgswitch_block_zsh='load-tgswitch() {
   local tgswitchrc_path=".terragrunt-version"
 
   if [ -f "$tgswitchrc_path" ]; then
@@ -101,11 +111,10 @@ tgswitch_block='load-tgswitch() {
 }
 add-zsh-hook chpwd load-tgswitch
 load-tgswitch'
-current_content=$(upsert_block "$current_content" "$tgswitch_block" "TerragruntSwitch")
 
 ###
-# Tgswitch
-tofuswitch_block='load-tofuswitch() {
+# Tofuswitch
+tofuswitch_block_zsh='load-tofuswitch() {
   local tfswitchrc_path=".opentofu-version"
 
   if [ -f "$tfswitchrc_path" ]; then
@@ -114,34 +123,18 @@ tofuswitch_block='load-tofuswitch() {
 }
 add-zsh-hook chpwd load-tofuswitch
 load-tofuswitch'
-current_content=$(upsert_block "$current_content" "$tofuswitch_block" "TofuSwitch")
 
 ###
 # CustomFunctions
 custom_functions_block='source "{{ joinPath .chezmoi.homeDir ".config/functions.sh" }}"'
 current_content=$(upsert_block "$current_content" "$custom_functions_block" "CustomFunctions")
 
-######################
-# File specific blocks
-######################
-{{- $targetFile := .chezmoi.targetFile | base }}
+###
+# Bash configuration
+bash_block=''
 
-{{- if eq $targetFile ".bashrc" }}
-
-# Bash  specific config
-bash_block='echo "Hola"'
-current_content=$(upsert_block "$current_content" "$bash_block" "BashConfig")
-
-# Direnv
-direnv_block='eval "$(direnv hook bash)"'
-current_content=$(upsert_block "$current_content" "$direnv_block" "Direnv")
-
-# Rbenv
-rbenv_block_bash='eval "$(rbenv init - bash)"'
-current_content=$(upsert_block "$current_content" "$rbenv_block" "Rbenv")
-
-{{- else if eq $targetFile ".zshrc" }}
-# Zsh specific config
+###
+# Zsh configuration
 zsh_block='autoload -U add-zsh-hook
 
 HISTFILE="/home/jnonino/.zsh_history"
@@ -162,19 +155,3 @@ setopt share_history          # Share command history data
 source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh'
-current_content=$(upsert_block "$current_content" "$zsh_block" "ZshConfig")
-
-# Direnv
-direnv_block='eval "$(direnv hook zsh)"'
-current_content=$(upsert_block "$current_content" "$direnv_block" "Direnv")
-
-# Rbenv
-rbenv_block='eval "$(rbenv init - zsh)"'
-current_content=$(upsert_block "$current_content" "$rbenv_block" "Rbenv")
-
-{{- end }}
-
-#########################
-# Output the final result
-#########################
-echo "$current_content"
