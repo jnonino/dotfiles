@@ -1,0 +1,9 @@
+import iterm2
+
+async def main(connection):
+    for profile in await iterm2.PartialProfile.async_query(connection):
+        if profile.name == "{{ .iterm.profile_name }}":
+            await profile.async_make_default()
+            return
+
+iterm2.run_until_complete(main)
