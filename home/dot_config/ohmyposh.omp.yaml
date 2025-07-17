@@ -1,0 +1,119 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+
+version: 3
+console_title_template: '{{ .Shell }} in {{ .Folder }}'
+final_space: true
+palette:
+    black: '#262B44'
+    blue: '#4B95E9'
+    green: '#59C9A5'
+    orange: '#F07623'
+    red: '#D81E5B'
+    white: '#E0DEF4'
+    yellow: '#F3AE35'
+secondary_prompt:
+    template: '<p:yellow,transparent></><,p:yellow> > </><p:yellow,transparent></> '
+    foreground: p:black
+    background: transparent
+upgrade:
+    source: cdn
+    interval: 168h
+    auto: false
+    notice: false
+blocks:
+    - type: prompt
+      alignment: left
+      newline: true
+      segments:
+        - type: time
+          properties:
+            time_format: "15:04:05"
+          style: plain
+          foreground: darkGray
+          template: "[{{ .CurrentDate | date .Format }}]"
+        - type: session
+          style: plain
+          foreground: p:blue
+          template: ' {{ if .SSHSession }} {{ end }}{{ .UserName }} '
+        - type: path
+          style: plain
+          properties:
+            style: full
+          template: '<darkGray>in </>{{ path .Path .Location }} '
+          foreground: lightYellow
+        - type: git
+          style: plain
+          foreground: p:green
+          properties:
+            branch_template: '{{ trunc 25 .Branch }}'
+            fetch_status: true
+          template: '<darkGray>- git:</>{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if .Staging.Changed }}  {{ .Staging.String }}{{ end }} '
+          # foreground_templates:
+          #   - '{{ if or (.Working.Changed) (.Staging.Changed) }}p:black{{ end }}'
+          #   - '{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:white{{ end }}'
+          #   - '{{ if gt .Ahead 0 }}p:white{{ end }}'
+          # background_templates:
+          #   - '{{ if or (.Working.Changed) (.Staging.Changed) }}p:yellow{{ end }}'
+          #   - '{{ if and (gt .Ahead 0) (gt .Behind 0) }}p:red{{ end }}'
+          #   - '{{ if gt .Ahead 0 }}#49416D{{ end }}'
+          #   - '{{ if gt .Behind 0 }}#7A306C{{ end }}'
+        - type: aws
+          style: plain
+          foreground: p:orange
+          properties:
+            display_default: true
+          template: "<darkGray>- aws:</>{{.Profile}}{{if .Region}}@{{.Region}}{{end}}"
+        - type: kubectl
+          style: plain
+          foreground: lightBlue
+          template: "<darkGray>- k8s:</>{{.Context}}{{if .Namespace}}::{{.Namespace}}{{end}} "
+          properties:
+            display_error: true
+            parse_kubeconfig: false
+    - type: prompt
+      alignment: right
+      segments:
+        - type: executiontime
+          properties:
+            always_enabled: true
+            style: austin
+          style: plain
+          foreground: white
+          template: "{{ .FormattedMs }}"
+    - type: prompt
+      alignment: left
+      newline: true
+      segments:
+        - type: status
+          properties:
+            always_enabled: true
+          style: plain
+          foreground: white
+          template: "\u276f "
+          foreground_templates:
+            - "{{ if gt .Code 0 }}#ff0000{{ end }}"
+          background_templates:
+            - '{{ if gt .Code 0 }}p:red{{ end }}'
+tooltips:
+    - properties:
+        display_default: true
+      leading_diamond: 
+      trailing_diamond: 
+      template: '  {{ .Profile }}{{ if .Region }}@{{ .Region }}{{ end }} '
+      foreground: p:white
+      background: p:orange
+      type: aws
+      style: diamond
+      tips:
+        - aws
+    - properties:
+        display_default: true
+      leading_diamond: 
+      trailing_diamond: 
+      template: '  {{ .Name }} '
+      foreground: p:white
+      background: p:blue
+      type: az
+      style: diamond
+      tips:
+        - az

@@ -164,7 +164,7 @@ source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 ###
 # oh-my-posh
 oh_my_posh_block_zsh='if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
-  eval "$(oh-my-posh init zsh)"
+  eval "$(oh-my-posh init zsh --config {{ joinPath .chezmoi.homeDir ".config/ohmyposh.omp.yaml" }})"
 fi'
 
-oh_my_posh_block_bash='eval "$(oh-my-posh init bash)"'
+oh_my_posh_block_bash='eval "$(oh-my-posh init bash --config {{ joinPath .chezmoi.homeDir ".config/ohmyposh.omp.yaml" }}"'
