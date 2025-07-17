@@ -89,7 +89,7 @@ blocks:
             always_enabled: true
           style: plain
           foreground: white
-          template: "\u276f "
+          template: "> "
           foreground_templates:
             - "{{ if gt .Code 0 }}#ff0000{{ end }}"
           background_templates:
