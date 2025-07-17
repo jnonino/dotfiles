@@ -14,6 +14,7 @@ current_content=$(upsert_block "$current_content" "$pyenv_block" "Pyenv")
 current_content=$(upsert_block "$current_content" "$goenv_block" "Goenv")
 current_content=$(upsert_block "$current_content" "$nvm_block" "Nvm")
 current_content=$(upsert_block "$current_content" "$rbenv_block_bash" "Rbenv")
+current_content=$(upsert_block "$current_content" "$custom_functions_block" "CustomFunctions")
 current_content=$(upsert_block "$current_content" "$bash_block" "BashConfig")
 
 # Output the final result

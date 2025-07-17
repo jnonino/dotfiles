@@ -5,38 +5,43 @@
 # Function to add or replace a block with markers
 # Usage: upsert_block "$initial_content" "$block_content" "$marker"
 upsert_block() {
-    local initial_content="$1"
+    local initial="$1"
     local block="$2"
     local marker="$3"
+    local start="# BEGIN $marker"
+    local end="# END $marker"
 
-    local start_marker="# BEGIN $marker"
-    local end_marker="# END $marker"
+    # Create temp file with error handling
+    local tmp
+    tmp=$(mktemp) || { echo "Failed to create temp file" >&2; return 1; }
 
-    if echo "$initial_content" | grep -F -q "$start_marker"; then
-        # Replace existing block - use literal string matching instead of regex
-        echo "$initial_content" | awk -v start="$start_marker" -v end="$end_marker" -v new="$block" '
+    # Ensure cleanup on function exit
+    trap 'rm -f "$tmp"' EXIT
+
+    # Write new block to temp file
+    printf '%s\n' "$block" > "$tmp"
+
+    if echo "$initial" | grep -F -q "$start"; then
+        # Replace existing block
+        awk -v start="$start" -v end="$end" -v newfile="$tmp" '
             BEGIN { in_block = 0 }
             index($0, start) == 1 {
-                print $0
-                print new
-                in_block = 1
-                next
+                print; system("cat \"" newfile "\""); in_block = 1; next
             }
             index($0, end) == 1 && in_block {
-                print $0
-                in_block = 0
-                next
+                print; in_block = 0; next
             }
-            !in_block { print $0 }
-        '
+            !in_block { print }
+        ' <<< "$initial"
     else
         # Add new block to existing content
-        echo "$initial_content"
-        echo ""
-        echo "$start_marker"
-        echo "$block"
-        echo "$end_marker"
+        printf '%s\n\n%s\n' "$initial" "$start"
+        cat "$tmp"
+        printf '%s\n' "$end"
     fi
+
+    # Cleanup (trap will also handle this)
+    rm -f "$tmp"
 }
 
 ######################
@@ -137,7 +142,7 @@ bash_block=''
 # Zsh configuration
 zsh_block='autoload -U add-zsh-hook
 
-HISTFILE="/home/jnonino/.zsh_history"
+HISTFILE="{{ .chezmoi.homeDir }}/.zsh_history"
 HISTSIZE=100000  # How many lines of history to keep in memory
 SAVEHIST=5000000 # Number of history entries to save to disk
 HISTDUP=erase    # Erase duplicates in the history file
