@@ -16,6 +16,7 @@ current_content=$(upsert_block "$current_content" "$nvm_block" "Nvm")
 current_content=$(upsert_block "$current_content" "$rbenv_block_bash" "Rbenv")
 current_content=$(upsert_block "$current_content" "$custom_functions_block" "CustomFunctions")
 current_content=$(upsert_block "$current_content" "$bash_block" "BashConfig")
+current_content=$(upsert_block "$current_content" "$oh_my_posh_block_bash" "OhMyPosh")
 
 # Output the final result
 echo "$current_content"

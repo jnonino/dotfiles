@@ -45,6 +45,7 @@ homebrew:
       - "coreutils"
       - "curl"
       - "direnv"
+      - "fontconfig"
       - "gh"
       - "git"
       - "git-lfs"
@@ -82,4 +83,6 @@ homebrew:
       - "zsh-completions"
       - "zsh-history-substring-search"
       - "zsh-syntax-highlighting"
-    casks: []
+    casks:
+      - "font-agave-nerd-font"
+      - "font-inconsolata-nerd-font"
