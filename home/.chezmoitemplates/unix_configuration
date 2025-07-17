@@ -17,10 +17,17 @@ echo "Installing latest Python with Pyenv"
 pyenv install --skip-existing 3 || true
 pyenv global $(pyenv latest 3)
 
-# requirements.txt hash: {{ include ".files/requirements.txt" | sha256sum }}
 echo "Installing Python dependencies with pip"
 pip install --upgrade pip
-pip install --no-input --requirement {{ joinPath .chezmoi.sourceDir ".files/requirements.txt" | quote }}
+{{- $osConfig := index .python_packages .chezmoi.os -}}
+{{- $allPackages := list -}}
+{{- $allPackages = concat $allPackages $osConfig -}}
+{{- $allPackages = concat $allPackages .python_packages.shared -}}
+{{- if $allPackages }}
+{{ range $allPackages -}}
+pip install --no-input {{ . | quote }}
+{{ end -}}
+{{ end -}}
 
 # Configure Go version manager
 echo "Installing latest Go with goenv"

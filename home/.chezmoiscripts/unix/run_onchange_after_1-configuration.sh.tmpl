@@ -41,10 +41,10 @@ echo "Running Macos specific configuration steps"
 # {{ include (joinPath "Library" "Application Support" "iTerm2" "DynamicProfiles" "Main.json.tmpl") | sha256sum }}
 echo "Setting up iTerm profile"
 defaults write com.googlecode.iterm2 "Default Bookmark Guid" "{{ .iterm.profile_guid }}"
-defaults write com.googlecode.iterm2 "New Bookmarks" -array-add '{
-    "Guid" = "{{ .iterm.profile_guid }}";
-    "Name" = "{{ .iterm.profile_name }}";
-}'
+# defaults write com.googlecode.iterm2 "New Bookmarks" -array-add '{
+#     "Guid" = "{{ .iterm.profile_guid }}";
+#     "Name" = "{{ .iterm.profile_name }}";
+# }'
 
 {{ end }}
 

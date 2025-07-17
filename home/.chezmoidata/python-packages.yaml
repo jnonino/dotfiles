@@ -1,0 +1,6 @@
+python_packages:
+  darwin: []
+  linux: []
+  windows: []
+  shared:
+    - "virtualenv"
