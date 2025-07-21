@@ -16,7 +16,7 @@ jobs:
   #     - name: Install Chezmoi
   #       run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/bin
   #     - name: Chezmoi init
-  #       run: chezmoi init https://github.com/$GH_USERNAME/dotfiles.git
+  #       run: chezmoi init $GH_USERNAME
   #     - name: Chezmoi diff
   #       run: chezmoi diff
   #     - name: Configure dotfiles
@@ -28,7 +28,7 @@ jobs:
       - name: Install Chezmoi
         run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/.local/bin
       - name: Chezmoi init
-        run: chezmoi init https://github.com/$GH_USERNAME/dotfiles.git
+        run: chezmoi init $GH_USERNAME
       - name: Chezmoi diff
         run: chezmoi diff
       - name: Configure dotfiles
@@ -41,7 +41,7 @@ jobs:
   #     - name: Install Chezmoi
   #       run: (irm -useb https://get.chezmoi.io/ps1) | powershell -c -
   #     - name: Chezmoi init
-  #       run: chezmoi init https://github.com/$GH_USERNAME/dotfiles.git
+  #       run: chezmoi init $GH_USERNAME
   #     - name: Chezmoi diff
   #       run: chezmoi diff
   #     - name: Configure dotfiles

@@ -141,21 +141,25 @@ bash_block=''
 ###
 # Zsh configuration
 zsh_block='autoload -U add-zsh-hook
+autoload -U compinit
+compinit
 
 HISTFILE="{{ .chezmoi.homeDir }}/.zsh_history"
 HISTSIZE=100000  # How many lines of history to keep in memory
 SAVEHIST=5000000 # Number of history entries to save to disk
 HISTDUP=erase    # Erase duplicates in the history file
-setopt extended_history       # Record timestamp of command in HISTFILE
-setopt appendhistory          # Append history to the history file (no overwriting)
-setopt hist_expire_dups_first # Delete duplicates first when HISTFILE size exceeds HISTSIZE
-setopt sharehistory           # Share history across terminals
-setopt incappendhistory       # Immediately append to the history file, not just when a term is killed
-setopt hist_ignore_dups       # Ignore duplicated commands history list
-setopt hist_ignore_space      # Ignore commands that start with space
-setopt hist_verify            # Show command with history expansion to user before running it
-setopt inc_append_history     # Add commands to HISTFILE in order of execution
-setopt share_history          # Share command history data
+setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
+setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
+setopt SHARE_HISTORY             # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
+setopt HIST_IGNORE_DUPS          # Dont record an entry that was just recorded again.
+# setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
+# setopt HIST_FIND_NO_DUPS         # Do not display a line previously found.
+setopt HIST_IGNORE_SPACE         # Dont record an entry starting with a space.
+setopt HIST_SAVE_NO_DUPS         # Dont write duplicate entries in the history file.
+setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
+setopt HIST_VERIFY               # Show command with history expansion to user before running it
+setopt APPEND_HISTORY            # Append history to the history file (no overwriting)
 
 source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
