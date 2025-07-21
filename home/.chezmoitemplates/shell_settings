@@ -161,6 +161,10 @@ setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording en
 setopt HIST_VERIFY               # Show command with history expansion to user before running it
 setopt APPEND_HISTORY            # Append history to the history file (no overwriting)
 
+# autocompletion using arrow keys (based on history)
+bindkey "\e[A" history-search-backward
+bindkey "\e[B" history-search-forward
+
 source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh'
