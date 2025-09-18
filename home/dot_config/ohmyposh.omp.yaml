@@ -68,8 +68,18 @@ blocks:
           foreground: lightBlue
           template: "<darkGray>- k8s:</>{{.Context}}{{if .Namespace}}::{{.Namespace}}{{end}} "
           properties:
-            display_error: true
+            display_error: false
             parse_kubeconfig: false
+        - type: python
+          style: plain
+          foreground: green
+          template: "<darkGray>- python:</>{{ .Full }}({{ .Venv }}) "
+          properties:
+            home_enabled: false
+            fetch_virtual_env: true
+            display_default: false
+            fetch_version: true
+            display_mode: context
     - type: prompt
       alignment: right
       segments:
