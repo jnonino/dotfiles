@@ -140,9 +140,21 @@ bash_block=''
 
 ###
 # Zsh configuration
-zsh_block='autoload -U add-zsh-hook
+zsh_block='# Restore default fpath if empty
+if [[ ${#fpath[@]} -eq 0 ]]; then
+  fpath=(
+    /usr/local/share/zsh/site-functions
+    /usr/share/zsh/site-functions
+    /usr/share/zsh/functions
+  )
+
+  fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
+fi
+
+rm -f ~/.zcompdump*
+autoload -U add-zsh-hook
 autoload -U compinit
-compinit
+compinit -u
 
 HISTFILE="{{ .chezmoi.homeDir }}/.zsh_history"
 HISTSIZE=100000  # How many lines of history to keep in memory
@@ -175,4 +187,4 @@ oh_my_posh_block_zsh='if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
   eval "$(oh-my-posh init zsh --config {{ joinPath .chezmoi.homeDir ".config/ohmyposh.omp.yaml" }})"
 fi'
 
-oh_my_posh_block_bash='eval "$(oh-my-posh init bash --config {{ joinPath .chezmoi.homeDir ".config/ohmyposh.omp.yaml" }}"'
+oh_my_posh_block_bash='eval "$(oh-my-posh init bash --config {{ joinPath .chezmoi.homeDir ".config/ohmyposh.omp.yaml" }})"'
