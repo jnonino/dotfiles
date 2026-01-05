@@ -6,6 +6,7 @@ homebrew:
     brews:
       - "dart"
       - "sass/sass/sass"
+      - "warrensbox/tap"
     casks:
       - "1password"
       - "1password-cli"
@@ -21,6 +22,8 @@ homebrew:
       - "session-manager-plugin"
       - "slack"
       - "spotify"
+      - "tfswitch"
+      - "tgswitch"
       - "visual-studio-code"
       - "whatsapp"
       - "zoom"
@@ -36,7 +39,6 @@ homebrew:
     taps:
       - "golangci/tap"
       - "hashicorp/tap"
-      - "warrensbox/tap"
     brews:
       - "ansible-lint"
       - "awscli"
@@ -74,8 +76,6 @@ homebrew:
       - "terraform-docs"
       - "texlive"
       - "tflint"
-      - "tfswitch"
-      - "tgswitch"
       - "wget"
       - "yq"
       - "zsh"

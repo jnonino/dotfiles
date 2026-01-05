@@ -26,6 +26,10 @@ echo "###############################################################"
 # Linux specific post-installation commands
 {{ if .os.linux }}
 echo "Running Linux specific post-installation commands"
+
+curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/master/install.sh | bash
+curl -L https://raw.githubusercontent.com/warrensbox/tgswitch/release/install.sh | bash
+
 {{ end }}
 
 ###########################################
