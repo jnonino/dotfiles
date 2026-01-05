@@ -26,9 +26,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Update system
-        run: apt-get update
+        run: sudo apt-get update
       - name: Install Zsh
-        run: apt-get install -y zsh
+        run: sudo apt-get install -y zsh
       - name: Install Chezmoi
         run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/.local/bin
       - name: Chezmoi init
