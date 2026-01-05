@@ -53,6 +53,7 @@ homebrew:
       - "git-lfs"
       - "glab"
       - "goenv"
+      - "go-task"
       - "gradle"
       - "golangci/tap/golangci-lint"
       - "helm"
