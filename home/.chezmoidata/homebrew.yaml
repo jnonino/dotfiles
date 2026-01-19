@@ -48,6 +48,7 @@ homebrew:
       - "curl"
       - "direnv"
       - "fontconfig"
+      - "fzf"
       - "gh"
       - "git"
       - "git-lfs"
