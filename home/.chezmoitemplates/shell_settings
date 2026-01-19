@@ -164,18 +164,33 @@ setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed
 setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
 setopt SHARE_HISTORY             # Share history between all sessions.
 setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
-setopt HIST_IGNORE_DUPS          # Dont record an entry that was just recorded again.
+setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again.
 # setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
 # setopt HIST_FIND_NO_DUPS         # Do not display a line previously found.
-setopt HIST_IGNORE_SPACE         # Dont record an entry starting with a space.
-setopt HIST_SAVE_NO_DUPS         # Dont write duplicate entries in the history file.
+setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space.
+setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 setopt HIST_VERIFY               # Show command with history expansion to user before running it
 setopt APPEND_HISTORY            # Append history to the history file (no overwriting)
 
-# autocompletion using arrow keys (based on history)
-bindkey "\e[A" history-search-backward
-bindkey "\e[B" history-search-forward
+plugins=(
+    zsh-completions
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+    zsh-history-substring-search
+    fzf-tab
+)
+
+zstyle ':fzf-tab:*' fzf-flags '--height=60% --layout=reverse --border'
+zstyle ':fzf-tab:*' preview 'bat --style=numbers --color=always --line-range=:500 --plain --paging=never --wrap=never --theme=TwoDark --file {} 2>/dev/null || cat {}'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':fzf-tab:*' switch-group ',' '.'
+
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
+
+bindkey "${key[Up]}" history-substring-search-up
+bindkey "${key[Down]}" history-substring-search-down
 
 source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
