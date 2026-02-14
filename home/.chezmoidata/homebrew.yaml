@@ -1,7 +1,6 @@
 homebrew:
   darwin:
-    taps:
-      - "warrensbox/tap"
+    taps: []
     brews: []
     casks:
       - "1password"
@@ -16,8 +15,8 @@ homebrew:
       - "obs"
       - "slack"
       - "spotify"
-      - "tfswitch"
-      - "tgswitch"
+      - "warrensbox/tap/tfswitch"
+      - "warrensbox/tap/tgswitch"
       - "visual-studio-code"
       - "whatsapp"
       - "zoom"
