@@ -1,25 +1,19 @@
 homebrew:
   darwin:
     taps:
-      - "dart-lang/dart"
-      - "sass/sass"
-    brews:
-      - "dart"
-      - "sass/sass/sass"
       - "warrensbox/tap"
+    brews: []
     casks:
       - "1password"
       - "1password-cli"
       - "chatgpt"
+      - "claude"
+      - "docker-desktop"
       - "firefox"
       - "google-chrome"
-      - "google-cloud-sdk"
       - "iterm2"
-      - "leapp"
       - "microsoft-edge"
       - "obs"
-      - "rancher"
-      - "session-manager-plugin"
       - "slack"
       - "spotify"
       - "tfswitch"
@@ -40,7 +34,6 @@ homebrew:
       - "golangci/tap"
       - "hashicorp/tap"
     brews:
-      - "ansible-lint"
       - "awscli"
       - "aws-iam-authenticator"
       - "azure-cli"
@@ -63,7 +56,6 @@ homebrew:
       - "k9s"
       - "kubectx"
       - "kubernetes-cli"
-      - "leapp-cli"
       - "minikube"
       - "nvm"
       - "oh-my-posh"
