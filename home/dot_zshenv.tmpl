@@ -6,7 +6,8 @@ ZSH="{{ joinPath .chezmoi.homeDir ".oh-my-zsh" }}"
 ########################
 # Java related variables
 ########################
-JAVA_HOME=$(/usr/libexec/java_home)
+JAVA_HOME=$(brew --prefix openjdk)
+PATH="${PATH}:${JAVA_HOME}/bin"
 
 ###########################
 # Node.js related variables
@@ -23,8 +24,8 @@ PATH="${PATH}:$PYENV_ROOT/bin"
 # Golang related variables
 ##########################
 GOENV_ROOT="{{ joinPath .chezmoi.homeDir ".goenv" }}"
-PATH="{$PATH}:$GOENV_ROOT/bin"
-PATH="{$PATH}:$GOROOT/bin"
+PATH="${PATH}:$GOENV_ROOT/bin"
+PATH="${PATH}:$GOROOT/bin"
 PATH="${PATH}:$GOPATH/bin"
 PATH="${PATH}:$HOME/.rd/bin"
 
