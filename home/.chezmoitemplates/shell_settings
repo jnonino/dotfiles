@@ -136,11 +136,12 @@ current_content=$(upsert_block "$current_content" "$custom_functions_block" "Cus
 
 ###
 # Bash configuration
-bash_block=''
+bash_block=""
 
 ###
 # Zsh configuration
-zsh_block='# Restore default fpath if empty
+zsh_block=$(cat <<'ZSH_BLOCK_EOF'
+# Restore default fpath if empty
 if [[ ${#fpath[@]} -eq 0 ]]; then
   fpath=(
     /usr/local/share/zsh/site-functions
@@ -194,7 +195,9 @@ bindkey '^[[B' history-substring-search-down
 
 source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh'
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+ZSH_BLOCK_EOF
+)
 
 ###
 # oh-my-posh
