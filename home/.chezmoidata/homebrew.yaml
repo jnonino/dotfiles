@@ -9,6 +9,7 @@ homebrew:
       - "1password-cli"
       - "chatgpt"
       - "claude"
+      - "displaylink"
       - "docker-desktop"
       - "firefox"
       - "google-chrome"
