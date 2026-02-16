@@ -16,6 +16,7 @@ homebrew:
       - "iterm2"
       - "microsoft-edge"
       - "obs"
+      - "send-to-kindle"
       - "slack"
       - "spotify"
       - "visual-studio-code"
