@@ -71,6 +71,7 @@ homebrew:
       - "terraform-docs"
       - "texlive"
       - "tflint"
+      - "trivy"
       - "wget"
       - "yq"
       - "zsh"
