@@ -15,6 +15,7 @@ homebrew:
       - "google-chrome"
       - "iterm2"
       - "microsoft-edge"
+      - "microsoft-teams"
       - "obs"
       - "send-to-kindle"
       - "slack"
