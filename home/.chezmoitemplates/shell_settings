@@ -151,7 +151,6 @@ if [[ ${#fpath[@]} -eq 0 ]]; then
   fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
 fi
 
-
 HISTFILE="{{ .chezmoi.homeDir }}/.zsh_history"
 HISTSIZE=1000000  # How many lines of history to keep in memory
 SAVEHIST=10000000 # Number of history entries to save to disk
@@ -170,11 +169,10 @@ setopt HIST_VERIFY               # Show command with history expansion to user b
 setopt APPEND_HISTORY            # Append history to the history file (no overwriting)
 
 if type brew &>/dev/null; then
-    FPATH="$(brew --prefix)/share/zsh-completitions:$FPATH"
+    FPATH="$(brew --prefix)/share/zsh-completions:$FPATH"
 fi
 
-autoload -U add-zsh-hook
-autoload -U compinit
+autoload -Uz compinit
 compinit
 
 source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
