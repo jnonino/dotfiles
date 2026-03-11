@@ -1,0 +1,13 @@
+npm_packages:
+  darwin: []
+  linux: []
+  windows: []
+  shared:
+    - "@cspell/dict-en-gb"
+    - "@cspell/dict-en-gb-ise"
+    - "@cspell/dict-scientific-terms-gb"
+    - "@cspell/dict-es-es"
+    - "@cspell/dict-people-names"
+    - "@cspell/dict-redis"
+    - "@cspell/dict-scientific-terms-us"
+    - "@cspell/dict-cspell-bundle"

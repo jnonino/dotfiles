@@ -42,6 +42,18 @@ mkdir -p {{ joinPath .chezmoi.homeDir ".nvm" }}
 [ -s "$(brew --prefix)/opt/nvm/nvm.sh" ] && \. "$(brew --prefix)/opt/nvm/nvm.sh" # Explicitly load nvm in current session
 nvm install --lts --default
 
+echo "Installing Node packages with NPM"
+pip install --upgrade pip
+{{- $osConfig := index .npm_packages .chezmoi.os -}}
+{{- $allNpmPackages := list -}}
+{{- $allNpmPackages = concat $allNpmPackages $osConfig -}}
+{{- $allNpmPackages = concat $allNpmPackages .npm_packages.shared -}}
+{{- if $allNpmPackages }}
+{{ range $allNpmPackages -}}
+npm install --global {{ . | quote }}
+{{ end -}}
+{{ end -}}
+
 # Configure Ruby version manager
 echo "Ensure ~/.rbenv directory is in place"
 mkdir -p {{ joinPath .chezmoi.homeDir ".rbenv" }}
