@@ -1,20 +1,20 @@
 # Source rc files
 case "$(ps -p $$ -o comm=)" in
   -bash|bash|/bin/bash)
-    [ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc" | true
+    [ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc" || true
     ;;
-  -zsh|zsh|/bin/zsh)
-    [ -f "$HOME/.zshrc" ] && source "$HOME/.zshrc" | true
+  -zsh|zsh|/bin/zsh|/opt/homebrew/bin/zsh)
+    [ -f "$HOME/.zshrc" ] && source "$HOME/.zshrc" || true
     ;;
 esac
 
-# GitHub CLI: prefer SSH cloning
-echo "Configure Github Cli to prefer SSH"
-gh config set git_protocol ssh || true
+# GitHub CLI: prefer HTTPS cloning
+echo "Configure Github Cli to prefer HTTPS"
+gh config set git_protocol https
 
 # Configure Python version manager
 echo "Installing latest Python with Pyenv"
-pyenv install --skip-existing 3 || true
+pyenv install --skip-existing 3
 pyenv global $(pyenv latest 3)
 
 echo "Installing Python dependencies with pip"
@@ -32,7 +32,7 @@ pip install --no-input {{ . | quote }}
 # Configure Go version manager
 echo "Installing latest Go with goenv"
 GOLANG_LATEST=$(goenv install --list | sort --version-sort --reverse | head -n1 | xargs)
-goenv install --skip-existing "$GOLANG_LATEST" || true
+goenv install --skip-existing "$GOLANG_LATEST"
 goenv global "$GOLANG_LATEST"
 
 # Configure Node version manager
@@ -59,7 +59,7 @@ echo "Ensure ~/.rbenv directory is in place"
 mkdir -p {{ joinPath .chezmoi.homeDir ".rbenv" }}
 echo "Installing latest Ruby with rbenv"
 LATEST_RUBY=$(rbenv install --list-all | grep -E '^[[:space:]]*[0-9]+\.[0-9]+\.[0-9]+$' | tr -d ' ' | sort -V | tail -1 | xargs)
-rbenv install --skip-existing "$LATEST_RUBY" || true
+rbenv install --skip-existing "$LATEST_RUBY"
 rbenv global "$LATEST_RUBY"
 
 # Configure Terraform
@@ -71,3 +71,5 @@ echo "Installing latest OpenTofu with tfswitch"
 tfswitch --product=opentofu --latest
 
 # Configure Terragrunt
+# echo "Installing latest Terragrunt with tfswitch"
+# tgswitch --latest
