@@ -39,6 +39,7 @@ homebrew:
       - "awscli"
       - "aws-iam-authenticator"
       - "azure-cli"
+      - "biber"
       - "coreutils"
       - "cspell"
       - "curl"
