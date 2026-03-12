@@ -14,6 +14,7 @@ homebrew:
       - "firefox"
       - "google-chrome"
       - "iterm2"
+      - "mendeley-reference-manager"
       - "microsoft-edge"
       - "microsoft-teams"
       - "obs"
