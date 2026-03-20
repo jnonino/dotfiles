@@ -85,5 +85,6 @@ homebrew:
       - "zsh-history-substring-search"
       - "zsh-syntax-highlighting"
     casks:
+      - "claude-code"
       - "font-agave-nerd-font"
       - "font-inconsolata-nerd-font"
