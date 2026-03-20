@@ -64,6 +64,7 @@ homebrew:
       - "minikube"
       - "nvm"
       - "oh-my-posh"
+      - "ollama"
       - "opa"
       - "openjdk"
       - "pre-commit"
