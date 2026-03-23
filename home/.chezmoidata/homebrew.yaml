@@ -18,7 +18,6 @@ homebrew:
       - "microsoft-edge"
       - "microsoft-teams"
       - "obs"
-      - "send-to-kindle"
       - "slack"
       - "spotify"
       - "visual-studio-code"
