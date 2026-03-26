@@ -76,6 +76,7 @@ homebrew:
       - "texlive"
       - "tflint"
       - "trivy"
+      - "wails"
       - "wget"
       - "yq"
       - "zsh"
