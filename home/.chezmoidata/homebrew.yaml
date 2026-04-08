@@ -2,7 +2,6 @@ homebrew:
   darwin:
     taps: []
     brews:
-      - "warrensbox/tap/tfswitch"
       - "warrensbox/tap/tgswitch"
     casks:
       - "1password"
@@ -22,6 +21,7 @@ homebrew:
       - "spotify"
       - "veracrypt-fuse-t"
       - "visual-studio-code"
+      - "warrensbox/tap/tfswitch"
       - "whatsapp"
       - "zoom"
   linux:
