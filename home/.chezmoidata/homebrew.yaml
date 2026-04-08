@@ -20,6 +20,7 @@ homebrew:
       - "obs"
       - "slack"
       - "spotify"
+      - "veracrypt-fuse-t"
       - "visual-studio-code"
       - "whatsapp"
       - "zoom"
