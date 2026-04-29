@@ -9,6 +9,7 @@ homebrew:
       - "claude"
       - "displaylink"
       - "docker-desktop"
+      - "fuse-t"
       - "google-chrome"
       - "iterm2"
       - "kindle-create"
