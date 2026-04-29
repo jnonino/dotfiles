@@ -40,7 +40,7 @@ echo "Installing tools from Brewfile"
 brew bundle --verbose --debug --file="$BREWFILE_TEMP"
 
 echo "Removing packages not in managed list"
-brew bundle cleanup --file="$BREWFILE_TEMP"
+brew bundle cleanup --force --file="$BREWFILE_TEMP"
 
 echo "Running brew upgrade"
 brew upgrade
