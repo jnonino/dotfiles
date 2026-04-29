@@ -1,8 +1,11 @@
 echo "Running brew upgrade"
 brew update
 
-echo "Installing tools from Brewfile"
-brew bundle --verbose --debug --file=/dev/stdin <<EOF
+# Create a temporary Brewfile
+BREWFILE_TEMP=$(mktemp)
+trap "rm -f $BREWFILE_TEMP" EXIT
+
+cat > "$BREWFILE_TEMP" <<EOF
 {{- $osConfig := index .homebrew .chezmoi.os -}}
 
 {{- $allTaps := list -}}
@@ -32,6 +35,12 @@ cask {{ . | quote }}
 {{ end -}}
 {{ end -}}
 EOF
+
+echo "Installing tools from Brewfile"
+brew bundle --verbose --debug --file="$BREWFILE_TEMP"
+
+echo "Removing packages not in managed list"
+brew bundle cleanup --force --file="$BREWFILE_TEMP"
 
 echo "Running brew upgrade"
 brew upgrade
