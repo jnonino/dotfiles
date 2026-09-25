@@ -6,6 +6,7 @@ homebrew:
     casks:
       - "1password"
       - "claude"
+      - "cmux"
       - "displaylink"
       - "docker-desktop"
       - "fuse-t"
