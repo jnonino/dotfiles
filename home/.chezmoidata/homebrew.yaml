@@ -84,5 +84,6 @@ homebrew:
       - "zsh-syntax-highlighting"
     casks:
       - "claude-code"
+      - "codex"
       - "font-agave-nerd-font"
       - "font-inconsolata-nerd-font"
