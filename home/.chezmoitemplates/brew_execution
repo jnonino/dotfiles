@@ -13,7 +13,7 @@ cat > "$BREWFILE_TEMP" <<EOF
 {{- $allTaps = concat $allTaps .homebrew.shared.taps -}}
 {{- if $allTaps }}
 {{ range $allTaps -}}
-tap {{ . | quote }}
+tap {{ . | quote }}, trusted: true
 {{ end -}}
 {{ end -}}
 
