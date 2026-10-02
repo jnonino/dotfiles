@@ -35,6 +35,7 @@ homebrew:
     taps:
       - "golangci/tap"
       - "hashicorp/tap"
+      - "warrensbox/tap"
     brews:
       - "awscli"
       - "aws-iam-authenticator"
