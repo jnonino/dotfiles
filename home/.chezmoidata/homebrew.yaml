@@ -72,7 +72,6 @@ homebrew:
       - "shellcheck"
       - "terraform-docs"
       - "texlive"
-      - "tflint"
       - "trivy"
       - "wails"
       - "wget"
