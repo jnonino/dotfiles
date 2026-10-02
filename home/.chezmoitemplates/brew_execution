@@ -13,7 +13,7 @@ cat > "$BREWFILE_TEMP" <<EOF
 {{- $allTaps = concat $allTaps .homebrew.shared.taps -}}
 {{- if $allTaps }}
 {{ range $allTaps -}}
-tap {{ . | quote }}
+tap {{ . | quote }}, trusted: true
 {{ end -}}
 {{ end -}}
 
@@ -22,11 +22,7 @@ tap {{ . | quote }}
 {{- $allBrews = concat $allBrews .homebrew.shared.brews -}}
 {{- if $allBrews }}
 {{ range $allBrews -}}
-{{- if contains "/" . }}
-brew {{ . | quote }}, trusted: true
-{{- else }}
 brew {{ . | quote }}
-{{- end }}
 {{ end -}}
 {{ end -}}
 
@@ -35,11 +31,7 @@ brew {{ . | quote }}
 {{- $allCasks = concat $allCasks .homebrew.shared.casks -}}
 {{- if $allCasks }}
 {{ range $allCasks -}}
-{{- if contains "/" . }}
-cask {{ . | quote }}, trusted: true
-{{- else }}
 cask {{ . | quote }}
-{{- end }}
 {{ end -}}
 {{ end -}}
 EOF
