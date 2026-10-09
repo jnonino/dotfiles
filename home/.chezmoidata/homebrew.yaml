@@ -17,6 +17,7 @@ homebrew:
       - "microsoft-edge"
       - "microsoft-teams"
       - "obs"
+      - "ollama-app"
       - "slack"
       - "spotify"
       - "veracrypt-fuse-t"
