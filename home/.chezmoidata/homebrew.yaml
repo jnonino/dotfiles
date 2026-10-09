@@ -39,7 +39,6 @@ homebrew:
     brews:
       - "awscli"
       - "aws-iam-authenticator"
-      - "azure-cli"
       - "biber"
       - "coreutils"
       - "cspell"
@@ -82,6 +81,7 @@ homebrew:
       - "zsh-history-substring-search"
       - "zsh-syntax-highlighting"
     casks:
+      - "azure-cli"
       - "claude-code"
       - "codex"
       - "font-agave-nerd-font"
