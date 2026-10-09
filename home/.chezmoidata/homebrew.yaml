@@ -10,6 +10,7 @@ homebrew:
       - "cmux"
       - "displaylink"
       - "docker-desktop"
+      - "draw-things"
       - "fuse-t"
       - "iterm2"
       - "kindle-create"
