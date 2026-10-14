@@ -5,6 +5,7 @@ homebrew:
       - "warrensbox/tap/tgswitch"
     casks:
       - "1password"
+      - "blender"
       - "chatgpt"
       - "claude"
       - "cmux"
