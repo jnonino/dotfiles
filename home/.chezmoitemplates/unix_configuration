@@ -1,13 +1,3 @@
-# Source rc files
-case "$(ps -p $$ -o comm=)" in
-  -bash|bash|/bin/bash)
-    [ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc" || true
-    ;;
-  -zsh|zsh|/bin/zsh|/opt/homebrew/bin/zsh)
-    [ -f "$HOME/.zshrc" ] && source "$HOME/.zshrc" || true
-    ;;
-esac
-
 # GitHub CLI: prefer HTTPS cloning
 echo "Configure Github Cli to prefer HTTPS"
 gh config set git_protocol https
