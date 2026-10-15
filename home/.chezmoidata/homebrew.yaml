@@ -8,6 +8,7 @@ homebrew:
       - "blender"
       - "chatgpt"
       - "claude"
+      - "cmux"
       - "displaylink"
       - "docker-desktop"
       - "draw-things"
