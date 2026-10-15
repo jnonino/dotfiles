@@ -25,7 +25,7 @@ pip install --no-input {{ . | quote }}
 echo "Installing latest Go with goenv"
 GOLANG_LATEST=$(goenv install --list | sort --version-sort --reverse | head -n1 | xargs)
 goenv install --skip-existing "$GOLANG_LATEST"
-goenv global "$GOLANG_LATEST"
+goenv use "$GOLANG_LATEST" --global
 
 # Configure Node version manager
 echo "Ensure ~/.nvm directory is in place"
