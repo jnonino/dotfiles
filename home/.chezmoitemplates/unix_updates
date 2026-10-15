@@ -35,7 +35,6 @@ mkdir -p {{ joinPath .chezmoi.homeDir ".nvm" }}
 nvm install --lts --default
 
 echo "Installing Node packages with NPM"
-pip install --upgrade pip
 {{- $osConfig := index .npm_packages .chezmoi.os -}}
 {{- $allNpmPackages := list -}}
 {{- $allNpmPackages = concat $allNpmPackages $osConfig -}}
