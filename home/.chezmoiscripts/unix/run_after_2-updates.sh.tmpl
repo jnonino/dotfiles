@@ -1,0 +1,65 @@
+{{- if .os.unix_based -}}
+
+#!/usr/bin/env bash
+
+# Copyright [2023] Julian Nonino
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -eEuo pipefail
+
+echo "###########################################################"
+echo "### Running configuration script on a Unix-based system ###"
+echo "###########################################################"
+
+###########################
+# Linux configuration steps
+{{ if .os.linux }}
+echo "Running Linux specific configuration steps"
+
+# Load Homebrew (Linuxbrew) if not already on PATH
+if ! command -v brew >/dev/null 2>&1; then
+  for brew in /home/linuxbrew/.linuxbrew/bin/brew "$HOME/.linuxbrew/bin/brew"; do
+    if [ -x "$brew" ]; then
+      eval "$("$brew" shellenv)"
+      break
+    fi
+  done
+fi
+
+command -v brew >/dev/null 2>&1 || { echo "Homebrew not found" >&2; exit 1; }
+
+{{ includeTemplate "unix_updates" . }}
+{{ end }}
+
+####################################
+# Macos specific configuration steps
+{{ if .os.darwin }}
+echo "Running Macos specific configuration steps"
+
+# Load Homebrew (Apple Silicon or Intel) if not already on PATH
+if ! command -v brew >/dev/null 2>&1; then
+  for brew in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+    if [ -x "$brew" ]; then
+      eval "$("$brew" shellenv)"
+      break
+    fi
+  done
+fi
+
+command -v brew >/dev/null 2>&1 || { echo "Homebrew not found" >&2; exit 1; }
+
+{{ includeTemplate "unix_updates" . }}
+{{ end }}
+
+{{ end -}}
