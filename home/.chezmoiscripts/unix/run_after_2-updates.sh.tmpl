@@ -2,7 +2,7 @@
 
 #!/usr/bin/env bash
 
-# Copyright [2023] Julian Nonino
+# Copyright [2026] Julian Nonino
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,14 +18,14 @@
 
 set -eEuo pipefail
 
-echo "###########################################################"
-echo "### Running configuration script on a Unix-based system ###"
-echo "###########################################################"
+echo "####################################################"
+echo "### Running update script on a Unix-based system ###"
+echo "####################################################"
 
-###########################
-# Linux configuration steps
+####################
+# Linux update steps
 {{ if .os.linux }}
-echo "Running Linux specific configuration steps"
+echo "Running Linux specific update steps"
 
 # Load Homebrew (Linuxbrew) if not already on PATH
 if ! command -v brew >/dev/null 2>&1; then
@@ -42,10 +42,10 @@ command -v brew >/dev/null 2>&1 || { echo "Homebrew not found" >&2; exit 1; }
 {{ includeTemplate "unix_updates" . }}
 {{ end }}
 
-####################################
-# Macos specific configuration steps
+#############################
+# Macos specific update steps
 {{ if .os.darwin }}
-echo "Running Macos specific configuration steps"
+echo "Running Macos specific update steps"
 
 # Load Homebrew (Apple Silicon or Intel) if not already on PATH
 if ! command -v brew >/dev/null 2>&1; then

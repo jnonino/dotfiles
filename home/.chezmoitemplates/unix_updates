@@ -1,6 +1,6 @@
 # Brew upgrade and cleanup
 echo "Brew upgrade and cleanup"
-brew upgrade
+brew upgrade --yes
 brew autoremove
 brew cleanup
 
