@@ -38,4 +38,10 @@ echo "Running Linux specific configuration steps"
 echo "Running Macos specific configuration steps"
 {{ end }}
 
+################
+# Update Chezmoi
+echo "Update Chezmoi"
+CHEZMOI_BINARY_PATH=$(dirname "$(command -v chezmoi)")
+sh -c "$(curl -fsLS https://get.chezmoi.io)" -- -b $CHEZMOI_BINARY_PATH
+
 {{ end -}}
