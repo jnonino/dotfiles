@@ -22,20 +22,44 @@ echo "###########################################################"
 echo "### Running configuration script on a Unix-based system ###"
 echo "###########################################################"
 
-############################
-# Shared configuration steps
-{{ includeTemplate "unix_configuration" . }}
-
-####################################
-# Linux specific configuration steps
+###########################
+# Linux configuration steps
 {{ if .os.linux }}
 echo "Running Linux specific configuration steps"
+
+# Load Homebrew (Linuxbrew) if not already on PATH
+if ! command -v brew >/dev/null 2>&1; then
+  for brew in /home/linuxbrew/.linuxbrew/bin/brew "$HOME/.linuxbrew/bin/brew"; do
+    if [ -x "$brew" ]; then
+      eval "$("$brew" shellenv)"
+      break
+    fi
+  done
+fi
+
+command -v brew >/dev/null 2>&1 || { echo "Homebrew not found" >&2; exit 1; }
+
+{{ includeTemplate "unix_configuration" . }}
 {{ end }}
 
 ####################################
 # Macos specific configuration steps
 {{ if .os.darwin }}
 echo "Running Macos specific configuration steps"
+
+# Load Homebrew (Apple Silicon or Intel) if not already on PATH
+if ! command -v brew >/dev/null 2>&1; then
+  for brew in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+    if [ -x "$brew" ]; then
+      eval "$("$brew" shellenv)"
+      break
+    fi
+  done
+fi
+
+command -v brew >/dev/null 2>&1 || { echo "Homebrew not found" >&2; exit 1; }
+
+{{ includeTemplate "unix_configuration" . }}
 {{ end }}
 
 ################
