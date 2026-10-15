@@ -2,11 +2,33 @@
 # Zsh related variables
 #######################
 
+############################
+# Load Homebrew into the PATH
+############################
+{{ if .os.linux -}}
+if ! command -v brew >/dev/null 2>&1; then
+  for brew in /home/linuxbrew/.linuxbrew/bin/brew "$HOME/.linuxbrew/bin/brew"; do
+    if [ -x "$brew" ]; then
+      eval "$("$brew" shellenv)"
+      break
+    fi
+  done
+fi
+{{ else if .os.darwin -}}
+if ! command -v brew >/dev/null 2>&1; then
+  for brew in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+    if [ -x "$brew" ]; then
+      eval "$("$brew" shellenv)"
+      break
+    fi
+  done
+fi
+{{ end }}
+
 ########################
 # Java related variables
 ########################
-JAVA_HOME=$(brew --prefix openjdk)
-PATH="${PATH}:${JAVA_HOME}/bin"
+export JAVA_HOME="$(brew --prefix openjdk)"
 
 ###########################
 # Node.js related variables
