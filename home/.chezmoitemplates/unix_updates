@@ -25,14 +25,15 @@ pip install --no-input {{ . | quote }}
 echo "Installing latest Go with goenv"
 GOLANG_LATEST=$(goenv install --list | sort --version-sort --reverse | head -n1 | xargs)
 goenv install --skip-existing "$GOLANG_LATEST"
-goenv use "$GOLANG_LATEST" --global
+goenv use "$GOLANG_LATEST" --global --yes
 
 # Configure Node version manager
 echo "Ensure ~/.nvm directory is in place"
 export NVM_DIR="$HOME/.nvm"
 mkdir -p {{ joinPath .chezmoi.homeDir ".nvm" }}
 [ -s "$(brew --prefix)/opt/nvm/nvm.sh" ] && \. "$(brew --prefix)/opt/nvm/nvm.sh" # Explicitly load nvm in current session
-nvm install --lts --default
+nvm install --lts --default --save
+nvm use --lts
 
 echo "Installing Node packages with NPM"
 {{- $osConfig := index .npm_packages .chezmoi.os -}}
