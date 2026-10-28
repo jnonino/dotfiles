@@ -37,6 +37,7 @@ homebrew:
     taps:
       - "golangci/tap"
       - "hashicorp/tap"
+      - "terraform-linters/tap"
       - "warrensbox/tap"
     brews:
       - "awscli"
