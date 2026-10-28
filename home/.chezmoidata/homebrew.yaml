@@ -88,4 +88,5 @@ homebrew:
       - "codex"
       - "font-agave-nerd-font"
       - "font-inconsolata-nerd-font"
+      - "terraform-linters/tap/tflint"
       - "zed"
